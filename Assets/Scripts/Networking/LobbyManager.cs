@@ -1,19 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.Networking
 {
     public class LobbyManager : NetworkLobbyManager
     {
-        private void OnPlayerConnected(NetworkPlayer player)
+        public event EventHandler OnCreatePlayer;
+
+        public override void OnStartHost()
         {
-            Debug.Log("Player connected ! " + player.ipAddress);
+            base.OnStartHost();
+            Debug.Log("Starting host !");
         }
 
-        public override void OnLobbyClientConnect(NetworkConnection conn)
+        public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
         {
-            base.OnLobbyClientConnect(conn);
-            Debug.Log("Player CONNECTED " + conn.address);
+            Debug.Log("Lobby server create lobby player");
+            if (OnCreatePlayer != null)
+                OnCreatePlayer.Invoke(this, EventArgs.Empty);
+            return base.OnLobbyServerCreateLobbyPlayer(conn, playerControllerId);
+        }
+
+        public void GoBack()
+        {
+
         }
     }
 }

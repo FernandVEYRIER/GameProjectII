@@ -32,8 +32,9 @@ namespace Assets.Scripts.Networking
         private void LobbyClientConnected(object sender, System.EventArgs e)
         {
             var p = Instantiate(_manager.lobbyPlayerPrefab.gameObject);
-            p.transform.localScale = Vector3.one;
+            p.GetComponent<LobbyPlayer>().SetName(_textPlayerName.text);
             p.transform.SetParent(_lobbyPlayerContainer.transform);
+            p.transform.localScale = Vector3.one;
         }
 
         /// <summary>

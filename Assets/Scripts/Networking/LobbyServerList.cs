@@ -4,6 +4,9 @@ using UnityEngine.Networking.Match;
 
 namespace Assets.Scripts.Networking
 {
+    /// <summary>
+    /// Handles the server list in the UI.
+    /// </summary>
     public class LobbyServerList : MonoBehaviour
     {
         [SerializeField] private RectTransform _serverList;
@@ -31,9 +34,10 @@ namespace Assets.Scripts.Networking
         {
             foreach (var info in responseData)
             {
-                Debug.Log("got info " + info.name);
                 var go = Instantiate(_serverInfoPrefab);
+                go.GetComponent<LobbyServerEntry>().Populate(info, _manager);
                 go.transform.SetParent(_serverList);
+                go.transform.localScale = Vector3.one;
             }
         }
     }

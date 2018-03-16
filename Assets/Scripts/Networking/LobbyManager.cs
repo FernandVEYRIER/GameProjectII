@@ -4,6 +4,9 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts.Networking
 {
+    /// <summary>
+    /// Manages the lobby connections and states.
+    /// </summary>
     public class LobbyManager : NetworkLobbyManager
     {
         public event EventHandler OnCreatePlayer;
@@ -22,6 +25,9 @@ namespace Assets.Scripts.Networking
             return base.OnLobbyServerCreateLobbyPlayer(conn, playerControllerId);
         }
 
+        /// <summary>
+        /// Called by navigation to go back.
+        /// </summary>
         public void GoBack()
         {
 

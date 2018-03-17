@@ -12,16 +12,17 @@ namespace Assets.Scripts.Networking
         protected LobbyManager _manager;
 
         [Header("UI")]
-        [SerializeField] private Text _textPlayerName;
+        [SerializeField] public Text TextPlayerName;
         [SerializeField] private GameObject _panelLobbyPlayers;
         [SerializeField] private GameObject _panelMenu;
         [SerializeField] private GameObject _lobbyPlayerContainer;
         [SerializeField] private GameObject _panelLobbyFind;
         [SerializeField] private Button[] _buttons;
 
-        private void Start()
+        private void MatchJoined(object sender, System.EventArgs e)
         {
-            _manager.OnCreatePlayer += LobbyClientConnected;
+            _panelLobbyPlayers.SetActive(true);
+            _panelLobbyFind.SetActive(false);
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace Assets.Scripts.Networking
         private void LobbyClientConnected(object sender, System.EventArgs e)
         {
             var p = Instantiate(_manager.lobbyPlayerPrefab.gameObject);
-            p.GetComponent<LobbyPlayer>().SetName(_textPlayerName.text);
+            p.GetComponent<LobbyPlayer>().SetName(TextPlayerName.text);
             p.transform.SetParent(_lobbyPlayerContainer.transform);
             p.transform.localScale = Vector3.one;
         }
@@ -43,8 +44,10 @@ namespace Assets.Scripts.Networking
         public void OnCreateMatchmaking()
         {
             _manager.StartMatchMaker();
-            _manager.matchMaker.CreateMatch(_textPlayerName.text, (uint)_manager.maxPlayers, true, "", "", "", 0, 0, _manager.OnMatchCreate);
-            DisplayLobbyPanel();
+            _manager.matchMaker.CreateMatch(TextPlayerName.text, (uint)_manager.maxPlayers, true, "", "", "", 0, 0, _manager.OnMatchCreate);
+            _manager.backDelegate = _manager.StopHost;
+            _manager._isMatchmaking = true;
+            //DisplayLobbyPanel();
         }
 
         /// <summary>
@@ -53,19 +56,14 @@ namespace Assets.Scripts.Networking
         public void OnClickDisplayServerList()
         {
             _manager.StartMatchMaker();
-            _panelMenu.SetActive(false);
-            _panelLobbyFind.SetActive(true);
+            _manager.backDelegate = _manager.SimpleBackClbk;
+            _manager.ChangeTo(_panelLobbyFind.GetComponent<RectTransform>());
         }
 
         private void DisplayLobbyPanel()
         {
             _panelMenu.SetActive(false);
             _panelLobbyPlayers.SetActive(true);
-        }
-
-        private void OnDestroy()
-        {
-            _manager.OnCreatePlayer -= LobbyClientConnected;
         }
 
         /// <summary>

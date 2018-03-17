@@ -25,22 +25,22 @@ namespace Assets.Scripts.Networking
         {
             _buttonQuit.gameObject.SetActive(isLocal);
             Debug.Log("IS LOCAL PLAYER ? " + isLocal + " sever ? " + isServer + " is local player var ? " + isLocalPlayer);
-            _textName.text = LobbyManager.Instance.GetPlayerName();
-            CmdSetName();
+            _textName.text = _name;
+            //CmdSetName(LobbyManager.Instance.GetPlayerName());
         }
 
         public override void OnStartAuthority()
         {
             base.OnStartAuthority();
             Debug.Log("On start authority !!!");
-            CmdSetName();
+            CmdSetName(LobbyManager.Instance.GetPlayerName());
             SetupPlayer(true);
         }
 
         public override void OnStartLocalPlayer()
         {
             Debug.Log("On start local player !!!");
-            CmdSetName();
+            //CmdSetName(LobbyManager.Instance.GetPlayerName());
             base.OnStartLocalPlayer();
         }
 
@@ -57,14 +57,10 @@ namespace Assets.Scripts.Networking
         }
 
         [Command]
-        private void CmdSetName()
+        private void CmdSetName(string name)
         {
-            Debug.LogError("toto lol ici");
-            if (isLocalPlayer)
-            {
-                _name = LobbyManager.Instance.GetPlayerName();
-                Debug.Log("Setting CMD name to " + _name);
-            }
+            _name = name;
+            Debug.Log("Setting CMD name to " + _name);
         }
     }
 }

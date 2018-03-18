@@ -13,17 +13,18 @@ namespace Assets.Scripts.Networking
     {
         public static LobbyManager Instance { get; private set; }
 
+        /// <summary>
+        /// Is this instance the hosting one ?
+        /// </summary>
         public bool IsHost { get; private set; }
 
         [Header("UI")]
         public RectTransform mainMenuPanel;
-
         public RectTransform lobbyPanel;
         public RectTransform lobbyPlayerContainer;
         public Button backButton;
 
         public delegate void BackButtonDelegate();
-
         public BackButtonDelegate backDelegate;
 
         //used to disconnect a client properly when exiting the matchmaker
@@ -36,17 +37,30 @@ namespace Assets.Scripts.Networking
 
         private const short MsgKicked = MsgType.Highest + 1;
 
-        private void Awake()
+        /// <summary>
+        /// Initializes the Singleton for this instance.
+        /// <para/>
+        /// IMPORTANT NOTE : do not use the Awake method inside network derived scripts.
+        /// This is going to mess everything up and break scripts.
+        /// </summary>
+        private void Initialize()
         {
-            Instance = this;
+            if (Instance != null)
+                Destroy(Instance.gameObject);
+            else
+                Instance = this;
         }
 
         private void Start()
         {
+            Initialize();
             backButton.gameObject.SetActive(false);
             ChangeTo(mainMenuPanel);
         }
 
+        /// <summary>
+        /// Called on the instance which is going to host the game.
+        /// </summary>
         public override void OnStartHost()
         {
             base.OnStartHost();
@@ -56,6 +70,12 @@ namespace Assets.Scripts.Networking
             IsHost = true;
         }
 
+        /// <summary>
+        /// Called everytime a player joins the lobby, server side.
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="playerControllerId"></param>
+        /// <returns></returns>
         public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
         {
             Debug.Log("Lobby server create lobby player");
@@ -63,12 +83,24 @@ namespace Assets.Scripts.Networking
             return p;
         }
 
+        /// <summary>
+        /// Called when a match is created, which is when the matchmaking is invoked.
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="extendedInfo"></param>
+        /// <param name="matchInfo"></param>
         public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
         {
             base.OnMatchCreate(success, extendedInfo, matchInfo);
             _currentMatchID = (System.UInt64)matchInfo.networkId;
         }
 
+        /// <summary>
+        /// Caled when a player joins a match created thanks to matchmaking.
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="extendedInfo"></param>
+        /// <param name="matchInfo"></param>
         public override void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
         {
             base.OnMatchJoined(success, extendedInfo, matchInfo);
@@ -83,11 +115,19 @@ namespace Assets.Scripts.Networking
             backDelegate();
         }
 
+        /// <summary>
+        /// Callback action to go back to main menu.
+        /// </summary>
         public void SimpleBackClbk()
         {
             ChangeTo(mainMenuPanel);
         }
 
+        /// <summary>
+        /// Allow navigation between different panels, activating
+        /// the given one and deactivating the current one.
+        /// </summary>
+        /// <param name="newPanel"></param>
         public void ChangeTo(RectTransform newPanel)
         {
             if (currentPanel != null)
@@ -113,11 +153,19 @@ namespace Assets.Scripts.Networking
             }
         }
 
+        /// <summary>
+        /// Handler when a player gets kicked from the lobby room.
+        /// </summary>
+        /// <param name="netMsg"></param>
         public void KickedMessageHandler(NetworkMessage netMsg)
         {
             netMsg.conn.Disconnect();
         }
 
+        /// <summary>
+        /// Called when a client connects to the server.
+        /// </summary>
+        /// <param name="conn"></param>
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
@@ -131,17 +179,44 @@ namespace Assets.Scripts.Networking
             }
         }
 
+        /// <summary>
+        /// Called when a client disconnects from the server.
+        /// </summary>
+        /// <param name="conn"></param>
         public override void OnClientDisconnect(NetworkConnection conn)
         {
             base.OnClientDisconnect(conn);
             ChangeTo(mainMenuPanel);
         }
 
+        /// <summary>
+        /// Called on any error from the client (timeout...)
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="errorCode"></param>
         public override void OnClientError(NetworkConnection conn, int errorCode)
         {
             ChangeTo(mainMenuPanel);
         }
 
+        /// <summary>
+        /// Called when the matchmaking is destroyed.
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="extendedInfo"></param>
+        public override void OnDestroyMatch(bool success, string extendedInfo)
+        {
+            base.OnDestroyMatch(success, extendedInfo);
+            if (_disconnectServer)
+            {
+                StopMatchMaker();
+                StopHost();
+            }
+        }
+
+        /// <summary>
+        /// Destroys the match and stop hosting.
+        /// </summary>
         public void StopHostClbk()
         {
             if (_isMatchmaking)
@@ -158,6 +233,9 @@ namespace Assets.Scripts.Networking
             ChangeTo(mainMenuPanel);
         }
 
+        /// <summary>
+        /// Stops matchmaker and client.
+        /// </summary>
         public void StopClientClbk()
         {
             StopClient();
@@ -170,17 +248,28 @@ namespace Assets.Scripts.Networking
             ChangeTo(mainMenuPanel);
         }
 
+        /// <summary>
+        /// Retrieves the player name from the field input.
+        /// </summary>
+        /// <returns></returns>
         public string GetPlayerName()
         {
             return mainMenuPanel.GetComponent<LobbyMenu>().TextPlayerName.text;
         }
 
+        /// <summary>
+        /// Starts the game by loading the game scene.
+        /// </summary>
         public void StartGame()
         {
             ChangeTo(null);
             ServerChangeScene(playScene);
         }
 
+        /// <summary>
+        /// Called when every client notifies the server that they are ready.
+        /// Overriden so the match doesnt strat automatically.
+        /// </summary>
         public override void OnLobbyServerPlayersReady()
         {
         }

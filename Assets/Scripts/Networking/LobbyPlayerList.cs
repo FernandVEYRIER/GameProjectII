@@ -12,15 +12,20 @@ namespace Assets.Scripts.Networking
         public static LobbyPlayerList Instance { get; private set; }
 
         public RectTransform playerListContentTransform;
+        public Button startButton;
 
         protected VerticalLayoutGroup _layout;
         protected List<LobbyPlayer> _players = new List<LobbyPlayer>();
-
 
         private void Awake()
         {
             Instance = this;
             _layout = playerListContentTransform.GetComponentInChildren<VerticalLayoutGroup>();
+        }
+
+        private void Start()
+        {
+            startButton.gameObject.SetActive(LobbyManager.Instance.IsHost);
         }
 
         public void AddPlayer(LobbyPlayer player)
@@ -44,12 +49,13 @@ namespace Assets.Scripts.Networking
 
         public void PlayerListModified()
         {
-            int i = 0;
-            foreach (LobbyPlayer p in _players)
-            {
-                //p.OnPlayerListChanged(i);
-                ++i;
-            }
+            //int i = 0;
+            startButton.interactable = _players.Count > 1;
+            //foreach (LobbyPlayer p in _players)
+            //{
+            //    //p.OnPlayerListChanged(i);
+            //    ++i;
+            //}
         }
     }
 }

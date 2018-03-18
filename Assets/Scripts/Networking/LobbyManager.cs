@@ -13,8 +13,11 @@ namespace Assets.Scripts.Networking
     {
         public static LobbyManager Instance { get; private set; }
 
+        public bool IsHost { get; private set; }
+
         [Header("UI")]
         public RectTransform mainMenuPanel;
+
         public RectTransform lobbyPanel;
         public RectTransform lobbyPlayerContainer;
         public Button backButton;
@@ -35,12 +38,13 @@ namespace Assets.Scripts.Networking
 
         private void Awake()
         {
-            Instance = this;    
+            Instance = this;
         }
 
         private void Start()
         {
             backButton.gameObject.SetActive(false);
+            ChangeTo(mainMenuPanel);
         }
 
         public override void OnStartHost()
@@ -49,6 +53,7 @@ namespace Assets.Scripts.Networking
             Debug.Log("Starting host !");
             ChangeTo(lobbyPanel);
             backDelegate = StopHostClbk;
+            IsHost = true;
         }
 
         public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
@@ -149,6 +154,7 @@ namespace Assets.Scripts.Networking
                 StopHost();
             }
 
+            IsHost = false;
             ChangeTo(mainMenuPanel);
         }
 
@@ -167,6 +173,16 @@ namespace Assets.Scripts.Networking
         public string GetPlayerName()
         {
             return mainMenuPanel.GetComponent<LobbyMenu>().TextPlayerName.text;
+        }
+
+        public void StartGame()
+        {
+            ChangeTo(null);
+            ServerChangeScene(playScene);
+        }
+
+        public override void OnLobbyServerPlayersReady()
+        {
         }
     }
 }

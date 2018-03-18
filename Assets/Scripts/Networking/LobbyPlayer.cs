@@ -42,6 +42,7 @@ namespace Assets.Scripts.Networking
             Debug.Log("On start local player !!!");
             //CmdSetName(LobbyManager.Instance.GetPlayerName());
             base.OnStartLocalPlayer();
+            SendReadyToBeginMessage();
         }
 
         public void SetName(string name)
@@ -61,6 +62,11 @@ namespace Assets.Scripts.Networking
         {
             _name = name;
             Debug.Log("Setting CMD name to " + _name);
+        }
+
+        private void OnDestroy()
+        {
+            LobbyPlayerList.Instance.RemovePlayer(this);
         }
     }
 }

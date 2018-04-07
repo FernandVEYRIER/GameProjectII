@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts.UI
 {
+    [NetworkSettings(sendInterval = 0.01f)]
     public class WheelSpinner : NetworkBehaviour
     {
         [SyncVar(hook = "HookAngleChanged")] private Quaternion _angle;
@@ -24,6 +25,7 @@ namespace Assets.Scripts.UI
 
         private void Update()
         {
+            //Debug.Log("UPDATE !! " + isClient);
             UpdateAngularVelocity();
             //if (_rb.angularVelocity < 0)
             //{
@@ -44,6 +46,12 @@ namespace Assets.Scripts.UI
                 _rb.angularVelocity = Mathf.SmoothDamp(_rb.angularVelocity, 0, ref _currVel, Time.deltaTime * 150);
                 _angle = GetComponent<RectTransform>().localRotation;
                 //Debug.Log(_angle);
+            }
+            if (isClient)
+            {
+                var t = GetComponent<RectTransform>();
+                //Debug.Log(_angle + " Rotating by " + Quaternion.RotateTowards(t.localRotation, _angle, Time.deltaTime * 360f));
+                t.localRotation = Quaternion.Lerp(t.localRotation, _angle, 0.1f);
             }
         }
 
@@ -84,9 +92,11 @@ namespace Assets.Scripts.UI
 
         private void HookAngleChanged(Quaternion angle)
         {
-            Debug.Log("angle hook ! " + angle);
-            var t = GetComponent<RectTransform>();
-            t.localRotation = angle;
+            //Debug.Log("angle hook ! " + angle);
+            _angle = angle;
+
+            //var t = GetComponent<RectTransform>();
+            //t.localRotation = angle;
         }
     }
 }

@@ -18,6 +18,10 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public bool IsHost { get; private set; }
 
+        public int ConnectionCount { get { return NetworkServer.connections.Count; } }
+
+        public bool AreAllClientsReady { get { return NetworkServer.connections.Count == _clientReadyCount; } }
+
         [Header("UI")]
         public RectTransform mainMenuPanel;
         public RectTransform lobbyPanel;
@@ -36,6 +40,8 @@ namespace Assets.Scripts.Networking
         protected ulong _currentMatchID;
 
         private const short MsgKicked = MsgType.Highest + 1;
+
+        private int _clientReadyCount;
 
         /// <summary>
         /// Initializes the Singleton for this instance.
@@ -262,16 +268,43 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public void StartGame()
         {
-            ChangeTo(null);
+            NetworkServer.SetAllClientsNotReady();
             ServerChangeScene(playScene);
+        }
+
+        public override void OnClientSceneChanged(NetworkConnection conn)
+        {
+            base.OnClientSceneChanged(conn);
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0)
+                ChangeTo(null);
         }
 
         /// <summary>
         /// Called when every client notifies the server that they are ready.
-        /// Overriden so the match doesnt strat automatically.
+        /// Overriden so the match doesnt start automatically.
         /// </summary>
         public override void OnLobbyServerPlayersReady()
         {
+            Debug.Log("ALL READY TO GOOOO");
+        }
+
+        public override void OnServerReady(NetworkConnection conn)
+        {
+            base.OnServerReady(conn);
+            _clientReadyCount++;
+            Debug.Log("<<<<<<<<<<<<<<< One client is ready ! >>>>>>>>>>>>>>>");
+        }
+
+        public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
+        {
+            Debug.Log("<<<<<<<<<<<<<<< One client finished loading the scene ! >>>>>>>>>>>>>>>");
+            return base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer, gamePlayer);
+        }
+
+        public override void OnLobbyServerSceneChanged(string sceneName)
+        {
+            _clientReadyCount = 0;
+            base.OnLobbyServerSceneChanged(sceneName);
         }
     }
 }

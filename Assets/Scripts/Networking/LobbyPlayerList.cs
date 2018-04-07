@@ -17,6 +17,8 @@ namespace Assets.Scripts.Networking
         protected VerticalLayoutGroup _layout;
         protected List<LobbyPlayer> _players = new List<LobbyPlayer>();
 
+        [SerializeField] private int minPlayerLimit = 2;
+
         private void Awake()
         {
             Instance = this;
@@ -50,7 +52,7 @@ namespace Assets.Scripts.Networking
         public void PlayerListModified()
         {
             //int i = 0;
-            startButton.interactable = _players.Count > 1;
+            startButton.interactable = _players.Count >= minPlayerLimit;
             //foreach (LobbyPlayer p in _players)
             //{
             //    //p.OnPlayerListChanged(i);

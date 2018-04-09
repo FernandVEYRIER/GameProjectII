@@ -76,7 +76,15 @@ namespace Assets.Scripts.UI
         /// <returns></returns>
         public string GetCorrespondingScene(Quaternion angle)
         {
-            return _gameEntries[0].gameScene.SceneName;
+            // This allows any angle higher than 360 degrees to be computed.
+            // The 90 offset is because the arrow is not on top of the wheel.
+            var clampedAngle = ((angle.eulerAngles.z + 90f) % 360f);
+
+            var item = 0;
+            while (clampedAngle > item * (360f / _gameEntries.Count) + (360f / _gameEntries.Count))
+                ++item;
+            Debug.Log("Scene index selected = " + item);
+            return _gameEntries[item].gameScene.SceneName;
         }
 
         /// <summary>
@@ -115,6 +123,9 @@ namespace Assets.Scripts.UI
                 img.fillAmount = sliceSize;
                 img.color = _gameEntries[i].color;
                 go.name = _gameEntries[i].gameScene.SceneName;
+                var child = go.transform.GetChild(0);
+                child.GetComponent<Text>().text = _gameEntries[i].gameScene;
+                child.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 90f - (360f * sliceSize / 2f)));
             }
         }
     }

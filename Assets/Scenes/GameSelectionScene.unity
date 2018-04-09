@@ -175,7 +175,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &908966984
+--- !u!1001 &457170921
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -271,49 +271,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114269370067955694, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114849346146393968, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: m_LocalPlayerAuthority
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[0].gameScene.m_SceneAsset
-      value: 
-      objectReference: {fileID: 102900000, guid: b5b68b02ac29e13478bf364e2715b4a1,
-        type: 3}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[0].gameScene.m_SceneName
-      value: Cant Roach This
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[1].gameScene.m_SceneAsset
-      value: 
-      objectReference: {fileID: 102900000, guid: b5b68b02ac29e13478bf364e2715b4a1,
-        type: 3}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[1].gameScene.m_SceneName
-      value: Cant Roach This
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[2].gameScene.m_SceneAsset
-      value: 
-      objectReference: {fileID: 102900000, guid: b5b68b02ac29e13478bf364e2715b4a1,
-        type: 3}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[2].gameScene.m_SceneName
-      value: Cant Roach This
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7d53cb7d357ce574ba48815a414a7a56, type: 2}

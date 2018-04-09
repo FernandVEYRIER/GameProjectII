@@ -23,6 +23,7 @@ namespace Assets.Scripts.UI
         private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _rb.angularVelocity = 0;
             //_rb.simulated = _isSpinning;
         }
 
@@ -48,6 +49,7 @@ namespace Assets.Scripts.UI
             {
                 if (_rb.angularVelocity < 0)
                 {
+                    Debug.Log("IS SPINNING VEL => " + _rb.angularVelocity);
                     _isSpinning = true;
                     _rb.angularVelocity = Mathf.SmoothDamp(_rb.angularVelocity, 0, ref _currVel, Time.deltaTime * 150);
                     _angle = GetComponent<RectTransform>().localRotation;
@@ -62,7 +64,8 @@ namespace Assets.Scripts.UI
                     Debug.Log("Stopped spinning ! Chosing game");
                     LobbyManager.Instance.ServerChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
                 }
-                Debug.Log(_rb.angularVelocity);
+                //Debug.Log(_rb.angularVelocity);
+                Debug.Log(WheelGenerator.GetCorrespondingScene(_angle));
             }
             if (isClient)
             {

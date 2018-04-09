@@ -1,7 +1,6 @@
-﻿using System;
-//using UnityEditor;
+﻿using Assets.Scripts.Editor;
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.UI
 {
@@ -19,6 +18,6 @@ namespace Assets.Scripts.UI
         /// <summary>
         /// Scene to load for this item.
         /// </summary>
-        public Scene gameScene;
+        public SceneField gameScene;
     }
 }

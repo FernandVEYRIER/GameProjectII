@@ -288,6 +288,10 @@ namespace Assets.Scripts.Networking
             Debug.Log("ALL READY TO GOOOO");
         }
 
+        /// <summary>
+        /// Called on the server when a client is ready.
+        /// </summary>
+        /// <param name="conn"></param>
         public override void OnServerReady(NetworkConnection conn)
         {
             base.OnServerReady(conn);
@@ -295,12 +299,23 @@ namespace Assets.Scripts.Networking
             Debug.Log("<<<<<<<<<<<<<<< One client is ready ! >>>>>>>>>>>>>>>");
         }
 
+        /// <summary>
+        /// This is called on the server when it is told that a client has finished switching
+        /// from the lobby scene to a game player scene.
+        /// </summary>
+        /// <param name="lobbyPlayer"></param>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
         {
             Debug.Log("<<<<<<<<<<<<<<< One client finished loading the scene ! >>>>>>>>>>>>>>>");
             return base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer, gamePlayer);
         }
 
+        /// <summary>
+        /// This is called on the server when a networked scene finishes loading.
+        /// </summary>
+        /// <param name="sceneName"></param>
         public override void OnLobbyServerSceneChanged(string sceneName)
         {
             _clientReadyCount = 0;

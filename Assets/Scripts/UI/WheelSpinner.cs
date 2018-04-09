@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Networking;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
@@ -8,6 +9,8 @@ namespace Assets.Scripts.UI
     public class WheelSpinner : NetworkBehaviour
     {
         [SyncVar(hook = "HookAngleChanged")] private Quaternion _angle;
+
+        public WheelGenerator WheelGenerator;
 
         private float _startDragTime;
         private Vector2 _startPos;
@@ -41,11 +44,25 @@ namespace Assets.Scripts.UI
 
         private void UpdateAngularVelocity()
         {
-            if (isServer && _rb.angularVelocity < 0)
+            if (isServer)
             {
-                _rb.angularVelocity = Mathf.SmoothDamp(_rb.angularVelocity, 0, ref _currVel, Time.deltaTime * 150);
-                _angle = GetComponent<RectTransform>().localRotation;
-                //Debug.Log(_angle);
+                if (_rb.angularVelocity < 0)
+                {
+                    _isSpinning = true;
+                    _rb.angularVelocity = Mathf.SmoothDamp(_rb.angularVelocity, 0, ref _currVel, Time.deltaTime * 150);
+                    _angle = GetComponent<RectTransform>().localRotation;
+                    //Debug.Log(_angle);
+                }
+                else
+                {
+                    _rb.angularVelocity = 0;
+                }
+                if (_rb.angularVelocity == 0 && _isSpinning)
+                {
+                    Debug.Log("Stopped spinning ! Chosing game");
+                    LobbyManager.Instance.ServerChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
+                }
+                Debug.Log(_rb.angularVelocity);
             }
             if (isClient)
             {

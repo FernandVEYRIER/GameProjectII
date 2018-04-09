@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GameSelectionScene.unity
     guid: fc56b71082dc6f74c96eaa6c84767929
   - enabled: 1
+    path: Assets/Scenes/Cant Roach This.unity
+    guid: b5b68b02ac29e13478bf364e2715b4a1
+  - enabled: 1
     path: Assets/SampleScenes/Scenes/NetworkLobby.unity
     guid: 3c0d76c55eed6214f9d3b070caede5d3
   - enabled: 1

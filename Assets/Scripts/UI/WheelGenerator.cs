@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Networking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
 {
+    /// <summary>
+    /// Wheel of fortune procedural generator.
+    /// </summary>
     public class WheelGenerator : NetworkBehaviour
     {
         [SerializeField] private GameObject _wheelContainerPrefab;
@@ -46,6 +50,10 @@ namespace Assets.Scripts.UI
             }
         }
 
+        /// <summary>
+        /// Ensures that every client is connected before sending network messages.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator WaitForSpawnWheel()
         {
             while (!LobbyManager.Instance.AreAllClientsReady)
@@ -61,6 +69,20 @@ namespace Assets.Scripts.UI
             RpcSpawnWheel(go);
         }
 
+        /// <summary>
+        /// Retrieves a scene from a given angle.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public string GetCorrespondingScene(Quaternion angle)
+        {
+            return _gameEntries[0].gameScene.SceneName;
+        }
+
+        /// <summary>
+        /// Makes the client spawn the wheel by replication.
+        /// </summary>
+        /// <param name="go"></param>
         [ClientRpc]
         private void RpcSpawnWheel(GameObject go)
         {
@@ -70,11 +92,15 @@ namespace Assets.Scripts.UI
             go.transform.localPosition = Vector3.zero;
             go.transform.SetSiblingIndex(0);
             _wheelContainer = go.GetComponent<RectTransform>();
+            go.GetComponent<WheelSpinner>().WheelGenerator = this;
 
             if (_gameEntries.Count > 0)
                 GenerateWheel();
         }
 
+        /// <summary>
+        /// Generate the wheel slices.
+        /// </summary>
         private void GenerateWheel()
         {
             float sliceSize = 1f / _gameEntries.Count;
@@ -88,7 +114,7 @@ namespace Assets.Scripts.UI
                 var img = go.GetComponent<Image>();
                 img.fillAmount = sliceSize;
                 img.color = _gameEntries[i].color;
-                go.name = _gameEntries[i].gameScene.name;
+                go.name = _gameEntries[i].gameScene.SceneName;
             }
         }
     }

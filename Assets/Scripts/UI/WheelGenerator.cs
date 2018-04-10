@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Networking;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,28 +16,6 @@ namespace Assets.Scripts.UI
         [SerializeField] private RectTransform _wheelContainer;
         [SerializeField] private Image _wheelSlicePrefab;
         [SerializeField] private List<GameEntry> _gameEntries = new List<GameEntry>();
-
-        private int _connectedPlayerCount;
-
-        public override void OnStartLocalPlayer()
-        {
-            Debug.Log("START >>>>>>>>>>>> " + isServer);
-            return;
-
-            base.OnStartLocalPlayer();
-            if (isServer)
-            {
-                var go = Instantiate(_wheelContainerPrefab);
-                //go.transform.SetParent(transform);
-                //go.transform.localScale = Vector3.one;
-                //go.transform.localPosition = Vector3.zero;
-                //go.transform.SetSiblingIndex(0);
-                Debug.Log("Spawning => " + go);
-                if (NetworkServer.active)
-                    NetworkServer.Spawn(go);
-                RpcSpawnWheel(go);
-            }
-        }
 
         private void Start()
         {
@@ -80,10 +57,14 @@ namespace Assets.Scripts.UI
             // The 90 offset is because the arrow is not on top of the wheel.
             var clampedAngle = ((angle.eulerAngles.z + 90f) % 360f);
 
+            var idx = 0;
             var item = 0;
-            while (clampedAngle > item * (360f / _gameEntries.Count) + (360f / _gameEntries.Count))
-                ++item;
-            Debug.Log("Scene index selected = " + item);
+            while (clampedAngle > (idx * (360f / _gameEntries.Count)) + (360f / _gameEntries.Count))
+            {
+                ++idx;
+                // Item counts backwards because we spin the wheel clockwise
+                item = (int)Mathf.Repeat(item - 1, _gameEntries.Count);
+            }
             return _gameEntries[item].gameScene.SceneName;
         }
 

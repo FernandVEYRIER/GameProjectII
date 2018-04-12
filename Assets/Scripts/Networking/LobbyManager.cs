@@ -43,6 +43,8 @@ namespace Assets.Scripts.Networking
 
         private int _clientReadyCount;
 
+        [SerializeField] private LobbyMenu _lobbyMenu;
+
         /// <summary>
         /// Initializes the Singleton for this instance.
         /// <para/>
@@ -320,6 +322,15 @@ namespace Assets.Scripts.Networking
         {
             _clientReadyCount = 0;
             base.OnLobbyServerSceneChanged(sceneName);
+        }
+
+        /// <summary>
+        /// Get the current local player name.
+        /// </summary>
+        /// <returns></returns>
+        public string GetLocalPlayerName()
+        {
+            return _lobbyMenu.TextPlayerName.text;
         }
     }
 }

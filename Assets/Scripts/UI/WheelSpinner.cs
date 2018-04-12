@@ -29,24 +29,17 @@ namespace Assets.Scripts.UI
 
         private void Update()
         {
-            //Debug.Log("UPDATE !! " + isClient);
             UpdateAngularVelocity();
-            //if (_rb.angularVelocity < 0)
-            //{
-            //    _rb.angularVelocity = Mathf.SmoothDamp(_rb.angularVelocity, 0, ref _currVel, Time.deltaTime * 150);
-            //    _angle = GetComponent<RectTransform>().localRotation;
-            //    //Debug.Log(_angle);
-            //}
-            //else
-            //{
-            //    _rb.angularVelocity = 0;
-            //}
         }
 
         private void UpdateAngularVelocity()
         {
             if (isServer)
             {
+#if !RELEASE
+                LobbyManager.Instance.ServerChangeScene("Cant Roach This");
+#endif
+
                 if (_rb.angularVelocity < 0)
                 {
                     Debug.Log("IS SPINNING VEL => " + _rb.angularVelocity);

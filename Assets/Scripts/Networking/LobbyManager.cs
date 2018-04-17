@@ -271,7 +271,7 @@ namespace Assets.Scripts.Networking
         public void StartGame()
         {
             NetworkServer.SetAllClientsNotReady();
-            ServerChangeScene(playScene);
+            ChangeScene(playScene);
         }
 
         public override void OnClientSceneChanged(NetworkConnection conn)
@@ -298,7 +298,7 @@ namespace Assets.Scripts.Networking
         {
             base.OnServerReady(conn);
             _clientReadyCount++;
-            Debug.Log("<<<<<<<<<<<<<<< One client is ready ! >>>>>>>>>>>>>>>");
+            Debug.Log("<<<<<<<<<<<<<<< One client is ready ! " + _clientReadyCount + " >>>>>>>>>>>>>>>");
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace Assets.Scripts.Networking
         /// <param name="sceneName"></param>
         public override void OnLobbyServerSceneChanged(string sceneName)
         {
-            _clientReadyCount = 0;
+            //_clientReadyCount = 0;
             base.OnLobbyServerSceneChanged(sceneName);
         }
 
@@ -331,6 +331,12 @@ namespace Assets.Scripts.Networking
         public string GetLocalPlayerName()
         {
             return _lobbyMenu.TextPlayerName.text;
+        }
+
+        public void ChangeScene(string scene)
+        {
+            _clientReadyCount = 0;
+            ServerChangeScene(scene);
         }
     }
 }

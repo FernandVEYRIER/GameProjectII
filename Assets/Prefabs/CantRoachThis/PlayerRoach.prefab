@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114601910179598336}
   - component: {fileID: 114935827659694512}
   - component: {fileID: 143749953782367066}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerRoach
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 4831220276765684}
   - component: {fileID: 33631937777629236}
   - component: {fileID: 23745635373416188}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: cockroach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerName: 
+  speed: 3.5
 --- !u!114 &114935827659694512
 MonoBehaviour:
   m_ObjectHideFlags: 1

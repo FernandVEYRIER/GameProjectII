@@ -37,7 +37,7 @@ namespace Assets.Scripts.UI
             if (isServer)
             {
 #if !RELEASE
-                LobbyManager.Instance.ServerChangeScene("Cant Roach This");
+                LobbyManager.Instance.ChangeScene("Cant Roach This");
 #endif
 
                 if (_rb.angularVelocity < 0)
@@ -54,8 +54,9 @@ namespace Assets.Scripts.UI
                 }
                 if (_rb.angularVelocity == 0 && _isSpinning)
                 {
+                    _isSpinning = false;
                     Debug.Log("Stopped spinning ! Chosing game");
-                    LobbyManager.Instance.ServerChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
+                    LobbyManager.Instance.ChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
                 }
                 //Debug.Log(_rb.angularVelocity);
                 Debug.Log(WheelGenerator.GetCorrespondingScene(_angle));
@@ -71,6 +72,7 @@ namespace Assets.Scripts.UI
         [Client]
         public void OnPointerDown(BaseEventData eventData)
         {
+            Debug.Log("Pointer down");
             _startPos = ((PointerEventData)eventData).position;
 
             _startDragTime = Time.time;

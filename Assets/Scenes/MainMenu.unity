@@ -113,23 +113,13 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &412694188
+--- !u!1001 &75237132
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114208638588163214, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: m_Channels.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114208638588163214, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 224775531147070028, guid: f6f36446e0656eb4baffe9c749b0421f,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -220,53 +210,9 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114593997475909770, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: minPlayerLimit
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114208638588163214, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1277915920280108, guid: 59b13174305a77947b5de5c2a7e38390,
-        type: 2}
-    - target: {fileID: 114208638588163214, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 1763220688831088, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-    - target: {fileID: 114208638588163214, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 1417126969194752, guid: cb4287f30bb180045a24b7acd5e6da2e,
-        type: 2}
-    - target: {fileID: 114208638588163214, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: _lobbyMenu
-      value: 
-      objectReference: {fileID: 412694189}
-    - target: {fileID: 114208638588163214, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: m_Channels.Array.data[0]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114208638588163214, guid: f6f36446e0656eb4baffe9c749b0421f,
-        type: 2}
-      propertyPath: m_CustomConfig
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6f36446e0656eb4baffe9c749b0421f, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &412694189 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114571912350121352, guid: f6f36446e0656eb4baffe9c749b0421f,
-    type: 2}
-  m_PrefabInternal: {fileID: 412694188}
-  m_Script: {fileID: 11500000, guid: 65bd912610864944a8de4ef34d789f91, type: 3}
 --- !u!1 &1562438814
 GameObject:
   m_ObjectHideFlags: 0

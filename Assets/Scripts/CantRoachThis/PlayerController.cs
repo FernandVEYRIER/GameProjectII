@@ -64,7 +64,8 @@ namespace Assets.Scripts.CantRoachThis
                 var moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
                 moveDirection = transform.TransformDirection(moveDirection);
                 moveDirection *= speed;
-                _controller.Move(moveDirection * Time.deltaTime);
+                transform.Translate(moveDirection /** Time.deltaTime*/);
+                //_controller.Move(moveDirection * Time.deltaTime);
             }
         }
     }

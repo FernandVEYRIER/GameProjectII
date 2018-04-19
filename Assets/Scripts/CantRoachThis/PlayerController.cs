@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Networking;
+﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -7,11 +8,8 @@ namespace Assets.Scripts.CantRoachThis
     /// <summary>
     /// Player controller for the Cockroach.
     /// </summary>
-    public class PlayerController : NetworkBehaviour
+    public class PlayerController : APlayerController
     {
-        [SyncVar (hook = "OnPlayerNameChange")] public string _playerName;
-        [SyncVar(hook = "OnPlayerColorChange")] public Color _playerColor;
-
         [SerializeField] private float speed = 1;
 
         private NetworkInstanceId _networkIdentity;
@@ -27,12 +25,12 @@ namespace Assets.Scripts.CantRoachThis
             SetupPlayer();
         }
 
-        public override void OnStartClient()
-        {
-            base.OnStartClient();
-            OnPlayerColorChange(_playerColor);
-            OnPlayerNameChange(_playerName);
-        }
+        //public override void OnStartClient()
+        //{
+        //    base.OnStartClient();
+        //    OnPlayerColorChange(_playerColor);
+        //    OnPlayerNameChange(_playerName);
+        //}
 
         /// <summary>
         /// Sets up the player values.
@@ -42,7 +40,7 @@ namespace Assets.Scripts.CantRoachThis
         {
             _networkIdentity = GetComponent<NetworkIdentity>().netId;
             _controller = GetComponent<CharacterController>();
-            CmdSetPlayerInfo(LobbyManager.Instance.GetLocalPlayerInfo());
+            //CmdSetPlayerInfo(LobbyManager.Instance.GetLocalPlayerInfo());
         }
 
         public override void OnStartServer()
@@ -51,33 +49,6 @@ namespace Assets.Scripts.CantRoachThis
             Debug.Log("Requesting id for value => " + _networkIdentity.Value);
             _controller = GetComponent<CharacterController>();
             base.OnStartServer();
-        }
-
-        /// <summary>
-        /// Called on the server to set the player info.
-        /// </summary>
-        /// <param name="info"></param>
-        [Command]
-        private void CmdSetPlayerInfo(PlayerInfo info)
-        {
-            _playerName = info.Name;
-            _playerColor = info.Color;
-        }
-
-        /// <summary>
-        /// Callback when the playere name changed on the server.
-        /// </summary>
-        /// <param name="name"></param>
-        private void OnPlayerNameChange(string name)
-        {
-            Debug.Log("Player name changed to == " + name);
-            _playerName = name;
-        }
-
-        private void OnPlayerColorChange(Color color)
-        {
-            Debug.Log("Player color changed to == " + color);
-            _playerColor = color;
         }
 
         private void Update()

@@ -73,23 +73,5 @@ namespace Assets.Scripts.CantRoachThis
             _isAttacking = true;
             _swatterParent.transform.position = _startPoint.position;
         }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            Debug.Log("On trigger enter");
-            if (other.tag.Equals("Player"))
-            {
-                Destroy(gameObject);
-            }
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            Debug.Log("On collision enter");
-            if (collision.transform.tag.Equals("Player"))
-            {
-                Destroy(gameObject);
-            }
-        }
     }
 }

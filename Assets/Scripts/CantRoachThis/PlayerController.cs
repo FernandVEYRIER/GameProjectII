@@ -33,8 +33,27 @@ namespace Assets.Scripts.CantRoachThis
         private void SetupPlayer()
         {
             _networkIdentity = GetComponent<NetworkIdentity>().netId;
-            CmdSetPlayerName(LobbyManager.Instance.GetPlayerName());
+            var info = LobbyManager.Instance.GetLocalPlayerInfo();
+            CmdSetPlayerName(info.Name);
             _controller = GetComponent<CharacterController>();
+            OnPlayerNameChange(_playerName);
+        }
+
+        public override void OnStartServer()
+        {
+            _networkIdentity = GetComponent<NetworkIdentity>().netId;
+            Debug.Log("Requesting id for value => " + _networkIdentity.Value);
+            _controller = GetComponent<CharacterController>();
+            base.OnStartServer();
+        }
+
+        /// <summary>
+        /// Sets all the player info for the given player.
+        /// </summary>
+        /// <param name="info"></param>
+        private void SetPlayerInfo(PlayerInfo info)
+        {
+            _playerName = info.Name;
         }
 
         /// <summary>

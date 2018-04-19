@@ -306,6 +306,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 65537123762577596, guid: 5eb36811619d1474cb8ad28072a50783,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5eb36811619d1474cb8ad28072a50783, type: 2}
   m_IsPrefabParent: 0
@@ -562,6 +567,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
+--- !u!1 &1209570914 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1688544880224512, guid: 5eb36811619d1474cb8ad28072a50783,
+    type: 2}
+  m_PrefabInternal: {fileID: 224833779}
+--- !u!114 &1209570915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1209570914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b773cd1b39632647a0ba28e2d9d3bf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1839740678
 GameObject:
   m_ObjectHideFlags: 0

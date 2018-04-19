@@ -55,6 +55,7 @@ namespace Assets.Scripts.Networking
             Debug.Log("On start authority !!!");
             CmdSetName(LobbyManager.Instance.GetPlayerName());
             SetupPlayer(true);
+            LobbyManager.Instance.SetLocalPlayerInfo(new PlayerInfo { Name = _name, Color = playerColor });
         }
 
         public override void OnStartLocalPlayer()

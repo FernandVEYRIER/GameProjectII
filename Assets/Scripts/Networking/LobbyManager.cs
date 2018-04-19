@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.Networking.Types;
@@ -42,6 +43,8 @@ namespace Assets.Scripts.Networking
         private const short MsgKicked = MsgType.Highest + 1;
 
         private int _clientReadyCount;
+
+        private PlayerInfo _localPlayerInfo;
 
         [SerializeField] private LobbyMenu _lobbyMenu;
 
@@ -333,10 +336,35 @@ namespace Assets.Scripts.Networking
             return _lobbyMenu.TextPlayerName.text;
         }
 
+        /// <summary>
+        /// Perform a scene changing on the server.
+        /// </summary>
+        /// <param name="scene"></param>
         public void ChangeScene(string scene)
         {
             _clientReadyCount = 0;
             ServerChangeScene(scene);
+        }
+
+        /// <summary>
+        /// Saves player information data.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="id"></param>
+        public void SetLocalPlayerInfo(PlayerInfo info)
+        {
+            _localPlayerInfo = info;
+            Debug.Log("Setting player info => " + info.Name);
+        }
+
+        /// <summary>
+        /// Retrieves the player info from the given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public PlayerInfo GetLocalPlayerInfo()
+        {
+            return _localPlayerInfo;
         }
     }
 }

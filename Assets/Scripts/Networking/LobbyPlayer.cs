@@ -22,6 +22,8 @@ namespace Assets.Scripts.Networking
         [SyncVar(hook = "HookColor")]
         private Color playerColor = Color.clear;
 
+        private readonly PlayerInfo _info = new PlayerInfo();
+
         public override void OnClientEnterLobby()
         {
             base.OnClientEnterLobby();
@@ -55,7 +57,9 @@ namespace Assets.Scripts.Networking
             Debug.Log("On start authority !!!");
             CmdSetName(LobbyManager.Instance.GetPlayerName());
             SetupPlayer(true);
-            LobbyManager.Instance.SetLocalPlayerInfo(new PlayerInfo { Name = _name, Color = playerColor });
+            _info.Name = _name;
+            _info.Color = playerColor;
+            LobbyManager.Instance.SetLocalPlayerInfo(_info);
         }
 
         public override void OnStartLocalPlayer()
@@ -82,6 +86,11 @@ namespace Assets.Scripts.Networking
         {
             playerColor = newColor;
             _colorButton.GetComponent<Image>().color = newColor;
+            if (isLocalPlayer)
+            {
+                _info.Color = newColor;
+                LobbyManager.Instance.SetLocalPlayerInfo(_info);
+            }
         }
 
         [Command]

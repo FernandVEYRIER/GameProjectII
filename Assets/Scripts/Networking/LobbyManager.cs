@@ -354,7 +354,7 @@ namespace Assets.Scripts.Networking
         public void SetLocalPlayerInfo(PlayerInfo info)
         {
             _localPlayerInfo = info;
-            Debug.Log("Setting player info => " + info.Name);
+            Debug.Log("Setting player info => " + info.Name + " color = " + info.Color);
         }
 
         /// <summary>

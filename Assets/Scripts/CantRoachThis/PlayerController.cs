@@ -10,6 +10,7 @@ namespace Assets.Scripts.CantRoachThis
     public class PlayerController : NetworkBehaviour
     {
         [SyncVar (hook = "OnPlayerNameChange")] public string _playerName;
+        [SyncVar(hook = "OnPlayerColorChange")] public Color _playerColor;
 
         [SerializeField] private float speed = 1;
 
@@ -26,6 +27,13 @@ namespace Assets.Scripts.CantRoachThis
             SetupPlayer();
         }
 
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+            OnPlayerColorChange(_playerColor);
+            OnPlayerNameChange(_playerName);
+        }
+
         /// <summary>
         /// Sets up the player values.
         /// </summary>
@@ -33,10 +41,8 @@ namespace Assets.Scripts.CantRoachThis
         private void SetupPlayer()
         {
             _networkIdentity = GetComponent<NetworkIdentity>().netId;
-            var info = LobbyManager.Instance.GetLocalPlayerInfo();
-            CmdSetPlayerName(info.Name);
             _controller = GetComponent<CharacterController>();
-            OnPlayerNameChange(_playerName);
+            CmdSetPlayerInfo(LobbyManager.Instance.GetLocalPlayerInfo());
         }
 
         public override void OnStartServer()
@@ -48,22 +54,14 @@ namespace Assets.Scripts.CantRoachThis
         }
 
         /// <summary>
-        /// Sets all the player info for the given player.
+        /// Called on the server to set the player info.
         /// </summary>
         /// <param name="info"></param>
-        private void SetPlayerInfo(PlayerInfo info)
+        [Command]
+        private void CmdSetPlayerInfo(PlayerInfo info)
         {
             _playerName = info.Name;
-        }
-
-        /// <summary>
-        /// Called on the server to set the name.
-        /// </summary>
-        /// <param name="name"></param>
-        [Command]
-        private void CmdSetPlayerName(string name)
-        {
-            _playerName = name;
+            _playerColor = info.Color;
         }
 
         /// <summary>
@@ -74,6 +72,12 @@ namespace Assets.Scripts.CantRoachThis
         {
             Debug.Log("Player name changed to == " + name);
             _playerName = name;
+        }
+
+        private void OnPlayerColorChange(Color color)
+        {
+            Debug.Log("Player color changed to == " + color);
+            _playerColor = color;
         }
 
         private void Update()

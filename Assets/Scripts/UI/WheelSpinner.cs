@@ -37,7 +37,8 @@ namespace Assets.Scripts.UI
             if (isServer)
             {
 #if !RELEASE
-                LobbyManager.Instance.ChangeScene("Cant Roach This");
+                LobbyManager.Instance.ChangeScene("Go Soju Go Fast");
+                //LobbyManager.Instance.ChangeScene("Cant Roach This");
 #endif
 
                 if (_rb.angularVelocity < 0)

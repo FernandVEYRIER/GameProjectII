@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Networking;
+﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -7,10 +8,8 @@ namespace Assets.Scripts.CantRoachThis
     /// <summary>
     /// Player controller for the Cockroach.
     /// </summary>
-    public class PlayerController : NetworkBehaviour
+    public class PlayerController : APlayerController
     {
-        [SyncVar (hook = "OnPlayerNameChange")] public string _playerName;
-
         [SerializeField] private float speed = 1;
 
         private NetworkInstanceId _networkIdentity;
@@ -26,6 +25,13 @@ namespace Assets.Scripts.CantRoachThis
             SetupPlayer();
         }
 
+        //public override void OnStartClient()
+        //{
+        //    base.OnStartClient();
+        //    OnPlayerColorChange(_playerColor);
+        //    OnPlayerNameChange(_playerName);
+        //}
+
         /// <summary>
         /// Sets up the player values.
         /// </summary>
@@ -33,28 +39,16 @@ namespace Assets.Scripts.CantRoachThis
         private void SetupPlayer()
         {
             _networkIdentity = GetComponent<NetworkIdentity>().netId;
-            CmdSetPlayerName(LobbyManager.Instance.GetPlayerName());
             _controller = GetComponent<CharacterController>();
+            //CmdSetPlayerInfo(LobbyManager.Instance.GetLocalPlayerInfo());
         }
 
-        /// <summary>
-        /// Called on the server to set the name.
-        /// </summary>
-        /// <param name="name"></param>
-        [Command]
-        private void CmdSetPlayerName(string name)
+        public override void OnStartServer()
         {
-            _playerName = name;
-        }
-
-        /// <summary>
-        /// Callback when the playere name changed on the server.
-        /// </summary>
-        /// <param name="name"></param>
-        private void OnPlayerNameChange(string name)
-        {
-            Debug.Log("Player name changed to == " + name);
-            _playerName = name;
+            _networkIdentity = GetComponent<NetworkIdentity>().netId;
+            Debug.Log("Requesting id for value => " + _networkIdentity.Value);
+            _controller = GetComponent<CharacterController>();
+            base.OnStartServer();
         }
 
         private void Update()
@@ -64,7 +58,8 @@ namespace Assets.Scripts.CantRoachThis
                 var moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
                 moveDirection = transform.TransformDirection(moveDirection);
                 moveDirection *= speed;
-                _controller.Move(moveDirection * Time.deltaTime);
+                transform.Translate(moveDirection /** Time.deltaTime*/);
+                //_controller.Move(moveDirection * Time.deltaTime);
             }
         }
     }

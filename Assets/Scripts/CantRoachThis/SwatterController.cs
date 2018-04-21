@@ -75,6 +75,7 @@ namespace Assets.Scripts.CantRoachThis
             }
         }
 
+        [Server]
         private void UpdateSwatterState()
         {
             _swatterParent.transform.position = Vector3.MoveTowards(_swatterParent.transform.position, _endPoint.position, 0.9f);
@@ -85,6 +86,7 @@ namespace Assets.Scripts.CantRoachThis
             }
         }
 
+        [Server]
         private void Attack()
         {
             if (_isAttacking)

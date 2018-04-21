@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/SampleScenes/Scenes/NetworkLobby.unity
-    guid: 3c0d76c55eed6214f9d3b070caede5d3
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: d4ed6459028dbaa4892c2685180371c9
   - enabled: 1
@@ -29,3 +26,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Go Soju Go Fast.unity
     guid: 96d84e604a09bb242b2a94756041c2fa
+  - enabled: 1
+    path: Assets/SampleScenes/Scenes/NetworkLobby.unity
+    guid: 3c0d76c55eed6214f9d3b070caede5d3

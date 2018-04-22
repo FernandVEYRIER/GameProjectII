@@ -16,11 +16,12 @@ namespace Assets.Scripts.GoSoju
         [SerializeField] private Transform _rightSpawn;
         [SerializeField] private Transform _bottleSpawn;
         [SerializeField] private Transform _glassSpawn;
-
+        [SerializeField] GameUI ui;
 
         private GameObject[] _players;
         private GameObject[] _glassToFile;
         private string[] winnerOrder;
+
 
         private string[] position =
         {
@@ -71,8 +72,9 @@ namespace Assets.Scripts.GoSoju
                 NetworkServer.Spawn(_glassToFile[i]);
                 print("glass position = " + _glassToFile[i].transform.position);
                 startSpawn.z += step;
-                
             }
+            yield return new WaitForSeconds(1);
+            ui.StartRpcCounter();
         }
 
         [Server]
@@ -87,6 +89,34 @@ namespace Assets.Scripts.GoSoju
                     player.position = position[i];
                     return ;
                 }
+            }
+        }
+
+        [Server]
+        private void FixedUpdate()
+        {
+            SortPlayer();
+            //LobbyManager.Instance.AreAllClientsReady;
+        }
+
+        [Server]
+        private void SortPlayer()
+        {
+            GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+            GameObject tmp;
+            for (int i = 0; i < player.Length - 1; i++)
+            {
+                if (player[i].transform.position.x < player[i + 1].transform.position.x)
+                {
+                    tmp = player[i + 1];
+                    player[i + 1] = player[i];
+                    player[i] = tmp;
+                    i = 0;
+                }
+            }
+            for (int i = 0; i < player.Length; i++)
+            {
+                player[i].GetComponent<PlayerController>().position = position[i];
             }
         }
     }

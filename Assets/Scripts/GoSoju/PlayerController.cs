@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using Assets.Scripts.Networking;
 using UnityEngine.UI;
+using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 
 namespace Assets.Scripts.GoSoju
 {
-    public class PlayerController : NetworkBehaviour
+    public class PlayerController : APlayerController
     { 
-        [SyncVar(hook = "OnPlayerNameChange")] public string _playerName;
         [SyncVar(hook = "OnPositionChange")] public string position;
 
         [SerializeField] private float speed = 0.1f;
@@ -32,6 +32,12 @@ namespace Assets.Scripts.GoSoju
             Debug.Log("Starting local player");
             base.OnStartLocalPlayer();
             SetupPlayer();
+        }
+
+        [Client]
+        private void SetupPlayer()
+        {
+            _networkIdentity = GetComponent<NetworkIdentity>().netId;
             right = false;
             stopMoving = false;
             _transform = GetComponent<Transform>();
@@ -39,23 +45,12 @@ namespace Assets.Scripts.GoSoju
             myPosition.text += position;
         }
 
-        [Client]
-        private void SetupPlayer()
-        {
-            _networkIdentity = GetComponent<NetworkIdentity>().netId;
-            CmdSetPlayerName(LobbyManager.Instance.GetPlayerName());
-        }
-
         [Command]
-        private void CmdSetPlayerName(string name)
+        override protected void CmdSetPlayerInfo(PlayerInfo info)
         {
-            _playerName = name;
-        }
-
-        private void OnPlayerNameChange(string name)
-        {
-            Debug.Log("Player name changed to == " + name);
-            _playerName = name;
+            base.CmdSetPlayerInfo(info);
+            print("color of player " + _playerColor);
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", _playerColor);
         }
 
         private void OnPositionChange(string newpos)
@@ -71,6 +66,7 @@ namespace Assets.Scripts.GoSoju
         // Update is called once per frame
         void Update()
         {
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", _playerColor);
             if (isLocalPlayer && !stopMoving)
             {
                 if (Input.GetMouseButton(0) && Input.mousePosition.x <= Screen.width / 2 && right)

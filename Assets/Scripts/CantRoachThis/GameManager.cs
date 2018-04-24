@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Game;
 using Assets.Scripts.Networking;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -17,12 +18,13 @@ namespace Assets.Scripts.CantRoachThis
         [SerializeField] private Transform _leftSpawn;
         [SerializeField] private Transform _rightSpawn;
 
-        private GameObject[] _players;
+        private List<GameObject> _players = new List<GameObject>();
         private GameObject _swatter;
 
         private void Start()
         {
-            StartCoroutine(SpawnPlayers());
+            if (isServer)
+                StartCoroutine(SpawnObjects());
         }
 
         /// <summary>
@@ -33,12 +35,35 @@ namespace Assets.Scripts.CantRoachThis
         {
             if (isServer)
             {
+                if (!_players.Remove(gameObject))
+                {
+                    Debug.LogError("Object not found in the player list.");
+                    return;
+                }
                 NetworkServer.Destroy(gameObject);
+                if (_players.Count <= 1)
+                {
+                    GameOver();
+                }
             }
         }
 
+        /// <summary>
+        /// Sets the game over.
+        /// </summary>
         [Server]
-        private IEnumerator SpawnPlayers()
+        private void GameOver()
+        {
+            SetGameState(GAME_STATE.GameOver);
+            Debug.Log("end of game !");
+        }
+
+        /// <summary>
+        /// Spawns all the objects needed for the game.
+        /// </summary>
+        /// <returns></returns>
+        [Server]
+        private IEnumerator SpawnObjects()
         {
             if (!isServer)
                 yield break;
@@ -49,17 +74,22 @@ namespace Assets.Scripts.CantRoachThis
                 yield return null;
 
             Debug.Log("Is server ? " + NetworkServer.active);
-            _players = new GameObject[LobbyManager.Instance.numPlayers];
             var step = NetworkServer.connections.Count > 1 ? (_rightSpawn.position.x - _leftSpawn.position.x) / (NetworkServer.connections.Count - 1) : 0;
             var startSpawn = _leftSpawn.position;
             for (int i = 0; i < NetworkServer.connections.Count; ++i)
             {
-                _players[i] = Instantiate(_playerPrefab, startSpawn, Quaternion.identity);
+                _players.Add(Instantiate(_playerPrefab, startSpawn, Quaternion.identity));
                 NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], _players[i], (short)i);
                 startSpawn.x += step;
             }
             _swatter = Instantiate(_swatterPrefab);
             NetworkServer.Spawn(_swatter);
+            SetGameState(GAME_STATE.Play);
+        }
+
+        public void ChangeScene(string name)
+        {
+            LobbyManager.Instance.ChangeScene(name);
         }
     }
 }

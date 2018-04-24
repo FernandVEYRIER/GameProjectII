@@ -32,17 +32,17 @@ namespace Assets.Scripts.CantRoachThis
             if (isServer)
             {
                 _currentDelay = _maxDelay;
+                _collider.OnTriggerEntered += Collider_OnTriggerEntered;
             }
-            _collider.OnTriggerEntered += Collider_OnTrigerEntered;
             _manager = AGameManager.Instance as GameManager;
         }
 
         private void OnDestroy()
         {
-            _collider.OnTriggerEntered -= Collider_OnTrigerEntered;
+            _collider.OnTriggerEntered -= Collider_OnTriggerEntered;
         }
 
-        private void Collider_OnTrigerEntered(object caller, Collider other)
+        private void Collider_OnTriggerEntered(object caller, Collider other)
         {
             if (other.tag.Equals("Player"))
             {

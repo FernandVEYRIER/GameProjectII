@@ -30,12 +30,18 @@ namespace Assets.Scripts.Game
         /// <summary>
         /// the current game state.
         /// </summary>
-        public GAME_STATE GameState { get; private set; }
+        public GAME_STATE GameState
+        {
+            get { return _gameState; }
+            private set { _gameState = value; }
+        }
 
         /// <summary>
         /// Event triggered when the game states changes.
         /// </summary>
         public event EventHandler<EventGameStatus> OnGameStateChanged;
+
+        private GAME_STATE _gameState;
 
         /// <summary>
         /// Called when the object awakens. Sets up the singleton.
@@ -56,7 +62,22 @@ namespace Assets.Scripts.Game
         /// Sets the game state and triggers the corresponding event.
         /// </summary>
         /// <param name="state"></param>
+        [Server]
         protected void SetGameState(GAME_STATE state)
+        {
+            var prevState = GameState;
+            GameState = state;
+            if (OnGameStateChanged != null)
+                OnGameStateChanged.Invoke(this, new EventGameStatus { CurrentState = state, PreviousState = prevState });
+            RpcSetGameState(state);
+        }
+
+        /// <summary>
+        /// Replication to client of the game state.
+        /// </summary>
+        /// <param name="state"></param>
+        [ClientRpc]
+        protected void RpcSetGameState(GAME_STATE state)
         {
             var prevState = GameState;
             GameState = state;

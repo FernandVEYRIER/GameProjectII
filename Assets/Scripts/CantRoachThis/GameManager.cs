@@ -25,6 +25,18 @@ namespace Assets.Scripts.CantRoachThis
             StartCoroutine(SpawnPlayers());
         }
 
+        /// <summary>
+        /// Kills a player on the server.
+        /// </summary>
+        /// <param name="gameObject"></param>
+        public void KillPlayer(GameObject gameObject)
+        {
+            if (isServer)
+            {
+                NetworkServer.Destroy(gameObject);
+            }
+        }
+
         [Server]
         private IEnumerator SpawnPlayers()
         {

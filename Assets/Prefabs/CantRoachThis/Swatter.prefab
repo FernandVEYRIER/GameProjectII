@@ -36,6 +36,10 @@ GameObject:
   - component: {fileID: 4242593592461722}
   - component: {fileID: 114047726692530926}
   - component: {fileID: 114970813100748744}
+  - component: {fileID: 95635683373693878}
+  - component: {fileID: 114226802546665830}
+  - component: {fileID: 114054381629971190}
+  - component: {fileID: 114255454481872004}
   m_Layer: 0
   m_Name: Swatter
   m_TagString: Untagged
@@ -116,7 +120,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4939716359406864}
-  - component: {fileID: 95918827586091914}
   m_Layer: 0
   m_Name: SwatterObj
   m_TagString: Untagged
@@ -150,6 +153,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4450859719679496}
   - component: {fileID: 65537123762577596}
+  - component: {fileID: 114880983271860050}
   m_Layer: 0
   m_Name: FlySwatter
   m_TagString: Enemy
@@ -484,21 +488,21 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1688544880224512}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.9416439, y: 1.021816, z: 0.11981457}
   m_Center: {x: -0.096613616, y: 0.64940935, z: 0.010611042}
---- !u!95 &95918827586091914
+--- !u!95 &95635683373693878
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1479956775197472}
+  m_GameObject: {fileID: 1096634521627466}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 72fa243f4c0bf6547b6000505fd50005, type: 2}
+  m_Controller: {fileID: 9100000, guid: ba59ab268df38254f93b9d43e73e4fdf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -574,6 +578,76 @@ MonoBehaviour:
     i15: 131
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114054381629971190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1096634521627466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 4939716359406864}
+  m_ChildIndex: 0
+  m_SendInterval: 0.05882353
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
+--- !u!114 &114226802546665830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1096634521627466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114255454481872004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1096634521627466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 95635683373693878}
+  m_ParameterSendBits: 1
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
+--- !u!114 &114880983271860050
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1688544880224512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b773cd1b39632647a0ba28e2d9d3bf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114970813100748744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -586,11 +660,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _swatterParent: {fileID: 1479956775197472}
-  _animator: {fileID: 95918827586091914}
+  _animator: {fileID: 95635683373693878}
   _leftLimit: {fileID: 0}
   _rightLimit: {fileID: 0}
   _startPoint: {fileID: 4133526573790628}
   _endPoint: {fileID: 4382423874694008}
   _maxDelay: 4
   _minDelay: 1
+  _collider: {fileID: 114880983271860050}
   _maxSwatters: 3

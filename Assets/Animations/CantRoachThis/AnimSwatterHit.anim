@@ -37,7 +37,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
   m_PositionCurves:
   - curve:
       serializedVersion: 2
@@ -63,7 +63,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
   m_ScaleCurves: []
   m_FloatCurves:
   - curve:
@@ -71,12 +71,6 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-      - serializedVersion: 2
-        time: 0.25
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -91,7 +85,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Spotlight
+    path: SwatterObj/Spotlight
     classID: 108
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -103,21 +97,21 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3356102529
+      path: 2857032313
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3356102529
+      path: 2857032313
       attribute: 4
       script: {fileID: 0}
       typeID: 4
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1106452668
+      path: 3694856160
       attribute: 3305885265
       script: {fileID: 0}
       typeID: 108
@@ -170,7 +164,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -198,7 +192,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -226,8 +220,30 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
     classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.5
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: SwatterObj/Spotlight
+    classID: 108
     script: {fileID: 0}
   - curve:
       serializedVersion: 2
@@ -254,7 +270,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.x
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -282,7 +298,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.y
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -310,36 +326,8 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: localEulerAnglesRaw.z
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
     classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 0
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-      - serializedVersion: 2
-        time: 0.25
-        value: 0
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-      - serializedVersion: 2
-        time: 0.5
-        value: 0
-        inSlope: Infinity
-        outSlope: Infinity
-        tangentMode: 103
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Enabled
-    path: Spotlight
-    classID: 108
     script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:
@@ -348,8 +336,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: FlySwatter
+    attribute: m_LocalEulerAngles.z
+    path: SwatterObj/FlySwatter
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -359,7 +347,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: FlySwatter
+    path: SwatterObj/FlySwatter
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -368,8 +356,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
-    path: FlySwatter
+    attribute: m_LocalEulerAngles.x
+    path: SwatterObj/FlySwatter
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

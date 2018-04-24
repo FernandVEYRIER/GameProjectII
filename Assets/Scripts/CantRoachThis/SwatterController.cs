@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Assets.Scripts.Game;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.CantRoachThis
 {
-    public class SwatterController : MonoBehaviour
+    public class SwatterController : NetworkBehaviour
     {
         [SerializeField] private GameObject _swatterParent;
         [SerializeField] private Animator _animator;
@@ -18,17 +18,36 @@ namespace Assets.Scripts.CantRoachThis
         [SerializeField] private float _maxDelay = 4;
         [SerializeField] private float _minDelay = 1;
 
+        [SerializeField] private SwatterCollider _collider;
+
         [SerializeField] private int _maxSwatters = 3;
 
         private float _currentDelay;
         private bool _isAttacking;
 
+        private GameManager _manager;
+
         private void Start()
         {
-            //if (isServer)
-            //{
+            if (isServer)
+            {
                 _currentDelay = _maxDelay;
-            //}
+            }
+            _collider.OnTriggerEntered += Collider_OnTrigerEntered;
+            _manager = AGameManager.Instance as GameManager;
+        }
+
+        private void OnDestroy()
+        {
+            _collider.OnTriggerEntered -= Collider_OnTrigerEntered;
+        }
+
+        private void Collider_OnTrigerEntered(object caller, Collider other)
+        {
+            if (other.tag.Equals("Player"))
+            {
+                _manager.KillPlayer(other.gameObject);
+            }
         }
 
         private void Update()
@@ -36,7 +55,7 @@ namespace Assets.Scripts.CantRoachThis
             UpdateSwatterActions();
         }
 
-        //[Server]
+        [Server]
         private void UpdateSwatterActions()
         {
             _currentDelay -= Time.deltaTime;
@@ -56,6 +75,7 @@ namespace Assets.Scripts.CantRoachThis
             }
         }
 
+        [Server]
         private void UpdateSwatterState()
         {
             _swatterParent.transform.position = Vector3.MoveTowards(_swatterParent.transform.position, _endPoint.position, 0.9f);
@@ -66,6 +86,7 @@ namespace Assets.Scripts.CantRoachThis
             }
         }
 
+        [Server]
         private void Attack()
         {
             if (_isAttacking)

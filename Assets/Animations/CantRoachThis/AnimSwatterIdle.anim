@@ -35,7 +35,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Spotlight
+    path: SwatterObj/Spotlight
     classID: 108
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -47,7 +47,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1106452668
+      path: 3694856160
       attribute: 3305885265
       script: {fileID: 0}
       typeID: 108
@@ -94,7 +94,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: Spotlight
+    path: SwatterObj/Spotlight
     classID: 108
     script: {fileID: 0}
   m_EulerEditorCurves: []

@@ -8,9 +8,14 @@ namespace Assets.Scripts.Game
     /// </summary>
     public class EventGameStatus : EventArgs
     {
-        public AGameManager.GAME_STATE PreviousState;
-        public AGameManager.GAME_STATE CurrentState;
+        public GAME_STATE PreviousState;
+        public GAME_STATE CurrentState;
     }
+
+    /// <summary>
+    /// Represents a game state.
+    /// </summary>
+    public enum GAME_STATE { Play, Pause, Menu, GameOver }
 
     /// <summary>
     /// Abstract class for the game manager.
@@ -18,9 +23,9 @@ namespace Assets.Scripts.Game
     public abstract class AGameManager : NetworkBehaviour
     {
         /// <summary>
-        /// Represents a game state.
+        /// Singleton instance of the Manager.
         /// </summary>
-        public enum GAME_STATE { Play, Pause, Menu, GameOver }
+        public static AGameManager Instance { get; private set; }
 
         /// <summary>
         /// the current game state.
@@ -31,6 +36,21 @@ namespace Assets.Scripts.Game
         /// Event triggered when the game states changes.
         /// </summary>
         public event EventHandler<EventGameStatus> OnGameStateChanged;
+
+        /// <summary>
+        /// Called when the object awakens. Sets up the singleton.
+        /// </summary>
+        virtual protected void Awake()
+        {
+            if (Instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                Instance = this;
+            }
+        }
 
         /// <summary>
         /// Sets the game state and triggers the corresponding event.

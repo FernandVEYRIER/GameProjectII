@@ -46,7 +46,7 @@ namespace Assets.Scripts.CantRoachThis
         {
             if (other.tag.Equals("Player"))
             {
-                _manager.KillPlayer(other.gameObject);
+                _manager.KillPlayer(other.gameObject.GetComponent<APlayerController>());
             }
         }
 

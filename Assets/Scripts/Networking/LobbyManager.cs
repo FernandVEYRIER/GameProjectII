@@ -27,6 +27,7 @@ namespace Assets.Scripts.Networking
         public RectTransform mainMenuPanel;
         public RectTransform lobbyPanel;
         public RectTransform lobbyPlayerContainer;
+        public RectTransform panelLoading;
         public Button backButton;
 
         public delegate void BackButtonDelegate();
@@ -67,6 +68,15 @@ namespace Assets.Scripts.Networking
             Initialize();
             backButton.gameObject.SetActive(false);
             ChangeTo(mainMenuPanel);
+        }
+
+        /// <summary>
+        /// Displays the loading screen above every menu.
+        /// </summary>
+        public void DisplayLoadingScreen()
+        {
+            Debug.Log("Displaying loading screen");
+            panelLoading.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -180,6 +190,8 @@ namespace Assets.Scripts.Networking
         public override void OnClientConnect(NetworkConnection conn)
         {
             base.OnClientConnect(conn);
+
+            panelLoading.gameObject.SetActive(false);
 
             conn.RegisterHandler(MsgKicked, KickedMessageHandler);
 

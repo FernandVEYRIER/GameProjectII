@@ -18,8 +18,14 @@ namespace Assets.Scripts.CantRoachThis
         [SerializeField] private Transform _leftSpawn;
         [SerializeField] private Transform _rightSpawn;
 
-        private List<GameObject> _players = new List<GameObject>();
+        private readonly List<GameObject> _players = new List<GameObject>();
+        private readonly SyncListString _playersDead = new SyncListString();
         private GameObject _swatter;
+
+        /// <summary>
+        /// The list of dead players.
+        /// </summary>
+        public SyncListString PlayersDead { get { return _playersDead; } }
 
         private void Start()
         {
@@ -30,19 +36,22 @@ namespace Assets.Scripts.CantRoachThis
         /// <summary>
         /// Kills a player on the server.
         /// </summary>
-        /// <param name="gameObject"></param>
-        public void KillPlayer(GameObject gameObject)
+        /// <param name="controller"></param>
+        public void KillPlayer(APlayerController controller)
         {
             if (isServer)
             {
-                if (!_players.Remove(gameObject))
+                if (controller == null || !_players.Remove(controller.gameObject))
                 {
-                    Debug.LogError("Object not found in the player list.");
+                    Debug.LogError("Object not found in the player list, or is null.");
                     return;
                 }
-                NetworkServer.Destroy(gameObject);
+                NetworkServer.Destroy(controller.gameObject);
+                _playersDead.Insert(0, controller._playerName);
                 if (_players.Count <= 1)
                 {
+                    foreach (var player in _players)
+                        _playersDead.Add(player.GetComponent<APlayerController>()._playerName);
                     GameOver();
                 }
             }

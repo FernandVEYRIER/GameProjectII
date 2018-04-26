@@ -2,36 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using Assets.Scripts.Networking;
 using UnityEngine.UI;
+using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 
 namespace Assets.Scripts.GoSoju
 {
-    public class PlayerController : NetworkBehaviour
-    { 
-        [SyncVar(hook = "OnPlayerNameChange")] public string _playerName;
+    public class PlayerController : APlayerController
+    {
         [SyncVar(hook = "OnPositionChange")] public string position;
+        [SyncVar(hook = "OnNbrPositionChange")] public string nbrPosition;
+        [SyncVar(hook = "OnFinishChange")] public bool finish;
 
         [SerializeField] private float speed = 0.1f;
 
         private bool right;
-        private bool stopMoving;
+        public bool stopMoving;
         private Transform _transform;
 
         private NetworkInstanceId _networkIdentity;
         private Text myPosition;
+        [SerializeField] private Text myPlayer;
+        private GameUI ui;
 
-        public override void OnStartClient()
-        {
-            base.OnStartClient();
-            position = "position Unknow";
-        }
+        private bool looserDrunk;
+        public bool LooserDrunk { get { return looserDrunk; } }
 
         public override void OnStartLocalPlayer()
         {
             Debug.Log("Starting local player");
             base.OnStartLocalPlayer();
             SetupPlayer();
+            looserDrunk = false;
+        }
+
+        [Client]
+        private void SetupPlayer()
+        {
+            position = "position Unknow";
+            nbrPosition = "1";
+            finish = false;
+            _networkIdentity = GetComponent<NetworkIdentity>().netId;
+            ui = GameObject.Find("PlayerUI").GetComponent<GameUI>();
+            ui.SetPlayer(this);
             right = false;
             stopMoving = false;
             _transform = GetComponent<Transform>();
@@ -39,39 +52,52 @@ namespace Assets.Scripts.GoSoju
             myPosition.text += position;
         }
 
-        [Client]
-        private void SetupPlayer()
+        [Command]
+        override protected void CmdSetPlayerInfo(PlayerInfo info)
         {
-            _networkIdentity = GetComponent<NetworkIdentity>().netId;
-            CmdSetPlayerName(LobbyManager.Instance.GetPlayerName());
+            base.CmdSetPlayerInfo(info);
+            print("color of player " + _playerColor);
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", _playerColor);
         }
 
         [Command]
-        private void CmdSetPlayerName(string name)
+        public void CmdLooserDrunk()
         {
-            _playerName = name;
-        }
-
-        private void OnPlayerNameChange(string name)
-        {
-            Debug.Log("Player name changed to == " + name);
-            _playerName = name;
+            looserDrunk = true;
         }
 
         private void OnPositionChange(string newpos)
         {
             position = newpos;
-            if (myPosition != null)
+            if (myPosition != null && stopMoving == false)
             {
                 myPosition.text = "player position : ";
                 myPosition.text += newpos;
             }
         }
 
+        private void OnNbrPositionChange(string newpos)
+        {
+            nbrPosition = newpos;
+            if (stopMoving == false)
+            {
+                if (isLocalPlayer)
+                    myPlayer.text = "you: " + nbrPosition;
+                else
+                    myPlayer.text = nbrPosition;
+            }
+        }
+
+        private void OnFinishChange(bool state)
+        {
+            finish = state;
+        }
+
         // Update is called once per frame
         void Update()
         {
-            if (isLocalPlayer && !stopMoving)
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", _playerColor);
+            if (isLocalPlayer && !stopMoving && ui.GameStart)
             {
                 if (Input.GetMouseButton(0) && Input.mousePosition.x <= Screen.width / 2 && right)
                 {

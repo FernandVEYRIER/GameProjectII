@@ -42,7 +42,7 @@ namespace Assets.Scripts.Game
         /// </summary>
         /// <param name="info"></param>
         [Command]
-        private void CmdSetPlayerInfo(PlayerInfo info)
+        virtual protected void CmdSetPlayerInfo(PlayerInfo info)
         {
             _playerName = info.Name;
             _playerColor = info.Color;

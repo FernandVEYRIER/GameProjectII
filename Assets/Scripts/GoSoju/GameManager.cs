@@ -10,7 +10,7 @@ namespace Assets.Scripts.GoSoju
     {
 
         [SerializeField] private GameObject _playerPrefab;
-        [SerializeField] private GameObject _glass;
+        [SerializeField] private GameObject _glassPrefab;
 
         [SerializeField] private Transform _leftSpawn;
         [SerializeField] private Transform _rightSpawn;
@@ -19,9 +19,8 @@ namespace Assets.Scripts.GoSoju
         [SerializeField] GameUI ui;
 
         private GameObject[] _players;
-        private GameObject[] _glassToFile;
+        private GameObject[] _glass;
         private string[] winnerOrder;
-
 
         private string[] position =
         {
@@ -42,6 +41,13 @@ namespace Assets.Scripts.GoSoju
         }
 
         [Server]
+        private void GameOver()
+        {
+            SetGameState(GAME_STATE.GameOver);
+            Debug.Log("end of game !");
+        }
+
+        [Server]
         private IEnumerator SpawnPlayers()
         {
             if (!isServer)
@@ -54,7 +60,7 @@ namespace Assets.Scripts.GoSoju
 
             Debug.Log("Is server ? " + NetworkServer.active);
             _players = new GameObject[LobbyManager.Instance.numPlayers];
-            _glassToFile = new GameObject[LobbyManager.Instance.numPlayers];
+            _glass = new GameObject[LobbyManager.Instance.numPlayers];
             winnerOrder = new string[LobbyManager.Instance.numPlayers];
             var step = NetworkServer.connections.Count > 1 ? (_rightSpawn.position.z - _leftSpawn.position.z) / (NetworkServer.connections.Count - 1) : 0;
             var startSpawn = _leftSpawn.position;
@@ -68,35 +74,77 @@ namespace Assets.Scripts.GoSoju
                 print("playeur position = " + _players[i].transform.position);
                 startSpawn.x = _glassSpawn.position.x;
                 startSpawn.y = _glassSpawn.position.y;
-                _glassToFile[i] = Instantiate(_glass, startSpawn, Quaternion.identity);
-                NetworkServer.Spawn(_glassToFile[i]);
-                print("glass position = " + _glassToFile[i].transform.position);
+                _glass[i] = Instantiate(_glassPrefab, startSpawn, Quaternion.identity);
+                NetworkServer.Spawn(_glass[i]);
+                print("glass position = " + _glass[i].transform.position);
                 startSpawn.z += step;
             }
-            yield return new WaitForSeconds(1);
-            ui.StartRpcCounter();
+            SetGameState(GAME_STATE.Play);
+        }
+
+        public void ChangeScene(string name)
+        {
+            LobbyManager.Instance.ChangeScene(name);
         }
 
         [Server]
         public void playerArrived(string name, PlayerController player)
         {
-            for (int i = 0; i < LobbyManager.Instance.numPlayers; ++i)
+            int playerNbr;
+            for (playerNbr = 0; playerNbr < LobbyManager.Instance.numPlayers; ++playerNbr)
             {
-                if (winnerOrder[i] == null)
+                if (winnerOrder[playerNbr] == null)
                 {
-                    winnerOrder[i] = name;
-                    print(name + "is " + i);
-                    player.position = position[i];
-                    return ;
+                    winnerOrder[playerNbr] = name;
+                    print(name + "is " + playerNbr);
+                    player.position = position[playerNbr];
+                    player.finish = true;
+                    break;
                 }
             }
+            /*if (playerNbr + 1 >= LobbyManager.Instance.numPlayers - 1)
+                GameOver();*/
         }
 
         [Server]
         private void FixedUpdate()
         {
-            SortPlayer();
-            //LobbyManager.Instance.AreAllClientsReady;
+            if (GameState == GAME_STATE.Play)
+            {
+                SortPlayer();
+                GameFinished();
+            }
+            if (GameState == GAME_STATE.GameOver)
+                LooserDrunks();
+        }
+
+        [Server]
+        private void LooserDrunks()
+        {
+            GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+            for (int i = 0; i < player.Length && player[i].GetComponent<PlayerController>().LooserDrunk; i++)
+            {
+                if (i == (player.Length - 1))
+                    ChangeScene("GameSelectionScene");
+            }
+        }
+
+        [Server]
+        private void GameFinished()
+        {
+            GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+            for (int i = 0; i < player.Length && player[i].GetComponent<PlayerController>().finish == true; i++)
+            {
+
+                if (i == (player.Length - 1))
+                {
+                    foreach (string s in winnerOrder)
+                        print(s);
+                    ui.RpcSetWinner(winnerOrder[0] + " won this game");
+                    ui.RpcSetLooser(winnerOrder[i] + " lost this game, drink !!");
+                    GameOver();
+                }
+            }
         }
 
         [Server]
@@ -117,6 +165,7 @@ namespace Assets.Scripts.GoSoju
             for (int i = 0; i < player.Length; i++)
             {
                 player[i].GetComponent<PlayerController>().position = position[i];
+                player[i].GetComponent<PlayerController>().nbrPosition = (i + 1).ToString();
             }
         }
     }

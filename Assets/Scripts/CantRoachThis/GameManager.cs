@@ -98,7 +98,14 @@ namespace Assets.Scripts.CantRoachThis
 
         public void ChangeScene(string name)
         {
+            RpcChangeScene();
             LobbyManager.Instance.ChangeScene(name);
+        }
+
+        [ClientRpc]
+        public void RpcChangeScene()
+        {
+            LobbyManager.Instance.panelLoading.gameObject.SetActive(true);
         }
     }
 }

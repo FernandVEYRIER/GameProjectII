@@ -60,7 +60,7 @@ namespace Assets.Scripts.UI
                     LobbyManager.Instance.ChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
                 }
                 //Debug.Log(_rb.angularVelocity);
-                Debug.Log(WheelGenerator.GetCorrespondingScene(_angle));
+                //Debug.Log(WheelGenerator.GetCorrespondingScene(_angle));
             }
             if (isClient)
             {

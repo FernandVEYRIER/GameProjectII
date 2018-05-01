@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Networking;
+using System;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.Game
@@ -83,6 +84,25 @@ namespace Assets.Scripts.Game
             GameState = state;
             if (OnGameStateChanged != null)
                 OnGameStateChanged.Invoke(this, new EventGameStatus { CurrentState = state, PreviousState = prevState });
+        }
+
+        /// <summary>
+        /// Changes the scene, server side.
+        /// </summary>
+        /// <param name="name"></param>
+        public virtual void ChangeScene(string name)
+        {
+            RpcChangeScene();
+            LobbyManager.Instance.ChangeScene(name);
+        }
+
+        /// <summary>
+        /// Scene changing replication on client.
+        /// </summary>
+        [ClientRpc]
+        protected virtual void RpcChangeScene()
+        {
+            LobbyManager.Instance.panelLoading.gameObject.SetActive(true);
         }
     }
 }

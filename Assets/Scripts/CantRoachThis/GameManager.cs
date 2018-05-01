@@ -95,17 +95,5 @@ namespace Assets.Scripts.CantRoachThis
             NetworkServer.Spawn(_swatter);
             SetGameState(GAME_STATE.Play);
         }
-
-        public void ChangeScene(string name)
-        {
-            RpcChangeScene();
-            LobbyManager.Instance.ChangeScene(name);
-        }
-
-        [ClientRpc]
-        public void RpcChangeScene()
-        {
-            LobbyManager.Instance.panelLoading.gameObject.SetActive(true);
-        }
     }
 }

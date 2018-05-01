@@ -285,13 +285,15 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public void StartGame()
         {
-            NetworkServer.SetAllClientsNotReady();
             foreach (var player in lobbySlots)
             {
                 var p = player as LobbyPlayer;
                 if (p != null)
+                {
                     p.RpcDisplayLoading();
+                }
             }
+            NetworkServer.SetAllClientsNotReady();
             ChangeScene(playScene);
         }
 

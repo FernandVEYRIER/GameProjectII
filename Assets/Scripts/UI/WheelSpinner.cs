@@ -88,13 +88,13 @@ namespace Assets.Scripts.UI
             var timeElapsed = Time.time - _startDragTime;
             var posDelta = ((PointerEventData)eventData).position - _startPos;
             Debug.Log("Elapsed time => " + timeElapsed + " Delta pos => " + posDelta);
-            //if (!_isSpinning && timeElapsed < 0.2f && Mathf.Abs(posDelta.y) > 50)
+
             if (IsValidSwipe(_startPos, ((PointerEventData)eventData).position, _startDragTime))
             {
                 //_isSpinning = true;
                 _rb.simulated = true;
                 //_rb.angularVelocity = -800;
-                CmdSetVelocity(-800);
+                CmdSetVelocity(-posDelta.magnitude / timeElapsed);
             }
         }
 

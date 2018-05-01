@@ -83,6 +83,11 @@ namespace Assets.Scripts.Networking
         {
             Debug.Log("Name changed to " + name);
             _textName.text = name;
+            if (isLocalPlayer)
+            {
+                _info.Name = name;
+                LobbyManager.Instance.SetLocalPlayerInfo(_info);
+            }
         }
 
         public void HookColor(Color newColor)

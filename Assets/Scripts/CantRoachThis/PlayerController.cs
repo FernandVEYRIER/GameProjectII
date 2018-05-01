@@ -10,6 +10,7 @@ namespace Assets.Scripts.CantRoachThis
     /// </summary>
     public class PlayerController : APlayerController
     {
+        [SerializeField] private Transform visualTransform;
         [SerializeField] private float speed = 1;
 
         private NetworkInstanceId _networkIdentity;
@@ -60,6 +61,7 @@ namespace Assets.Scripts.CantRoachThis
                 moveDirection *= speed;
                 transform.Translate(moveDirection /** Time.deltaTime*/);
                 //_controller.Move(moveDirection * Time.deltaTime);
+                visualTransform.localRotation = Quaternion.Euler(0, Input.GetAxis("Horizontal") > 0 ? 90 : -90, 0);
             }
         }
     }

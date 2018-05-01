@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ namespace Assets.Scripts.UI
 
         private void Start()
         {
-            Debug.Log("START >>>>>>>>>>>> " + isServer);
+            Debug.Log("START wheel generator >>>>>>>>>>>> " + isServer);
 
             if (isServer)
             {
@@ -40,7 +41,7 @@ namespace Assets.Scripts.UI
             //go.transform.localScale = Vector3.one;
             //go.transform.localPosition = Vector3.zero;
             //go.transform.SetSiblingIndex(0);
-            Debug.Log("Spawning => " + go);
+            //Debug.Log("Spawning => " + go);
             if (NetworkServer.active)
                 NetworkServer.Spawn(go);
             RpcSpawnWheel(go);
@@ -92,20 +93,23 @@ namespace Assets.Scripts.UI
         /// </summary>
         private void GenerateWheel()
         {
-            float sliceSize = 1f / _gameEntries.Count;
-            for (int i = 0; i < _gameEntries.Count; i++)
+            var gameEntriesFiltered = _gameEntries.Where(x => x.gameScene != LobbyManager.Instance.LastGamePlayed).ToList();
+            //Debug.Log("+++++++++++++++++++++++++++++++++++++ Game entries filtered => " + gameEntriesFiltered.Count + " original list => "
+            //    + _gameEntries.Count + " last game player => " + LobbyManager.Instance.LastGamePlayed);
+            float sliceSize = 1f / gameEntriesFiltered.Count;
+            for (int i = 0; i < gameEntriesFiltered.Count; i++)
             {
                 var go = Instantiate(_wheelSlicePrefab.gameObject);
                 go.transform.SetParent(_wheelContainer.transform);
                 go.transform.localScale = Vector3.one;
                 go.GetComponent<RectTransform>().localPosition = Vector3.zero;
-                go.transform.localRotation = Quaternion.Euler(0, 0, 360f * (i / (float)_gameEntries.Count));
+                go.transform.localRotation = Quaternion.Euler(0, 0, 360f * (i / (float)gameEntriesFiltered.Count));
                 var img = go.GetComponent<Image>();
                 img.fillAmount = sliceSize;
-                img.color = _gameEntries[i].color;
-                go.name = _gameEntries[i].gameScene.SceneName;
+                img.color = gameEntriesFiltered[i].color;
+                go.name = gameEntriesFiltered[i].gameScene.SceneName;
                 var child = go.transform.GetChild(0);
-                child.GetComponent<Text>().text = _gameEntries[i].gameScene;
+                child.GetComponent<Text>().text = gameEntriesFiltered[i].gameScene;
                 child.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 90f - (360f * sliceSize / 2f)));
             }
         }

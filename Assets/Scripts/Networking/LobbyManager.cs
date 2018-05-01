@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
@@ -22,6 +22,16 @@ namespace Assets.Scripts.Networking
         public int ConnectionCount { get { return NetworkServer.connections.Count; } }
 
         public bool AreAllClientsReady { get { return NetworkServer.connections.Count == _clientReadyCount; } }
+
+        /// <summary>
+        /// Keeps track of the last game that has been played.
+        /// </summary>
+        public string LastGamePlayed { get; private set; }
+
+        /// <summary>
+        /// Keeps track of the current game being played.
+        /// </summary>
+        public string CurrentGamePlayed { get; private set; }
 
         [Header("UI")]
         public RectTransform mainMenuPanel;
@@ -362,6 +372,10 @@ namespace Assets.Scripts.Networking
         /// <param name="scene"></param>
         public void ChangeScene(string scene)
         {
+            if (!string.IsNullOrEmpty(CurrentGamePlayed))
+                LastGamePlayed = CurrentGamePlayed;
+            CurrentGamePlayed = scene;
+            //Debug.LogError("Last game played = " + LastGamePlayed + " current game played " + CurrentGamePlayed);
             _clientReadyCount = 0;
             ServerChangeScene(scene);
         }

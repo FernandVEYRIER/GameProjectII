@@ -86,6 +86,8 @@ namespace Assets.Scripts.UI
 
             if (_gameEntries.Count > 0)
                 GenerateWheel();
+
+            LobbyManager.Instance.panelLoading.gameObject.SetActive(false);
         }
 
         /// <summary>

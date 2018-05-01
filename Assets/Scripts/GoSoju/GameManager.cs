@@ -34,10 +34,16 @@ namespace Assets.Scripts.GoSoju
             "heighth"
         };
 
-        [Server]
         private void Start()
         {
-            StartCoroutine(SpawnPlayers());
+            if (isServer)
+                StartCoroutine(SpawnPlayers());
+        }
+
+        public override void OnStartClient()
+        {
+            base.OnStartClient();
+            LobbyManager.Instance.panelLoading.gameObject.SetActive(false);
         }
 
         [Server]
@@ -80,11 +86,6 @@ namespace Assets.Scripts.GoSoju
                 startSpawn.z += step;
             }
             SetGameState(GAME_STATE.Play);
-        }
-
-        public void ChangeScene(string name)
-        {
-            LobbyManager.Instance.ChangeScene(name);
         }
 
         [Server]

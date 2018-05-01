@@ -375,7 +375,7 @@ namespace Assets.Scripts.Networking
             if (!string.IsNullOrEmpty(CurrentGamePlayed))
                 LastGamePlayed = CurrentGamePlayed;
             CurrentGamePlayed = scene;
-            //Debug.LogError("Last game played = " + LastGamePlayed + " current game played " + CurrentGamePlayed);
+            Debug.Log("|||||||||||||||||||||||||||||||||||||||||||||||||Last game played = " + LastGamePlayed + " current game played " + CurrentGamePlayed);
             _clientReadyCount = 0;
             ServerChangeScene(scene);
         }

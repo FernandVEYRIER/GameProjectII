@@ -46,7 +46,7 @@ namespace Assets.Scripts.UI
 
                 if (_rb.angularVelocity < 0)
                 {
-                    Debug.Log("IS SPINNING VEL => " + _rb.angularVelocity);
+                    //Debug.Log("IS SPINNING VEL => " + _rb.angularVelocity);
                     _isSpinning = true;
                     _rb.angularVelocity = Mathf.SmoothDamp(_rb.angularVelocity, 0, ref _currVel, Time.deltaTime * 150);
                     _angle = GetComponent<RectTransform>().localRotation;

@@ -18,12 +18,16 @@ namespace Assets.Scripts.UI
         [SerializeField] private Image _wheelSlicePrefab;
         [SerializeField] private List<GameEntry> _gameEntries = new List<GameEntry>();
 
+        [SyncVar] private string _lastGamePlayed;
+
         private void Start()
         {
             Debug.Log("START wheel generator >>>>>>>>>>>> " + isServer);
 
             if (isServer)
             {
+                _lastGamePlayed = LobbyManager.Instance.LastGamePlayed;
+                Debug.Log("last game played ====================> " + _lastGamePlayed);
                 StartCoroutine(WaitForSpawnWheel());
             }
         }
@@ -54,19 +58,21 @@ namespace Assets.Scripts.UI
         /// <returns></returns>
         public string GetCorrespondingScene(Quaternion angle)
         {
+            var gameEntriesFiltered = _gameEntries.Where(x => x.gameScene != _lastGamePlayed).ToList();
+
             // This allows any angle higher than 360 degrees to be computed.
             // The 90 offset is because the arrow is not on top of the wheel.
             var clampedAngle = ((angle.eulerAngles.z + 90f) % 360f);
 
             var idx = 0;
             var item = 0;
-            while (clampedAngle > (idx * (360f / _gameEntries.Count)) + (360f / _gameEntries.Count))
+            while (clampedAngle > (idx * (360f / gameEntriesFiltered.Count)) + (360f / _gameEntries.Count))
             {
                 ++idx;
                 // Item counts backwards because we spin the wheel clockwise
-                item = (int)Mathf.Repeat(item - 1, _gameEntries.Count);
+                item = (int)Mathf.Repeat(item - 1, gameEntriesFiltered.Count);
             }
-            return _gameEntries[item].gameScene.SceneName;
+            return gameEntriesFiltered[item].gameScene.SceneName;
         }
 
         /// <summary>
@@ -95,7 +101,9 @@ namespace Assets.Scripts.UI
         /// </summary>
         private void GenerateWheel()
         {
-            var gameEntriesFiltered = _gameEntries.Where(x => x.gameScene != LobbyManager.Instance.LastGamePlayed).ToList();
+            Debug.Log("last game played RPC ====================> " + _lastGamePlayed);
+
+            var gameEntriesFiltered = _gameEntries.Where(x => x.gameScene != _lastGamePlayed).ToList();
             //Debug.Log("+++++++++++++++++++++++++++++++++++++ Game entries filtered => " + gameEntriesFiltered.Count + " original list => "
             //    + _gameEntries.Count + " last game player => " + LobbyManager.Instance.LastGamePlayed);
             float sliceSize = 1f / gameEntriesFiltered.Count;

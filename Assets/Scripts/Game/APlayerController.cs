@@ -46,13 +46,14 @@ namespace Assets.Scripts.Game
         {
             _playerName = info.Name;
             _playerColor = info.Color;
+
         }
 
         /// <summary>
         /// Callback when the player name changed on the server.
         /// </summary>
         /// <param name="name"></param>
-        private void OnPlayerNameChange(string name)
+        protected void OnPlayerNameChange(string name)
         {
             _playerName = name;
         }
@@ -61,7 +62,7 @@ namespace Assets.Scripts.Game
         /// Callback when the player color changed on the server.
         /// </summary>
         /// <param name="color"></param>
-        private void OnPlayerColorChange(Color color)
+        protected virtual void OnPlayerColorChange(Color color)
         {
             _playerColor = color;
         }

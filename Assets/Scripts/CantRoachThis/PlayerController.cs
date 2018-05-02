@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,6 +11,7 @@ namespace Assets.Scripts.CantRoachThis
     public class PlayerController : APlayerController
     {
         [SerializeField] private Transform visualTransform;
+        [SerializeField] private GameObject flagColor;
         [SerializeField] private float speed = 1;
 
         private NetworkInstanceId _networkIdentity;
@@ -23,17 +25,10 @@ namespace Assets.Scripts.CantRoachThis
         /// </summary>
         public override void OnStartLocalPlayer()
         {
-            Debug.Log("Starting local player");
+            Debug.Log("Starting local player " + _playerColor + "   " + _playerName);
             base.OnStartLocalPlayer();
             SetupPlayer();
         }
-
-        //public override void OnStartClient()
-        //{
-        //    base.OnStartClient();
-        //    OnPlayerColorChange(_playerColor);
-        //    OnPlayerNameChange(_playerName);
-        //}
 
         /// <summary>
         /// Sets up the player values.
@@ -47,19 +42,21 @@ namespace Assets.Scripts.CantRoachThis
             var gm = (AGameManager.Instance as GameManager);
             _leftLimit = gm.LeftTerrainLimit;
             _rightLimit = gm.RightTerrainLimit;
+
             //CmdSetPlayerInfo(LobbyManager.Instance.GetLocalPlayerInfo());
         }
 
         public override void OnStartServer()
         {
             _networkIdentity = GetComponent<NetworkIdentity>().netId;
-            Debug.Log("Requesting id for value => " + _networkIdentity.Value);
             _controller = GetComponent<CharacterController>();
             base.OnStartServer();
         }
 
         private void Update()
         {
+            flagColor.GetComponent<MeshRenderer>().materials[1].color = _playerColor;
+
             if (isLocalPlayer)
             {
 #if UNITY_EDITOR && !UNITY_STANDALONE

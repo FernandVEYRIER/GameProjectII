@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Game;
-using Assets.Scripts.Networking;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,6 +14,9 @@ namespace Assets.Scripts.CantRoachThis
 
         private NetworkInstanceId _networkIdentity;
         private CharacterController _controller;
+
+        private Transform _leftLimit;
+        private Transform _rightLimit;
 
         /// <summary>
         /// Called when the local player is ready.
@@ -41,6 +43,10 @@ namespace Assets.Scripts.CantRoachThis
         {
             _networkIdentity = GetComponent<NetworkIdentity>().netId;
             _controller = GetComponent<CharacterController>();
+
+            var gm = (AGameManager.Instance as GameManager);
+            _leftLimit = gm.LeftTerrainLimit;
+            _rightLimit = gm.RightTerrainLimit;
             //CmdSetPlayerInfo(LobbyManager.Instance.GetLocalPlayerInfo());
         }
 
@@ -56,12 +62,22 @@ namespace Assets.Scripts.CantRoachThis
         {
             if (isLocalPlayer)
             {
+#if UNITY_EDITOR && !UNITY_STANDALONE
                 var moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+#else
+                var dir = (Input.GetMouseButton(0) && Input.mousePosition.x < Screen.width / 2f) ? -1
+                    : (Input.GetMouseButton(0) && Input.mousePosition.x >= Screen.width / 2f) ? 1 : 0;
+                var moveDirection = new Vector3(dir, 0, 0);
+#endif
                 moveDirection = transform.TransformDirection(moveDirection);
                 moveDirection *= speed;
                 transform.Translate(moveDirection /** Time.deltaTime*/);
-                //_controller.Move(moveDirection * Time.deltaTime);
-                visualTransform.localRotation = Quaternion.Euler(0, Input.GetAxis("Horizontal") > 0 ? 90 : -90, 0);
+                if (moveDirection != Vector3.zero)
+                    visualTransform.localRotation = Quaternion.Euler(0, Mathf.Sign(moveDirection.x) * 90, 0);
+                if (transform.position.x < _leftLimit.position.x)
+                    transform.position = _leftLimit.position;
+                else if (transform.position.x > _rightLimit.position.x)
+                    transform.position = _rightLimit.position;
             }
         }
     }

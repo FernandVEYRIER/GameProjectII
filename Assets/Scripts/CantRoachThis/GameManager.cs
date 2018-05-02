@@ -12,6 +12,9 @@ namespace Assets.Scripts.CantRoachThis
     /// </summary>
     public class GameManager : AGameManager
     {
+        public Transform LeftTerrainLimit { get { return _leftSpawn; } }
+        public Transform RightTerrainLimit { get { return _rightSpawn; } }
+
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private GameObject _swatterPrefab;
 

@@ -21,9 +21,14 @@ namespace Assets.Scripts.CantRoachThis
         [SerializeField] private Transform _leftSpawn;
         [SerializeField] private Transform _rightSpawn;
 
+        [SerializeField] private int _maxSwatters = 3;
+        [SerializeField] private float _swatterSpawnDelay = 5f;
+
+        private float _currentDelay = 3;
+
         private readonly List<GameObject> _players = new List<GameObject>();
         private readonly SyncListString _playersDead = new SyncListString();
-        private GameObject _swatter;
+        private readonly List<GameObject> _swatters = new List<GameObject>();
 
         /// <summary>
         /// The list of dead players.
@@ -34,6 +39,22 @@ namespace Assets.Scripts.CantRoachThis
         {
             if (isServer)
                 StartCoroutine(SpawnObjects());
+        }
+
+        private void Update()
+        {
+            if (GameState == GAME_STATE.Play)
+            {
+                _currentDelay -= Time.deltaTime;
+                if (_currentDelay < 0)
+                {
+                    _currentDelay = _swatterSpawnDelay;
+                    var s = _swatters[0];
+                    s.GetComponent<SwatterController>().Activate(true);
+                    _swatters.RemoveAt(0);
+                    _swatters.Add(s);
+                }
+            }
         }
 
         /// <summary>
@@ -94,8 +115,12 @@ namespace Assets.Scripts.CantRoachThis
                 NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], _players[i], (short)i);
                 startSpawn.x += step;
             }
-            _swatter = Instantiate(_swatterPrefab);
-            NetworkServer.Spawn(_swatter);
+            for (int i = 0; i < _maxSwatters; ++i)
+            {
+                var _swatter = Instantiate(_swatterPrefab);
+                _swatters.Add(_swatter);
+                NetworkServer.Spawn(_swatter);
+            }
             SetGameState(GAME_STATE.Play);
         }
     }

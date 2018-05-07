@@ -119,14 +119,19 @@ namespace Assets.Scripts.GoSoju
                 LooserDrunks();
         }
 
+        // TODO : fix this omg
+        private bool loading;
         [Server]
         private void LooserDrunks()
         {
             GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
             for (int i = 0; i < player.Length && player[i].GetComponent<PlayerController>().LooserDrunk; i++)
             {
-                if (i == (player.Length - 1))
+                if (i == (player.Length - 1) && !loading)
+                {
                     ChangeScene("GameSelectionScene");
+                    loading = true;
+                }
             }
         }
 

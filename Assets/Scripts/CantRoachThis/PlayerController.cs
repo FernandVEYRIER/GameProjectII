@@ -70,7 +70,7 @@ namespace Assets.Scripts.CantRoachThis
                 moveDirection *= speed;
                 transform.Translate(moveDirection /** Time.deltaTime*/);
                 if (moveDirection != Vector3.zero)
-                    visualTransform.localRotation = Quaternion.Euler(0, Mathf.Sign(moveDirection.x) * 90, 0);
+                    visualTransform.localRotation = Quaternion.Euler(0, Mathf.Sign(moveDirection.x) * -90, 0);
                 if (transform.position.x < _leftLimit.position.x)
                     transform.position = _leftLimit.position;
                 else if (transform.position.x > _rightLimit.position.x)

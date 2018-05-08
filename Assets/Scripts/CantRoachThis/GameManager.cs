@@ -43,7 +43,7 @@ namespace Assets.Scripts.CantRoachThis
 
         private void Update()
         {
-            if (GameState == GAME_STATE.Play)
+            if (isServer && GameState == GAME_STATE.Play)
             {
                 _currentDelay -= Time.deltaTime;
                 if (_currentDelay < 0)

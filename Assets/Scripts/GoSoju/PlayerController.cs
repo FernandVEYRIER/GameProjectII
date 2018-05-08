@@ -28,8 +28,7 @@ namespace Assets.Scripts.GoSoju
         private bool looserDrunk;
         public bool LooserDrunk { get { return looserDrunk; } }
 
-        public override void OnStartLocalPlayer()
-        {
+        public override void OnStartLocalPlayer() {
             Debug.Log("Starting local player");
             base.OnStartLocalPlayer();
             SetupPlayer();
@@ -66,8 +65,7 @@ namespace Assets.Scripts.GoSoju
             looserDrunk = true;
         }
 
-        private void OnPositionChange(string newpos)
-        {
+        private void OnPositionChange(string newpos) {
             position = newpos;
             if (myPosition != null && stopMoving == false)
             {
@@ -104,9 +102,7 @@ namespace Assets.Scripts.GoSoju
                     //if you are touching on the left side
                     right = false;
                     gameObject.transform.position += new Vector3(speed, 0, 0);
-                }
-                else if (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2 && !right)
-                {
+                } else if (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2 && !right) {
                     //if you are touching on the right side
                     right = true;
                     gameObject.transform.position += new Vector3(speed, 0, 0);
@@ -114,16 +110,12 @@ namespace Assets.Scripts.GoSoju
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.tag == "glass")
-            {
-                if (isServer)
-                {
+        private void OnCollisionEnter(Collision collision) {
+            if (collision.gameObject.tag == "glass") {
+                if (isServer) {
                     GameObject.Find("GameManager").GetComponent<GameManager>().playerArrived(_playerName, this);
                 }
-                if (isLocalPlayer)
-                {
+                if (isLocalPlayer) {
                     stopMoving = true;
                 }
             }

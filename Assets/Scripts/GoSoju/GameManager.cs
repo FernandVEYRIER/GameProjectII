@@ -5,22 +5,21 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.GoSoju
-{ 
+{
     public class GameManager : AGameManager
     {
 
-        [SerializeField] private GameObject _strikerPrefab;
         [SerializeField] private GameObject _playerPrefab;
-        [SerializeField] private GameObject _glass;
-
+        [SerializeField] private GameObject _glassPrefab;
 
         [SerializeField] private Transform _leftSpawn;
         [SerializeField] private Transform _rightSpawn;
         [SerializeField] private Transform _bottleSpawn;
         [SerializeField] private Transform _glassSpawn;
+        [SerializeField] GameUI ui;
 
         private GameObject[] _players;
-        private GameObject[] _glassToFile;
+        private GameObject[] _glass;
         private string[] winnerOrder;
 
         private string[] position =
@@ -67,27 +66,24 @@ namespace Assets.Scripts.GoSoju
 
             Debug.Log("Is server ? " + NetworkServer.active);
             _players = new GameObject[LobbyManager.Instance.numPlayers];
-            _glassToFile = new GameObject[LobbyManager.Instance.numPlayers];
+            _glass = new GameObject[LobbyManager.Instance.numPlayers];
             winnerOrder = new string[LobbyManager.Instance.numPlayers];
+            var step = NetworkServer.connections.Count > 1 ? (_rightSpawn.position.z - _leftSpawn.position.z) / (NetworkServer.connections.Count - 1) : 0;
             var startSpawn = _leftSpawn.position;
-
+            print("step = " + step);
             for (int i = 0; i < NetworkServer.connections.Count; ++i)
             {
-                if (i == 0) {
-                    _players[i] = Instantiate(_strikerPrefab, startSpawn, Quaternion.identity);
-                } else {
-                    _players[i] = Instantiate(_playerPrefab, startSpawn, Quaternion.identity);
-                }
-
+                startSpawn.x = _bottleSpawn.position.x;
+                startSpawn.y = _bottleSpawn.position.y;
+                _players[i] = Instantiate(_playerPrefab, startSpawn, Quaternion.identity);
                 NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], _players[i], (short)i);
                 print("playeur position = " + _players[i].transform.position);
                 startSpawn.x = _glassSpawn.position.x;
                 startSpawn.y = _glassSpawn.position.y;
-                _glassToFile[i] = Instantiate(_glass, startSpawn, Quaternion.identity);
-                NetworkServer.Spawn(_glassToFile[i]);
-                print("glass position = " + _glassToFile[i].transform.position);
+                _glass[i] = Instantiate(_glassPrefab, startSpawn, Quaternion.identity);
+                NetworkServer.Spawn(_glass[i]);
+                print("glass position = " + _glass[i].transform.position);
                 startSpawn.z += step;
-                
             }
             SetGameState(GAME_STATE.Play);
         }
@@ -180,15 +176,3 @@ namespace Assets.Scripts.GoSoju
         }
     }
 }
-
-        [SerializeField] private GameObject _glassPrefab;
-        [SerializeField] private Transform _glassSpawn;
-        [SerializeField] GameUI ui;
-        private GameObject[] _glass;
-            _glass = new GameObject[LobbyManager.Instance.numPlayers];
-                startSpawn.x = _glassSpawn.position.x;
-                startSpawn.y = _glassSpawn.position.y;
-                _glass[i] = Instantiate(_glassPrefab, startSpawn, Quaternion.identity);
-                NetworkServer.Spawn(_glass[i]);
-                print("glass position = " + _glass[i].transform.position);
-                startSpawn.z += step;

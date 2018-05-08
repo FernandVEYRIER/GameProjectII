@@ -182,6 +182,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 224895626552399608, guid: 7d53cb7d357ce574ba48815a414a7a56,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -271,6 +276,68 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[2].color.r
+      value: 0.13181227
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[2].color.g
+      value: 0.24346739
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[2].color.b
+      value: 0.7794118
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[2].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[2].gameScene.m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: aa2eb40b620fabf419ae13237d9a314d,
+        type: 3}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[2].gameScene.m_SceneName
+      value: Another Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[1].color.r
+      value: 0.16787414
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[1].color.g
+      value: 0.256678
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[1].color.b
+      value: 0.8455882
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[1].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[1].gameScene.m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 96d84e604a09bb242b2a94756041c2fa,
+        type: 3}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[1].gameScene.m_SceneName
+      value: Go Soju Go Fast
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7d53cb7d357ce574ba48815a414a7a56, type: 2}

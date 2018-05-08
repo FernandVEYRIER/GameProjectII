@@ -20,8 +20,6 @@ namespace Assets.Scripts.CantRoachThis
 
         [SerializeField] private SwatterCollider _collider;
 
-        [SerializeField] private int _maxSwatters = 3;
-
         private float _currentDelay;
         private bool _isAttacking;
 
@@ -32,27 +30,31 @@ namespace Assets.Scripts.CantRoachThis
             if (isServer)
             {
                 _currentDelay = _maxDelay;
+                _collider.OnTriggerEntered += Collider_OnTriggerEntered;
             }
-            _collider.OnTriggerEntered += Collider_OnTrigerEntered;
             _manager = AGameManager.Instance as GameManager;
+            _leftLimit = GameObject.Find("SpawnLeft");
+            _rightLimit = GameObject.Find("SpawnRight");
+            gameObject.SetActive(false);
         }
 
         private void OnDestroy()
         {
-            _collider.OnTriggerEntered -= Collider_OnTrigerEntered;
+            _collider.OnTriggerEntered -= Collider_OnTriggerEntered;
         }
 
-        private void Collider_OnTrigerEntered(object caller, Collider other)
+        private void Collider_OnTriggerEntered(object caller, Collider other)
         {
             if (other.tag.Equals("Player"))
             {
-                _manager.KillPlayer(other.gameObject);
+                _manager.KillPlayer(other.gameObject.GetComponent<APlayerController>());
             }
         }
 
         private void Update()
         {
-            UpdateSwatterActions();
+            if (_manager.GameState == GAME_STATE.Play && isServer)
+                UpdateSwatterActions();
         }
 
         [Server]
@@ -67,7 +69,7 @@ namespace Assets.Scripts.CantRoachThis
                     _maxDelay -= 0.3f;
                 if (_maxDelay < _minDelay)
                     _maxDelay = _minDelay;
-                Attack();
+                StartAttack();
             }
             else if (_isAttacking)
             {
@@ -87,12 +89,26 @@ namespace Assets.Scripts.CantRoachThis
         }
 
         [Server]
-        private void Attack()
+        private void StartAttack()
         {
             if (_isAttacking)
                 return;
             _isAttacking = true;
+            transform.position = new Vector3(Random.Range(_leftLimit.transform.position.x, _rightLimit.transform.position.x), transform.position.y, transform.position.z);
             _swatterParent.transform.position = _startPoint.position;
+        }
+
+        [Server]
+        public void Activate(bool active)
+        {
+            gameObject.SetActive(active);
+            RpcActivate(active);
+        }
+
+        [ClientRpc]
+        private void RpcActivate(bool active)
+        {
+            gameObject.SetActive(active);
         }
     }
 }

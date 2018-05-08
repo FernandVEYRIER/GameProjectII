@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -17,12 +18,16 @@ namespace Assets.Scripts.UI
         [SerializeField] private Image _wheelSlicePrefab;
         [SerializeField] private List<GameEntry> _gameEntries = new List<GameEntry>();
 
+        [SyncVar] private string _lastGamePlayed;
+
         private void Start()
         {
-            Debug.Log("START >>>>>>>>>>>> " + isServer);
+            Debug.Log("START wheel generator >>>>>>>>>>>> " + isServer);
 
             if (isServer)
             {
+                _lastGamePlayed = LobbyManager.Instance.LastGamePlayed;
+                Debug.Log("last game played ====================> " + _lastGamePlayed);
                 StartCoroutine(WaitForSpawnWheel());
             }
         }
@@ -40,7 +45,7 @@ namespace Assets.Scripts.UI
             //go.transform.localScale = Vector3.one;
             //go.transform.localPosition = Vector3.zero;
             //go.transform.SetSiblingIndex(0);
-            Debug.Log("Spawning => " + go);
+            //Debug.Log("Spawning => " + go);
             if (NetworkServer.active)
                 NetworkServer.Spawn(go);
             RpcSpawnWheel(go);
@@ -53,19 +58,21 @@ namespace Assets.Scripts.UI
         /// <returns></returns>
         public string GetCorrespondingScene(Quaternion angle)
         {
+            var gameEntriesFiltered = _gameEntries.Where(x => x.gameScene != _lastGamePlayed).ToList();
+
             // This allows any angle higher than 360 degrees to be computed.
             // The 90 offset is because the arrow is not on top of the wheel.
             var clampedAngle = ((angle.eulerAngles.z + 90f) % 360f);
 
             var idx = 0;
             var item = 0;
-            while (clampedAngle > (idx * (360f / _gameEntries.Count)) + (360f / _gameEntries.Count))
+            while (clampedAngle > (idx * (360f / gameEntriesFiltered.Count)) + (360f / _gameEntries.Count))
             {
                 ++idx;
                 // Item counts backwards because we spin the wheel clockwise
-                item = (int)Mathf.Repeat(item - 1, _gameEntries.Count);
+                item = (int)Mathf.Repeat(item - 1, gameEntriesFiltered.Count);
             }
-            return _gameEntries[item].gameScene.SceneName;
+            return gameEntriesFiltered[item].gameScene.SceneName;
         }
 
         /// <summary>
@@ -85,6 +92,8 @@ namespace Assets.Scripts.UI
 
             if (_gameEntries.Count > 0)
                 GenerateWheel();
+
+            LobbyManager.Instance.panelLoading.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -92,20 +101,25 @@ namespace Assets.Scripts.UI
         /// </summary>
         private void GenerateWheel()
         {
-            float sliceSize = 1f / _gameEntries.Count;
-            for (int i = 0; i < _gameEntries.Count; i++)
+            Debug.Log("last game played RPC ====================> " + _lastGamePlayed);
+
+            var gameEntriesFiltered = _gameEntries.Where(x => x.gameScene != _lastGamePlayed).ToList();
+            //Debug.Log("+++++++++++++++++++++++++++++++++++++ Game entries filtered => " + gameEntriesFiltered.Count + " original list => "
+            //    + _gameEntries.Count + " last game player => " + LobbyManager.Instance.LastGamePlayed);
+            float sliceSize = 1f / gameEntriesFiltered.Count;
+            for (int i = 0; i < gameEntriesFiltered.Count; i++)
             {
                 var go = Instantiate(_wheelSlicePrefab.gameObject);
                 go.transform.SetParent(_wheelContainer.transform);
                 go.transform.localScale = Vector3.one;
                 go.GetComponent<RectTransform>().localPosition = Vector3.zero;
-                go.transform.localRotation = Quaternion.Euler(0, 0, 360f * (i / (float)_gameEntries.Count));
+                go.transform.localRotation = Quaternion.Euler(0, 0, 360f * (i / (float)gameEntriesFiltered.Count));
                 var img = go.GetComponent<Image>();
                 img.fillAmount = sliceSize;
-                img.color = _gameEntries[i].color;
-                go.name = _gameEntries[i].gameScene.SceneName;
+                img.color = gameEntriesFiltered[i].color;
+                go.name = gameEntriesFiltered[i].gameScene.SceneName;
                 var child = go.transform.GetChild(0);
-                child.GetComponent<Text>().text = _gameEntries[i].gameScene;
+                child.GetComponent<Text>().text = gameEntriesFiltered[i].gameScene;
                 child.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 90f - (360f * sliceSize / 2f)));
             }
         }

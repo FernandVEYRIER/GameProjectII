@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
@@ -23,10 +23,21 @@ namespace Assets.Scripts.Networking
 
         public bool AreAllClientsReady { get { return NetworkServer.connections.Count == _clientReadyCount; } }
 
+        /// <summary>
+        /// Keeps track of the last game that has been played.
+        /// </summary>
+        public string LastGamePlayed { get; private set; }
+
+        /// <summary>
+        /// Keeps track of the current game being played.
+        /// </summary>
+        public string CurrentGamePlayed { get; private set; }
+
         [Header("UI")]
         public RectTransform mainMenuPanel;
         public RectTransform lobbyPanel;
         public RectTransform lobbyPlayerContainer;
+        public RectTransform panelLoading;
         public Button backButton;
 
         public delegate void BackButtonDelegate();
@@ -67,6 +78,15 @@ namespace Assets.Scripts.Networking
             Initialize();
             backButton.gameObject.SetActive(false);
             ChangeTo(mainMenuPanel);
+        }
+
+        /// <summary>
+        /// Displays the loading screen above every menu.
+        /// </summary>
+        public void DisplayLoadingScreen()
+        {
+            Debug.Log("Displaying loading screen");
+            panelLoading.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -181,6 +201,8 @@ namespace Assets.Scripts.Networking
         {
             base.OnClientConnect(conn);
 
+            panelLoading.gameObject.SetActive(false);
+
             conn.RegisterHandler(MsgKicked, KickedMessageHandler);
 
             if (!NetworkServer.active)
@@ -273,6 +295,14 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public void StartGame()
         {
+            foreach (var player in lobbySlots)
+            {
+                var p = player as LobbyPlayer;
+                if (p != null)
+                {
+                    p.RpcDisplayLoading();
+                }
+            }
             NetworkServer.SetAllClientsNotReady();
             ChangeScene(playScene);
         }
@@ -342,6 +372,10 @@ namespace Assets.Scripts.Networking
         /// <param name="scene"></param>
         public void ChangeScene(string scene)
         {
+            if (!string.IsNullOrEmpty(CurrentGamePlayed))
+                LastGamePlayed = CurrentGamePlayed;
+            CurrentGamePlayed = scene;
+            Debug.Log("|||||||||||||||||||||||||||||||||||||||||||||||||Last game played = " + LastGamePlayed + " current game played " + CurrentGamePlayed);
             _clientReadyCount = 0;
             ServerChangeScene(scene);
         }

@@ -1,12 +1,15 @@
-﻿using Assets.Scripts.Networking;
+﻿using Assets.Scripts.Game;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.UI
 {
+    /// <summary>
+    /// Handles the wheel spinning to start the game.
+    /// </summary>
     [NetworkSettings(sendInterval = 0.01f)]
-    public class WheelSpinner : NetworkBehaviour
+    public class WheelSpinner : AGameManager
     {
         [SyncVar(hook = "HookAngleChanged")] private Quaternion _angle;
 
@@ -38,12 +41,12 @@ namespace Assets.Scripts.UI
             {
 #if !RELEASE
                 //LobbyManager.Instance.ChangeScene("Go Soju Go Fast");
-                LobbyManager.Instance.ChangeScene("Cant Roach This");
+                //Networking.LobbyManager.Instance.ChangeScene("Cant Roach This");
 #endif
 
                 if (_rb.angularVelocity < 0)
                 {
-                    Debug.Log("IS SPINNING VEL => " + _rb.angularVelocity);
+                    //Debug.Log("IS SPINNING VEL => " + _rb.angularVelocity);
                     _isSpinning = true;
                     _rb.angularVelocity = Mathf.SmoothDamp(_rb.angularVelocity, 0, ref _currVel, Time.deltaTime * 150);
                     _angle = GetComponent<RectTransform>().localRotation;
@@ -57,10 +60,10 @@ namespace Assets.Scripts.UI
                 {
                     _isSpinning = false;
                     Debug.Log("Stopped spinning ! Chosing game");
-                    LobbyManager.Instance.ChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
+                    ChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
                 }
                 //Debug.Log(_rb.angularVelocity);
-                Debug.Log(WheelGenerator.GetCorrespondingScene(_angle));
+                //Debug.Log(WheelGenerator.GetCorrespondingScene(_angle));
             }
             if (isClient)
             {
@@ -85,13 +88,27 @@ namespace Assets.Scripts.UI
             var timeElapsed = Time.time - _startDragTime;
             var posDelta = ((PointerEventData)eventData).position - _startPos;
             Debug.Log("Elapsed time => " + timeElapsed + " Delta pos => " + posDelta);
-            if (!_isSpinning && timeElapsed < 0.2f && Mathf.Abs(posDelta.y) > 50)
+
+            if (IsValidSwipe(_startPos, ((PointerEventData)eventData).position, _startDragTime))
             {
                 //_isSpinning = true;
                 _rb.simulated = true;
                 //_rb.angularVelocity = -800;
-                CmdSetVelocity(-800);
+                CmdSetVelocity(-posDelta.magnitude / timeElapsed);
             }
+        }
+
+        /// <summary>
+        /// Check if the processed swipe is considered valid.
+        /// </summary>
+        /// <param name="startPos"></param>
+        /// <param name="endPos"></param>
+        /// <param name="startDragTime"></param>
+        /// <returns></returns>
+        private bool IsValidSwipe(Vector2 startPos, Vector2 endPos, float startDragTime)
+        {
+            return Time.time - startDragTime < 0.3f && Mathf.Abs(endPos.y - startPos.y) > 50f
+                && startPos.x > Screen.width / 2 && endPos.x > Screen.width / 2;
         }
 
         [Client]

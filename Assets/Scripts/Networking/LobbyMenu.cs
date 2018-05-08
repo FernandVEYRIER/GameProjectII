@@ -47,6 +47,7 @@ namespace Assets.Scripts.Networking
             _manager.matchMaker.CreateMatch(TextPlayerName.text, (uint)_manager.maxPlayers, true, "", "", "", 0, 0, _manager.OnMatchCreate);
             _manager.backDelegate = _manager.StopHost;
             _manager._isMatchmaking = true;
+            _manager.DisplayLoadingScreen();
             //DisplayLobbyPanel();
         }
 

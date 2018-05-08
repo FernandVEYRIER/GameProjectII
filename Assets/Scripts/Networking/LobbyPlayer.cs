@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Networking
 {
+    /// <summary>
+    /// Object that represents a player inside the lobby.
+    /// </summary>
     public class LobbyPlayer : NetworkLobbyPlayer
     {
         private static readonly Color[] Colors = new Color[] { Color.magenta, Color.red, Color.cyan, Color.blue, Color.green, Color.yellow, Color.grey, Color.white };
@@ -80,6 +83,11 @@ namespace Assets.Scripts.Networking
         {
             Debug.Log("Name changed to " + name);
             _textName.text = name;
+            if (isLocalPlayer)
+            {
+                _info.Name = name;
+                LobbyManager.Instance.SetLocalPlayerInfo(_info);
+            }
         }
 
         public void HookColor(Color newColor)
@@ -141,7 +149,9 @@ namespace Assets.Scripts.Networking
 
         private void OnDestroy()
         {
-            LobbyPlayerList.Instance.RemovePlayer(this);
+            // TODO : check if this causes crash on close
+            if (LobbyPlayerList.Instance != null)
+                LobbyPlayerList.Instance.RemovePlayer(this);
 
             int idx = System.Array.IndexOf(Colors, playerColor);
 
@@ -156,6 +166,15 @@ namespace Assets.Scripts.Networking
                     break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Displays the loading panel for this client.
+        /// </summary>
+        [ClientRpc]
+        public void RpcDisplayLoading()
+        {
+            LobbyManager.Instance.panelLoading.gameObject.SetActive(true);
         }
     }
 }

@@ -122,6 +122,10 @@ namespace Assets.Scripts.Networking
         /// <param name="matchInfo"></param>
         public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
         {
+            if (success == true)
+                Debug.Log("success");
+            else
+                Debug.Log("Fail " + extendedInfo);
             base.OnMatchCreate(success, extendedInfo, matchInfo);
             _currentMatchID = (System.UInt64)matchInfo.networkId;
         }

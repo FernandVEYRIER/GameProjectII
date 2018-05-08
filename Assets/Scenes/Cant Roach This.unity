@@ -595,7 +595,7 @@ MonoBehaviour:
     type: 2}
   _leftSpawn: {fileID: 1839740679}
   _rightSpawn: {fileID: 333622597}
-  _maxSwatters: 3
+  _maxSwatters: 5
   _swatterSpawnDelay: 10
 --- !u!114 &901202325
 MonoBehaviour:

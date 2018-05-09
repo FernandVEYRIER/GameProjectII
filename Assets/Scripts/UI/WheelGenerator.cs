@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Networking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,10 @@ namespace Assets.Scripts.UI
     {
         [SerializeField] private GameObject _wheelContainerPrefab;
         [SerializeField] private RectTransform _wheelContainer;
+        [SerializeField] private RectTransform _wheelShotContainer;
         [SerializeField] private Image _wheelSlicePrefab;
         [SerializeField] private List<GameEntry> _gameEntries = new List<GameEntry>();
+        [SerializeField] private List<int> _shotEntries = new List<int>();
 
         [SyncVar] private string _lastGamePlayed;
 
@@ -89,11 +92,40 @@ namespace Assets.Scripts.UI
             go.transform.SetSiblingIndex(0);
             _wheelContainer = go.GetComponent<RectTransform>();
             go.GetComponent<WheelSpinner>().WheelGenerator = this;
+            go.GetComponent<WheelSpinner>().SubWheel = _wheelShotContainer;
 
             if (_gameEntries.Count > 0)
+            {
                 GenerateWheel();
+                GenerateSubWheel();
+            }
 
             LobbyManager.Instance.panelLoading.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Generate the wheel shot slices.
+        /// </summary>
+        private void GenerateSubWheel()
+        {
+            float sliceSize = 1f / _shotEntries.Count;
+
+            for (int i = 0; i < _shotEntries.Count; i++)
+            {
+                var go = Instantiate(_wheelSlicePrefab.gameObject);
+                go.transform.SetParent(_wheelShotContainer.transform);
+                go.transform.localScale = Vector3.one / 4f;
+                go.GetComponent<RectTransform>().localPosition = Vector3.zero;
+                go.transform.localRotation = Quaternion.Euler(0, 0, 360f * (i / (float)_shotEntries.Count));
+                var img = go.GetComponent<Image>();
+                img.fillAmount = sliceSize;
+                img.color = (i % 2) == 0 ? Color.grey : Color.white;
+                var child = go.transform.GetChild(0);
+                child.GetComponent<Text>().text = _shotEntries[i].ToString();
+                var rt = child.GetComponent<RectTransform>();
+                rt.localRotation = Quaternion.Euler(new Vector3(0, 0, 90f - (360f * sliceSize / 2f)));
+                rt.sizeDelta = new Vector2(rt.sizeDelta.x, rt.sizeDelta.y * 3);
+            }
         }
 
         /// <summary>

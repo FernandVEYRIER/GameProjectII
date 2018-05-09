@@ -13,7 +13,8 @@ namespace Assets.Scripts.UI
     {
         [SyncVar(hook = "HookAngleChanged")] private Quaternion _angle;
 
-        public WheelGenerator WheelGenerator;
+        [HideInInspector] public WheelGenerator WheelGenerator;
+        [HideInInspector] public RectTransform SubWheel;
 
         private float _startDragTime;
         private Vector2 _startPos;
@@ -22,11 +23,13 @@ namespace Assets.Scripts.UI
         private Rigidbody2D _rb;
 
         private float _currVel;
+        private RectTransform _rectT;
 
         private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
             _rb.angularVelocity = 0;
+            _rectT = GetComponent<RectTransform>();
             //_rb.simulated = _isSpinning;
         }
 
@@ -67,9 +70,15 @@ namespace Assets.Scripts.UI
             }
             if (isClient)
             {
-                var t = GetComponent<RectTransform>();
                 //Debug.Log(_angle + " Rotating by " + Quaternion.RotateTowards(t.localRotation, _angle, Time.deltaTime * 360f));
-                t.localRotation = Quaternion.Lerp(t.localRotation, _angle, 0.1f);
+                _rectT.localRotation = Quaternion.Lerp(_rectT.localRotation, _angle, 0.1f);
+                if (SubWheel != null)
+                {
+                    var a = _angle.eulerAngles;
+                    a.z *= -1.35f;
+                    var targetAngle = Quaternion.Euler(a);
+                    SubWheel.localRotation = Quaternion.Lerp(SubWheel.localRotation, targetAngle, 0.1f);
+                }
             }
         }
 

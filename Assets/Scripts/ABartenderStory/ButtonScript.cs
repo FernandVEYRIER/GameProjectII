@@ -67,7 +67,7 @@ namespace Assets.Scripts.ABartenderStory {
             if (isLocalPlayer && actionDelay <= 0) {
                 if (this.action1_text.text == "Strike") {
                     if (mainCoaster != null) {
-                        CmdStrike();
+                        CmdStartStrike();
                         actionDelay = strikeDelay;
                         actualDelay = actionDelay;
                     }
@@ -106,7 +106,32 @@ namespace Assets.Scripts.ABartenderStory {
                     } else if (actionDelay != 0) {
                         actionDelay = 0;
                     }
+                    if (isStriker) {
+                        bottle.GetComponent<BottleScript>().hammer = GameObject.Find("Hammer(Clone)");
+                        bottle.GetComponent<BottleScript>().hammer.transform.parent = bottle.transform;
+                        CmdSetHammer();
+
+                        if (bottle.GetComponent<BottleScript>().striking && (bottle.transform.eulerAngles.y == 0 || bottle.transform.eulerAngles.y > 180)) {
+                            bottle.transform.Rotate(0, -1, 0);
+                        } else if (bottle.GetComponent<BottleScript>().striking) {
+                            CmdStrike();
+                            bottle.transform.localEulerAngles = Vector3.zero;
+                            bottle.GetComponent<BottleScript>().striking = false;
+                        }
+                    }
                 }
+            }
+        }
+        [Command]
+        public void CmdSetHammer() {
+            bottle.GetComponent<BottleScript>().hammer = GameObject.Find("Hammer(Clone)");
+            bottle.GetComponent<BottleScript>().hammer.transform.parent = bottle.transform;
+        }
+
+        [Command]
+        public void CmdStartStrike() {
+            if (isServer) {
+                this.bottle.GetComponent<BottleScript>().striking = true;
             }
         }
 

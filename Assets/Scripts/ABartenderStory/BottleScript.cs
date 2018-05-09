@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Assets.Scripts.Networking;
 
 public class BottleScript : NetworkBehaviour {
     [SerializeField]
@@ -21,11 +22,22 @@ public class BottleScript : NetworkBehaviour {
     [HideInInspector]
     public bool falling = false;
 
+    [HideInInspector]
+    [SyncVar]
+    public bool striking = false;
+
     [SyncVar(hook = "OnStrikerChange")]
     public bool isStriker = false;
 
+    public GameObject hammer = null;
+
 	// Use this for initialization
 	void Start () {
+    }
+
+    private void Awake() {
+        RectTransform panelLoadingScreen = LobbyManager.Instance.panelLoading;
+        panelLoadingScreen.gameObject.SetActive(false);
     }
 
     public override void OnStartAuthority() {
@@ -65,9 +77,16 @@ public class BottleScript : NetworkBehaviour {
                     }
                 }
             }
+
+            // Detach Player From Coaster On Destruction
+            if (this.coaster && this.coaster.GetComponent<CoasterScript>().striked && this.transform.parent.position.x > 20) {
+                this.transform.parent = null;
+                this.transform.position = new Vector3(100, 100, 100);
+                this.coaster = null;
+            }
             this.transform.position = newPosition;
         }
-	}
+    }
 
     [ClientRpc]
     public void RpcCoaster(GameObject coaster) {

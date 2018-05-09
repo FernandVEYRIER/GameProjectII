@@ -14,7 +14,7 @@ namespace Assets.Scripts.ABartenderStory {
         [SerializeField] public List<GameObject> coasters = null;
         [SerializeField] private List<Color> possibleColors = null;
 
-        [SerializeField] private GameObject _playerPrefab;
+        [SerializeField] private GameObject _hammerPrefab;
         [SerializeField] private GameObject _strikerPrefab;
         [SerializeField] private GameObject _bottlePrefab;
         [SerializeField] private GameObject _coasterPrefab;
@@ -24,6 +24,7 @@ namespace Assets.Scripts.ABartenderStory {
 
         private GameObject[] _players;
         private GameObject[] _bottles = null;
+        private GameObject _hammer = null;
 
         private bool mainCoasterUpdated = true;
 
@@ -89,6 +90,8 @@ namespace Assets.Scripts.ABartenderStory {
                 NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], _players[i], (short)i);
                 NetworkServer.SpawnWithClientAuthority(_bottles[i], _players[i]);
             }
+            _hammer = Instantiate(_hammerPrefab, _players[0].transform.position, Quaternion.identity);
+            NetworkServer.SpawnWithClientAuthority(_hammer, _players[0]);
         }
 
         [Server]

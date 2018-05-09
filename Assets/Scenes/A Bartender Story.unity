@@ -163,7 +163,7 @@ MonoBehaviour:
   - {r: 0.32413793, g: 1, b: 0, a: 0}
   - {r: 1, g: 0.9724138, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
-  _playerPrefab: {fileID: 1063699467467950, guid: 7f048d5743e6e514a95d8a79d2619bd4,
+  _hammerPrefab: {fileID: 1186538657121464, guid: b7fc4731e5f51214f96039b218f85227,
     type: 2}
   _strikerPrefab: {fileID: 1063699467467950, guid: 7f048d5743e6e514a95d8a79d2619bd4,
     type: 2}
@@ -171,7 +171,8 @@ MonoBehaviour:
     type: 2}
   _coasterPrefab: {fileID: 1677030202181746, guid: abc547cb7d742df4e85fa41399d101e6,
     type: 2}
-  marge: 1
+  marge_x: 1
+  marge_z: 0
 --- !u!114 &70655055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,7 +373,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.014705896, g: 0.014705896, b: 0.014705896, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

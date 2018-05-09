@@ -9,7 +9,7 @@ public class CoasterScript : NetworkBehaviour {
     [SyncVar(hook = "OnMainCoasterChange")] public bool mainCoaster = false;
     public float speed = 15f;
     public Color[] colors = null;
-    [SyncVar(hook = "OnStrikeChange")] private bool striked = false;
+    [SyncVar(hook = "OnStrikeChange")] public bool striked = false;
     private Vector3 position = new Vector3();
 
 	// Use this for initialization

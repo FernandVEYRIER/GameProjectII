@@ -37,13 +37,13 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 224833780}
-  m_IndirectSpecularColor: {r: 0.4412985, g: 0.49010128, b: 0.5701519, a: 1}
+  m_Sun: {fileID: 157596440}
+  m_IndirectSpecularColor: {r: 0.45023453, g: 0.5002673, b: 0.57537216, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: 78a15428108b8044ea8b014438d56996,
+  m_LightingDataAsset: {fileID: 112000002, guid: aa1458a137c5deb44a8ecd88d172abbd,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -423,7 +423,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2
   m_Range: 75.62
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -513,16 +513,11 @@ Prefab:
       objectReference: {fileID: 333622596}
     - target: {fileID: 1096634521627466, guid: 5eb36811619d1474cb8ad28072a50783, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5eb36811619d1474cb8ad28072a50783, type: 2}
   m_IsPrefabParent: 0
---- !u!108 &224833780 stripped
-Light:
-  m_PrefabParentObject: {fileID: 108786725110449860, guid: 5eb36811619d1474cb8ad28072a50783,
-    type: 2}
-  m_PrefabInternal: {fileID: 224833779}
 --- !u!1 &254634020
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &295999778
 Light:
   m_ObjectHideFlags: 0
@@ -697,12 +692,12 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.7
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: 3
     m_CustomResolution: -1
     m_Strength: 1

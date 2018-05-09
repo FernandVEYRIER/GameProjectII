@@ -94,7 +94,7 @@ namespace Assets.Scripts.UI
                 //_isSpinning = true;
                 _rb.simulated = true;
                 //_rb.angularVelocity = -800;
-                CmdSetVelocity(-posDelta.magnitude / timeElapsed / 2f);
+                CmdSetVelocity(-posDelta.magnitude / timeElapsed / 4f);
             }
         }
 

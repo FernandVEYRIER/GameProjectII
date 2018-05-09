@@ -29,7 +29,7 @@ namespace Assets.Scripts.CantRoachThis
         {
             if (isServer)
             {
-                _currentDelay = _maxDelay;
+                //_currentDelay = _maxDelay;
                 _collider.OnTriggerEntered += Collider_OnTriggerEntered;
             }
             _manager = AGameManager.Instance as GameManager;

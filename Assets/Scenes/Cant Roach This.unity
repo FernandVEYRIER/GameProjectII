@@ -511,10 +511,6 @@ Prefab:
       propertyPath: _rightLimit
       value: 
       objectReference: {fileID: 333622596}
-    - target: {fileID: 1096634521627466, guid: 5eb36811619d1474cb8ad28072a50783, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5eb36811619d1474cb8ad28072a50783, type: 2}
   m_IsPrefabParent: 0

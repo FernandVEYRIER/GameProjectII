@@ -5,20 +5,32 @@ using UnityEngine.UI;
 using Assets.Scripts.Game;
 using Assets.Scripts.Networking;
 using UnityEngine.Networking;
+using Assets.Scripts.Darts;
 
 public class Darts : APlayerController
 {
+    [SerializeField] private Transform _targetCenter;
+    [SerializeField] private GameObject _verticalLinePrefab;
+    [SerializeField] private GameObject _horizontalLinePrefab;
 
     private int round = 0;
-    public GameObject verticalLine;
-    public GameObject horizontalLine;
+    private GameObject verticalLine;
+    private GameObject horizontalLine;
     private bool isLock = false;
     public GameObject dart;
+
+    private float _score = 0;
 
     // Use this for initialization
     void Start()
     {
-        verticalLine.SetActive(false);
+        if (isLocalPlayer)
+        {
+            verticalLine = Instantiate(_verticalLinePrefab);
+            horizontalLine = Instantiate(_horizontalLinePrefab);
+            verticalLine.SetActive(false);
+            _targetCenter = GameObject.FindGameObjectWithTag("Finish").GetComponent<Transform>();
+        }
     }
 
     /// <summary>
@@ -38,39 +50,55 @@ public class Darts : APlayerController
 
     public void ThrowDart()
     {
-        Instantiate(dart, new Vector3(verticalLine.transform.position.x, horizontalLine.transform.position.y, 5.253f), Quaternion.identity);
-        
+        var pos = new Vector3(verticalLine.transform.position.x, horizontalLine.transform.position.y, 5.253f);
+        Instantiate(dart, pos, Quaternion.identity);
+        _score += Vector2.Distance(pos, _targetCenter.position);
+        Debug.Log("Result => " + _score);
+        if (round == 3)
+        {
+            CmdUpdateScore(_score);
+        }
+    }
+
+    [Command]
+    private void CmdUpdateScore(float score)
+    {
+        Debug.Log("Server score => " + score);
+        (AGameManager.Instance as GameManager).SetScore(_playerName, score);
     }
 
     // Update is called once per frame
     void Update () {
-        dart.GetComponent<MeshRenderer>().sharedMaterial.color = _playerColor;
-        if (Input.GetMouseButtonDown(0))
+        if (isLocalPlayer)
         {
-            Debug.Log(verticalLine.activeSelf + " " + verticalLine.GetComponent<Line>().isMoving);
-            //Touch anywhere
-            if (round < 3 && !isLock)
+            dart.GetComponent<MeshRenderer>().sharedMaterial.color = _playerColor;
+            if (Input.GetMouseButtonDown(0))
             {
-                if (!verticalLine.activeSelf)
+                Debug.Log(verticalLine.activeSelf + " " + verticalLine.GetComponent<Line>().isMoving);
+                //Touch anywhere
+                if (round < 3 && !isLock)
                 {
-                    horizontalLine.GetComponent<Line>().isMoving = false;
-                    verticalLine.SetActive(true);
-                }
-                else if (verticalLine.activeSelf && verticalLine.GetComponent<Line>().isMoving == true)
-                {
-                    verticalLine.GetComponent<Line>().isMoving = false;
-                    isLock = true;
-                    ++round;
-                    ThrowDart();
-                    StartCoroutine(Unlock());
+                    if (!verticalLine.activeSelf)
+                    {
+                        horizontalLine.GetComponent<Line>().isMoving = false;
+                        verticalLine.SetActive(true);
+                    }
+                    else if (verticalLine.activeSelf && verticalLine.GetComponent<Line>().isMoving == true)
+                    {
+                        verticalLine.GetComponent<Line>().isMoving = false;
+                        isLock = true;
+                        ++round;
+                        ThrowDart();
+                        StartCoroutine(Unlock());
+                    }
                 }
             }
-        }
-        if (!isLock && horizontalLine.GetComponent<Line>().isMoving == false && verticalLine.GetComponent<Line>().isMoving == false && round < 3)
-        {
-            horizontalLine.GetComponent<Line>().isMoving = true;
-            verticalLine.GetComponent<Line>().isMoving = true;
-            verticalLine.SetActive(false);
+            if (!isLock && horizontalLine.GetComponent<Line>().isMoving == false && verticalLine.GetComponent<Line>().isMoving == false && round < 3)
+            {
+                horizontalLine.GetComponent<Line>().isMoving = true;
+                verticalLine.GetComponent<Line>().isMoving = true;
+                verticalLine.SetActive(false);
+            }
         }
     }
 }

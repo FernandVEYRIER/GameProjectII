@@ -752,8 +752,8 @@ MonoBehaviour:
       m_SceneName: Go Soju Go Fast
   - color: {r: 0.08627451, g: 0.627451, b: 0.3647059, a: 1}
     gameScene:
-      m_SceneAsset: {fileID: 102900000, guid: e7dfc1d971069994a84c6703cf9169f1, type: 3}
-      m_SceneName: A Bartender Story
+      m_SceneAsset: {fileID: 102900000, guid: 7de1ebbc937da8f4c872a3aa4d180bb1, type: 3}
+      m_SceneName: Darts
   _shotEntries: 01000000020000000300000004000000
 --- !u!114 &114946356961327524
 MonoBehaviour:

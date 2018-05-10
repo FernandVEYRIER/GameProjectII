@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Game;
 using Assets.Scripts.Networking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,13 @@ namespace Assets.Scripts.Darts
 {
     public class GameManager : AGameManager
     {
+        public class ResultSync : SyncListStruct<Result>
+        { }
+
         [SerializeField] private GameObject _playerPrefab;
 
         private readonly List<GameObject> _players = new List<GameObject>();
-        private readonly List<Result> _results = new List<Result>();
+        public readonly ResultSync Results = new ResultSync(); 
 
         private void Start()
         {
@@ -22,9 +26,9 @@ namespace Assets.Scripts.Darts
 
         public void SetScore(string playerName, float score)
         {
-            _results.Add(new Result { PlayerName = playerName, Score = score });
-            Debug.LogError(playerName + " " + score);
-            if (_results.Count >= LobbyManager.Instance.ConnectionCount)
+            Results.Add(new Result { PlayerName = playerName, Score = score });
+            Debug.Log(playerName + " " + score);
+            if (Results.Count >= LobbyManager.Instance.ConnectionCount)
             {
                 SetGameState(GAME_STATE.GameOver);
             }
@@ -52,7 +56,8 @@ namespace Assets.Scripts.Darts
         }
     }
 
-    public class Result
+    [Serializable]
+    public struct Result
     {
         public string PlayerName;
         public float Score;

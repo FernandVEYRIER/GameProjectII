@@ -1,5 +1,7 @@
-﻿using Assets.Scripts.Networking;
+﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Darts
 {
@@ -8,6 +10,7 @@ namespace Assets.Scripts.Darts
         private RectTransform panelLoadingScreen;
         [SerializeField] private GameManager _manager;
         [SerializeField] private GameObject panelGameOver;
+        [SerializeField] private Text _textWinner;
 
         private void Awake()
         {
@@ -30,6 +33,11 @@ namespace Assets.Scripts.Darts
 
                 case Game.GAME_STATE.GameOver:
                     panelGameOver.SetActive(true);
+                    _textWinner.text = "";
+                    foreach (var player in (AGameManager.Instance as GameManager).Results)
+                    {
+                        _textWinner.text = player.PlayerName + " " + player.Score.ToString() + "\n";
+                    }
                     break;
             }
         }

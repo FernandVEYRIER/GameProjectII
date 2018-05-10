@@ -1104,6 +1104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _manager: {fileID: 987250984}
   panelGameOver: {fileID: 1065209022}
+  _textWinner: {fileID: 486259480}
 --- !u!114 &1751106148
 MonoBehaviour:
   m_ObjectHideFlags: 0

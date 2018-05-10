@@ -1,38 +1,37 @@
-﻿using Assets.Scripts.Networking;
+﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.Darts
 {
-    public class GameManager : NetworkBehaviour
+    public class GameManager : AGameManager
     {
-        public GameObject VerticalLine;
-        public GameObject HorizontalLine;
-        public float speed;
-        private int round = 0;
-
         private void Start()
         {
-            VerticalLine.gameObject.transform.position = new Vector3(Random.Range(-4.5f, 4.5f), 0f, 0f);
-            HorizontalLine.gameObject.transform.position = new Vector3(0f, Random.Range(-6.5f, 6.5f), 0f);
-            HorizontalLine.gameObject.SetActive(false);
+            if (isServer)
+                StartCoroutine(SpawnObjects());
         }
 
         private void Update()
         {
-            if (round >= 3)
-            {
+        }
 
-            }
-            else if (!HorizontalLine.gameObject.activeSelf)
-            {
+        [Server]
+        private IEnumerator SpawnObjects()
+        {
+            if (!isServer)
+                yield break;
 
-            }
-            else
-            {
+            Debug.Log("Server ready, waiting for players... " + NetworkServer.connections.Count);
 
-            }
+            while (!LobbyManager.Instance.AreAllClientsReady)
+                yield return null;
+
+            Debug.Log("Is server ? " + NetworkServer.active);
+            SetGameState(GAME_STATE.Play);
         }
     }
 }

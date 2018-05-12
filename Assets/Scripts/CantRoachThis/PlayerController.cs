@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Game;
+﻿using System;
+using Assets.Scripts.Game;
 using Assets.Scripts.Networking;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,6 +11,7 @@ namespace Assets.Scripts.CantRoachThis
     /// </summary>
     public class PlayerController : APlayerController
     {
+        [SerializeField] private GameObject bloodSplashPrefab;
         [SerializeField] private Transform visualTransform;
         [SerializeField] private GameObject flagColor;
         [SerializeField] private float speed = 1;
@@ -76,6 +78,26 @@ namespace Assets.Scripts.CantRoachThis
                 else if (transform.position.x > _rightLimit.position.x)
                     transform.position = _rightLimit.position;
             }
+        }
+
+        public override void OnNetworkDestroy()
+        {
+            if (isLocalPlayer)
+                Camera.main.GetComponent<Animator>().SetTrigger("Shake");
+            SpawnBloodSplash();
+            base.OnNetworkDestroy();
+        }
+
+        private void SpawnBloodSplash()
+        {
+            var particles = new ParticleSystem.Particle[1];
+            var go = Instantiate(bloodSplashPrefab, transform.position, Quaternion.Euler(Vector3.up));
+            var p = go.GetComponent<ParticleSystem>();
+            particles[0].position = visualTransform.GetChild(0).position;
+            particles[0].rotation3D = new Vector3(90, 0, 0);
+            particles[0].startSize = 6;
+            particles[0].color = Color.white;
+            p.SetParticles(particles, 1);
         }
     }
 }

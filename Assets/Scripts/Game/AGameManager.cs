@@ -102,7 +102,7 @@ namespace Assets.Scripts.Game
         [ClientRpc]
         protected virtual void RpcChangeScene()
         {
-            LobbyManager.Instance.panelLoading.gameObject.SetActive(true);
+            LobbyManager.Instance.ShowLoadingScreen(true);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Assets.Scripts.GoSoju
         public override void OnStartClient()
         {
             base.OnStartClient();
-            LobbyManager.Instance.panelLoading.gameObject.SetActive(false);
+            LobbyManager.Instance.ShowLoadingScreen(false);
         }
 
         [Server]

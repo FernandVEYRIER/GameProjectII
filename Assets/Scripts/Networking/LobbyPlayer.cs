@@ -174,7 +174,7 @@ namespace Assets.Scripts.Networking
         [ClientRpc]
         public void RpcDisplayLoading()
         {
-            LobbyManager.Instance.panelLoading.gameObject.SetActive(true);
+            LobbyManager.Instance.ShowLoadingScreen(true);
         }
     }
 }

@@ -143,10 +143,21 @@ namespace Assets.Scripts.Networking
         }
 
         /// <summary>
+        /// Displays the loading screen above every other menu.
+        /// </summary>
+        /// <param name="active"></param>
+        public void ShowLoadingScreen(bool active)
+        {
+            panelLoading.gameObject.SetActive(active);
+        }
+
+        /// <summary>
         /// Called by navigation to go back.
         /// </summary>
         public void GoBack()
         {
+            Debug.Log("HERE => " + backDelegate.Method);
+            ShowLoadingScreen(true);
             backDelegate();
         }
 
@@ -205,7 +216,7 @@ namespace Assets.Scripts.Networking
         {
             base.OnClientConnect(conn);
 
-            panelLoading.gameObject.SetActive(false);
+            ShowLoadingScreen(false);
 
             conn.RegisterHandler(MsgKicked, KickedMessageHandler);
 
@@ -233,6 +244,7 @@ namespace Assets.Scripts.Networking
         /// <param name="errorCode"></param>
         public override void OnClientError(NetworkConnection conn, int errorCode)
         {
+            Debug.LogWarning("On client error called ! " + errorCode);
             ChangeTo(mainMenuPanel);
         }
 
@@ -248,6 +260,7 @@ namespace Assets.Scripts.Networking
             {
                 StopMatchMaker();
                 StopHost();
+                ShowLoadingScreen(false);
             }
         }
 
@@ -284,6 +297,7 @@ namespace Assets.Scripts.Networking
                 StopMatchMaker();
             }
 
+            ShowLoadingScreen(false);
             ChangeTo(mainMenuPanel);
         }
 
@@ -316,6 +330,7 @@ namespace Assets.Scripts.Networking
         public override void OnClientSceneChanged(NetworkConnection conn)
         {
             base.OnClientSceneChanged(conn);
+            Debug.Log("Client scene changed on conn " + conn);
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0)
                 ChangeTo(null);
         }
@@ -360,6 +375,7 @@ namespace Assets.Scripts.Networking
         public override void OnLobbyServerSceneChanged(string sceneName)
         {
             //_clientReadyCount = 0;
+            Debug.Log("on lobby server scene changed " + sceneName);
             base.OnLobbyServerSceneChanged(sceneName);
         }
 

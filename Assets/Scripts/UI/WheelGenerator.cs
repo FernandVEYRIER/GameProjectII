@@ -100,7 +100,7 @@ namespace Assets.Scripts.UI
                 GenerateSubWheel();
             }
 
-            LobbyManager.Instance.panelLoading.gameObject.SetActive(false);
+            LobbyManager.Instance.ShowLoadingScreen(false);
         }
 
         /// <summary>

@@ -256,6 +256,8 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public void StopHostClbk()
         {
+            LastGamePlayed = "";
+            CurrentGamePlayed = "";
             if (_isMatchmaking)
             {
                 matchMaker.DestroyMatch((NetworkID)_currentMatchID, 0, OnDestroyMatch);

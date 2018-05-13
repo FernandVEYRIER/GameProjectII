@@ -44,7 +44,7 @@ namespace Assets.Scripts.UI
             {
 #if !RELEASE
                 //LobbyManager.Instance.ChangeScene("Go Soju Go Fast");
-                Networking.LobbyManager.Instance.ChangeScene("Cant Roach This");
+                //Networking.LobbyManager.Instance.ChangeScene("Cant Roach This");
                 //Networking.LobbyManager.Instance.ChangeScene("Darts");
 #endif
 

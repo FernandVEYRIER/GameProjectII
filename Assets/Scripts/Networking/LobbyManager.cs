@@ -95,10 +95,10 @@ namespace Assets.Scripts.Networking
         public override void OnStartHost()
         {
             base.OnStartHost();
+            IsHost = true;
             Debug.Log("Starting host !");
             ChangeTo(lobbyPanel);
             backDelegate = StopHostClbk;
-            IsHost = true;
         }
 
         /// <summary>
@@ -166,6 +166,16 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public void SimpleBackClbk()
         {
+            ShowLoadingScreen(true);
+            ChangeTo(mainMenuPanel);
+        }
+
+        /// <summary>
+        /// Callback action to go back to the menu without loading screen.
+        /// </summary>
+        public void SimpleBackNoLoadingClbk()
+        {
+            ShowLoadingScreen(false);
             ChangeTo(mainMenuPanel);
         }
 

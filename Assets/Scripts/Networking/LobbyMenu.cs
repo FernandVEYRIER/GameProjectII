@@ -57,7 +57,7 @@ namespace Assets.Scripts.Networking
         public void OnClickDisplayServerList()
         {
             _manager.StartMatchMaker();
-            _manager.backDelegate = _manager.SimpleBackClbk;
+            _manager.backDelegate = _manager.SimpleBackNoLoadingClbk;
             _manager.ChangeTo(_panelLobbyFind.GetComponent<RectTransform>());
         }
 

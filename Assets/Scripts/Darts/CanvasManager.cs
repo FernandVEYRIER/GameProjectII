@@ -34,9 +34,26 @@ namespace Assets.Scripts.Darts
                 case Game.GAME_STATE.GameOver:
                     panelGameOver.SetActive(true);
                     _textWinner.text = "";
-                    foreach (var player in (AGameManager.Instance as GameManager).Results)
+                    Result[] result = new Result[(AGameManager.Instance as GameManager).Results.Count];
+                    (AGameManager.Instance as GameManager).Results.CopyTo(result, 0);
+                    int i = 1;
+                    while(i < result.Length && result.Length >= 2)
                     {
-                        _textWinner.text = player.PlayerName + " " + player.Score.ToString() + "\n";
+                        if (result[i - 1].Score < result[i].Score)
+                        {
+                            var tmp = result[i - 1];
+                            result[i - 1] = result[i];
+                            result[i] = tmp;
+                            i = 1;
+                        }
+                        else
+                            ++i;
+                    }
+                    i = 1;
+                    foreach (var player in result)
+                    {
+                        _textWinner.text += i.ToString() + ". " + player.PlayerName + " " + player.Score.ToString() + "\n";
+                        ++i;
                     }
                     break;
             }

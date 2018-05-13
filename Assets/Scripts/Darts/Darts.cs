@@ -12,6 +12,7 @@ public class Darts : APlayerController
     [SerializeField] private Transform _targetCenter;
     [SerializeField] private GameObject _verticalLinePrefab;
     [SerializeField] private GameObject _horizontalLinePrefab;
+    [SerializeField] private Transform _limitPoint;
 
     private int round = 0;
     private GameObject verticalLine;
@@ -30,6 +31,7 @@ public class Darts : APlayerController
             horizontalLine = Instantiate(_horizontalLinePrefab);
             verticalLine.SetActive(false);
             _targetCenter = GameObject.FindGameObjectWithTag("Finish").GetComponent<Transform>();
+            _limitPoint = GameObject.FindGameObjectWithTag("LimitPoint").GetComponent<Transform>();
         }
     }
 
@@ -50,9 +52,13 @@ public class Darts : APlayerController
 
     public void ThrowDart()
     {
+        float tmp;
         var pos = new Vector3(verticalLine.transform.position.x, horizontalLine.transform.position.y, 5.253f);
         Instantiate(dart, pos, Quaternion.identity);
-        _score += Vector2.Distance(pos, _targetCenter.position);
+        tmp = Mathf.Round(100 - Vector2.Distance(pos, _targetCenter.position) / Vector2.Distance(_limitPoint.position, _targetCenter.position) * 100);
+        if (tmp < 0)
+            tmp = 0;
+        _score += tmp;
         Debug.Log("Result => " + _score);
         if (round == 3)
         {

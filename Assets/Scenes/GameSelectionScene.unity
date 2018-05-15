@@ -182,6 +182,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 224895626552399608, guid: 7d53cb7d357ce574ba48815a414a7a56,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -271,6 +276,37 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[3].color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[3].color.g
+      value: 0.8482759
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[3].color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[3].color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[3].gameScene.m_SceneAsset
+      value: 
+      objectReference: {fileID: 102900000, guid: 4ced6cfcba3a0c946af70dc4a544e367,
+        type: 3}
+    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
+        type: 2}
+      propertyPath: _gameEntries.Array.data[3].gameScene.m_SceneName
+      value: FillItUp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7d53cb7d357ce574ba48815a414a7a56, type: 2}

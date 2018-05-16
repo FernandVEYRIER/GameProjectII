@@ -82,7 +82,7 @@ namespace Assets.Scripts.ABartenderStory {
         public void Action_2() {
             if (isLocalPlayer && actionDelay <= 0) {
                 if (this.action1_text.text == "Strike")
-                    CmdFake();
+                    CmdStartFake();
                 else
                     CmdFall();
                 actionDelay = fakeDelay;
@@ -111,17 +111,23 @@ namespace Assets.Scripts.ABartenderStory {
                         bottle.GetComponent<BottleScript>().hammer.transform.parent = bottle.transform;
                         CmdSetHammer();
 
-                        if (bottle.GetComponent<BottleScript>().striking && (bottle.transform.eulerAngles.y == 0 || bottle.transform.eulerAngles.y > 180)) {
-                            bottle.transform.Rotate(0, -1, 0);
-                        } else if (bottle.GetComponent<BottleScript>().striking) {
-                            CmdStrike();
+                        if ((bottle.GetComponent<BottleScript>().striking || bottle.GetComponent<BottleScript>().faking) && (bottle.transform.eulerAngles.y == 0 || bottle.transform.eulerAngles.y > 180)) {
+                            bottle.transform.Rotate(0, -3, 0);
+                        } else if (bottle.GetComponent<BottleScript>().striking || bottle.GetComponent<BottleScript>().faking) {
                             bottle.transform.localEulerAngles = Vector3.zero;
-                            bottle.GetComponent<BottleScript>().striking = false;
+                            if (bottle.GetComponent<BottleScript>().striking) {
+                                CmdStrike();
+                                bottle.GetComponent<BottleScript>().striking = false;
+                            } else {
+                                CmdFake();
+                                bottle.GetComponent<BottleScript>().faking = false;
+                            }
                         }
                     }
                 }
             }
         }
+
         [Command]
         public void CmdSetHammer() {
             bottle.GetComponent<BottleScript>().hammer = GameObject.Find("Hammer(Clone)");
@@ -138,8 +144,17 @@ namespace Assets.Scripts.ABartenderStory {
         [Command]
         public void CmdStrike() {
             if (isServer) {
-                mainCoaster.GetComponent<CoasterScript>().SetStriked(true);
-                gM.Strike();
+                if (mainCoaster) {
+                    mainCoaster.GetComponent<CoasterScript>().SetStriked(true);
+                    gM.Strike();
+                }
+            }
+        }
+
+        [Command]
+        public void CmdStartFake() {
+            if (isServer) {
+                this.bottle.GetComponent<BottleScript>().faking = true;
             }
         }
 

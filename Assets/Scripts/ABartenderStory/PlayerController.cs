@@ -11,7 +11,7 @@ namespace Assets.Scripts.ABartenderStory {
         [SerializeField] private float speed = 1;
 
         private NetworkInstanceId _networkIdentity;
-        private CharacterController _controller;
+        private CharacterController _controller = null;
 
         /// <summary>
         /// Called when the local player is ready.

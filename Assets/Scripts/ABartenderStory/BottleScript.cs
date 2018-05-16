@@ -10,29 +10,32 @@ public class BottleScript : NetworkBehaviour {
 
     public GameObject coaster = null;
 
-    [SyncVar(hook = "OnParentChange")]
-    public Vector3 _parent;
+    //[SyncVar(hook = "OnParentChange")]
+    //public Vector3 _parent;
 
     [SerializeField]
     private float jumpSpeed = 3f;
 
-    [HideInInspector]
-    [SyncVar(hook = "OnJumpingChange")]
+    [SyncVar]
     public bool jumping = false;
-    [HideInInspector]
+
     public bool falling = false;
 
     [HideInInspector]
     [SyncVar]
     public bool striking = false;
 
+    [HideInInspector]
+    [SyncVar]
+    public bool faking = false;
+
     [SyncVar(hook = "OnStrikerChange")]
     public bool isStriker = false;
 
     public GameObject hammer = null;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
     }
 
     private void Awake() {
@@ -45,17 +48,29 @@ public class BottleScript : NetworkBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
         if (localPlayerAuthority && !isStriker) {
             if (coaster != null)
                 this.transform.parent = coaster.transform;
+            if (hasAuthority) {
+                Moving();
+            }
+        }
+    }
 
+    public void Moving() {
+        if (localPlayerAuthority) {
+//           Debug.Log("Moving " + jumping + " " + falling);
             Vector3 newPosition = this.transform.position;
+            Vector3 tmpPosition = this.transform.position;
 
+            tmpPosition.y -= GetComponent<Collider>().bounds.size.y / 2;
             if (jumping == true) {
+
                 RaycastHit hit = new RaycastHit();
 
-                if (Physics.Raycast(transform.position, -Vector3.up, out hit)) {
+                if (Physics.Raycast(tmpPosition, -Vector3.up, out hit)) {
+//                    Debug.Log("Jumping " + hit.distance + " " + this.name);
                     float distanceToGround = hit.distance;
                     if (distanceToGround > 1.5f) {
                         jumping = false;
@@ -67,11 +82,13 @@ public class BottleScript : NetworkBehaviour {
             } else if (falling == true) {
                 RaycastHit hit = new RaycastHit();
 
-                if (Physics.Raycast(transform.position, -Vector3.up, out hit)) {
+                if (Physics.Raycast(tmpPosition, -Vector3.up, out hit)) {
+//                    Debug.Log("Falling " + hit.distance);
                     float distanceToGround = hit.distance;
+
                     if (distanceToGround <= 0.1f) {
                         falling = false;
-                        newPosition.y = _parent.y;
+                        newPosition.y = coaster.transform.position.y + coaster.GetComponent<Collider>().bounds.size.y / 2 + GetComponent<Collider>().bounds.size.y / 2;
                     } else {
                         newPosition.y -= Time.deltaTime * jumpSpeed;
                     }
@@ -84,8 +101,14 @@ public class BottleScript : NetworkBehaviour {
                 this.transform.position = new Vector3(100, 100, 100);
                 this.coaster = null;
             }
+
             this.transform.position = newPosition;
         }
+    }
+
+    [Command]
+    public void CmdFalling() {
+
     }
 
     [ClientRpc]
@@ -100,15 +123,5 @@ public class BottleScript : NetworkBehaviour {
 
     public void OnStrikerChange(bool isStriker) {
         this.isStriker = isStriker;
-    }
-
-    public void OnParentChange(Vector3 newParent) {
-        _parent = newParent;
-        this.transform.position = _parent;
-        Debug.Log(_parent);
-    }
-
-    public void OnJumpingChange(bool jumping) {
-        this.jumping = jumping;
     }
 }

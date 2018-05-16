@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts.ABartenderStory {
 
-    public class BartenderGameManager : AGameManager {
+    public class GameManager : AGameManager {
 
         [SerializeField] private GameObject canva = null;
         [SerializeField] public List<GameObject> coasters = null;

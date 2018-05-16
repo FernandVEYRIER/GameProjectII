@@ -110,27 +110,27 @@ namespace Assets.Scripts.GoSoju
         [Server]
         private void FixedUpdate()
         {
-            if (GameState == GAME_STATE.Play)
+            if (isServer)
             {
-                SortPlayer();
-                GameFinished();
+                if (GameState == GAME_STATE.Play)
+                {
+                    SortPlayer();
+                    GameFinished();
+                }
+                if (GameState == GAME_STATE.GameOver)
+                    LooserDrunks();
             }
-            if (GameState == GAME_STATE.GameOver)
-                LooserDrunks();
         }
 
-        // TODO : fix this omg
-        private bool loading;
         [Server]
         private void LooserDrunks()
         {
             GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
             for (int i = 0; i < player.Length && player[i].GetComponent<PlayerController>().LooserDrunk; i++)
             {
-                if (i == (player.Length - 1) && !loading)
+                if (i == (player.Length - 1))
                 {
                     ChangeScene("GameSelectionScene");
-                    loading = true;
                 }
             }
         }

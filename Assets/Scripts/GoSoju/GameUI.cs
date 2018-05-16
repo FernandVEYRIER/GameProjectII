@@ -14,7 +14,7 @@ namespace Assets.Scripts.GoSoju
         [SerializeField] Text winnerUI;
         [SerializeField] Text looserUI;
         [SerializeField] GameObject buttonUI;
-        private PlayerController player;
+        private APlayerControllerEnzo player;
 
         private void Start()
         {
@@ -23,7 +23,7 @@ namespace Assets.Scripts.GoSoju
             StartCoroutine(Counter());
         }
 
-        public void SetPlayer(PlayerController _player)
+        public void SetPlayer(APlayerControllerEnzo _player)
         {
             player = _player;
         }
@@ -62,6 +62,7 @@ namespace Assets.Scripts.GoSoju
         [ClientRpc]
         public void RpcSetWinner(string winner)
         {
+            GameStart = false;
             winnerUI.enabled = true;
             winnerUI.text = winner;
             buttonUI.SetActive(true);

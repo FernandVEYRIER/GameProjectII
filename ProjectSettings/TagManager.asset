@@ -8,6 +8,7 @@ TagManager:
   - GameManager
   - Enemy
   - glass
+  - LimitPoint
   layers:
   - Default
   - TransparentFX

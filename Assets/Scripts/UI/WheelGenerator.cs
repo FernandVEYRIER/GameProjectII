@@ -75,7 +75,7 @@ namespace Assets.Scripts.UI
                 // Item counts backwards because we spin the wheel clockwise
                 item = (int)Mathf.Repeat(item - 1, gameEntriesFiltered.Count);
             }
-            return gameEntriesFiltered[item].gameScene.SceneName;
+            return gameEntriesFiltered[item].gameScene.SceneName; //should be item don't fuck
         }
 
         /// <summary>

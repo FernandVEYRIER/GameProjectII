@@ -82,7 +82,7 @@ namespace Assets.Scripts.CantRoachThis
 
         public override void OnNetworkDestroy()
         {
-            if (isLocalPlayer)
+            if (isLocalPlayer && Camera.main != null)
                 Camera.main.GetComponent<Animator>().SetTrigger("Shake");
             SpawnBloodSplash();
             base.OnNetworkDestroy();

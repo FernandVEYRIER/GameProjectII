@@ -17,6 +17,24 @@ namespace Assets.Scripts.IFixIt
         private Vector2 _center = new Vector2(Screen.width / 2, Screen.height / 2);
         private float _totalRotation;
         public float TargetRotation;
+        private float _time;
+        private GameManager _gm;
+
+        private void Awake()
+        {
+            _gm = AGameManager.Instance as GameManager;
+        }
+
+        private void OnEnable()
+        {
+            _time = 0;
+            _totalRotation = 0;
+        }
+
+        private void Update()
+        {
+            _time += Time.deltaTime;
+        }
 
         public void OnPointerEnter(BaseEventData data)
         {
@@ -55,6 +73,8 @@ namespace Assets.Scripts.IFixIt
             if (_totalRotation >= TargetRotation)
             {
                 Debug.Log("Rotation over !!");
+                _gm.SetChronoForPlayer(_time);
+                _gm.GoToNextGame();
             }
         }
     }

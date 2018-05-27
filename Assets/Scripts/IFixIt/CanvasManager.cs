@@ -5,9 +5,12 @@ namespace Assets.Scripts.IFixIt
 {
     public class CanvasManager : MonoBehaviour
     {
+        public static CanvasManager Instance { get; private set; }
+
         [SerializeField] private GameManager _manager;
         [SerializeField] private GameObject panelGameOver;
         [SerializeField] private GameObject panelGame;
+        [SerializeField] private GameObject[] panelsMiniGames;
 
         [SerializeField] private GameObject buttonDrink;
 
@@ -15,7 +18,25 @@ namespace Assets.Scripts.IFixIt
 
         private void Awake()
         {
+            Instance = this;
             panelLoadingScreen = LobbyManager.Instance.panelLoading;
+        }
+
+        public void ChangeMiniGame(uint idx)
+        {
+            for (int i = 0; i < panelsMiniGames.Length; ++i)
+            {
+                panelsMiniGames[i].SetActive(false);
+            }
+            panelsMiniGames[idx].SetActive(true);
+        }
+
+        public void DisplayWaitingRoom()
+        {
+            for (int i = 0; i < panelsMiniGames.Length; ++i)
+            {
+                panelsMiniGames[i].SetActive(false);
+            }
         }
 
         private void Start()

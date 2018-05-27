@@ -15,7 +15,16 @@ namespace Assets.Scripts.IFixIt
     {
         public bool AllPlayersFinished { get; private set; }
 
+        public int GamesCount = 15;
+
         private List<Action> _gameActions = new List<Action>();
+
+        private SyncListString _gameList = new SyncListString();
+        private Queue<string> _gameQueue;
+
+        private float _totalTime = 0;
+
+        private string[] _games = new string[] { "PlayNail", "PlayScrew", "PlaySwipe" };
 
         private void Start()
         {
@@ -27,6 +36,10 @@ namespace Assets.Scripts.IFixIt
                 StartCoroutine(WaitForPlayers());
         }
 
+        /// <summary>
+        /// Wait for all players to be connected without sending messages accross the network.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator WaitForPlayers()
         {
             if (!isServer)
@@ -38,7 +51,31 @@ namespace Assets.Scripts.IFixIt
                 yield return null;
 
             SetGameState(GAME_STATE.Play);
-            StartCoroutine(ChoseGame());
+            GenerateGameList();
+            RpcGameList();
+            //StartCoroutine(ChoseGame());
+        }
+
+        /// <summary>
+        /// Generates a set of games.
+        /// </summary>
+        /// <returns></returns>
+        private SyncListString GenerateGameList()
+        {
+            _gameList.Clear();
+            for (int i = 0; i < GamesCount; ++i)
+            {
+                _gameList.Add(_games[UnityEngine.Random.Range(0, _games.Length)]);
+            }
+            return _gameList;
+        }
+
+        [ClientRpc]
+        private void RpcGameList()
+        {
+            Debug.Log("RPC game list size => " + _gameList.Count);
+            _gameQueue = new Queue<string>(_gameList);
+            GoToNextGame();
         }
 
         /// <summary>
@@ -64,18 +101,40 @@ namespace Assets.Scripts.IFixIt
 
         private void PlayNail()
         {
-            throw new NotImplementedException();
+            Debug.Log("Client playing nail");
+            CanvasManager.Instance.ChangeMiniGame(0);
         }
 
         private void PlaySwipe()
         {
-            throw new NotImplementedException();
+            Debug.Log("Client playing swipe");
+            CanvasManager.Instance.ChangeMiniGame(1);
         }
 
         [ClientRpc]
         private void RpcPlayScrew()
         {
             Debug.Log("Client playing screw");
+            CanvasManager.Instance.ChangeMiniGame(2);
+        }
+
+        public void SetChronoForPlayer(float time)
+        {
+            _totalTime += time;
+            Debug.Log("Registered total time => " + _totalTime);
+        }
+
+        public void GoToNextGame()
+        {
+            if (_gameQueue.Count <= 0)
+            {
+                Debug.Log("All games ended !!");
+                CanvasManager.Instance.DisplayWaitingRoom();
+                return;
+            }
+            // moves to the next game in the list
+            // if no more, sends the time to the server
+            Invoke(_gameQueue.Dequeue(), 0);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Game;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.IFixIt
@@ -13,16 +14,26 @@ namespace Assets.Scripts.IFixIt
         private Vector3 _initialPos;
         private float _step;
 
+        private GameManager _gm;
+        private float _time = 0;
+
         private void Awake()
         {
+            _gm = AGameManager.Instance as GameManager;
             _initialPos = _nailRect.position;
             _step = _initialPos.y - _target.position.y;
         }
 
         private void OnEnable()
         {
+            _time = 0;
             _hitRemaining = HitsNeeded;
             _nailRect.position = _initialPos;
+        }
+
+        private void Update()
+        {
+            _time += Time.deltaTime;
         }
 
         public void OnPointerDown(BaseEventData data)
@@ -35,6 +46,8 @@ namespace Assets.Scripts.IFixIt
             if (_hitRemaining == 0)
             {
                 Debug.Log("Nail game ended");
+                _gm.SetChronoForPlayer(_time);
+                _gm.GoToNextGame();
             }
         }
     }

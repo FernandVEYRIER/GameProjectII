@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Game;
+using UnityEngine;
 
 namespace Assets.Scripts.IFixIt
 {
@@ -7,9 +8,18 @@ namespace Assets.Scripts.IFixIt
         public int StainCount;
         private int _remainingStains;
         [SerializeField] private GameObject _stainPrefab;
+        private GameManager _gm;
+        private float _time;
+
+        private void Awake()
+        {
+            _gm = AGameManager.Instance as GameManager;
+            Debug.Log(_gm);
+        }
 
         private void OnEnable()
         {
+            _time = 0;
             _remainingStains = StainCount;
             for (int i = 0; i < StainCount; ++i)
             {
@@ -22,6 +32,11 @@ namespace Assets.Scripts.IFixIt
 
                 go.GetComponent<StainController>().OnPointerExit += StainManager_OnPointerExit;
             }
+        }
+
+        private void Update()
+        {
+            _time += Time.deltaTime;
         }
 
         private void StainManager_OnPointerExit(object sender, System.EventArgs e)
@@ -41,6 +56,8 @@ namespace Assets.Scripts.IFixIt
         private void StainGameOver()
         {
             Debug.Log("Stain game over");
+            _gm.SetChronoForPlayer(_time);
+            _gm.GoToNextGame();
         }
     }
 }

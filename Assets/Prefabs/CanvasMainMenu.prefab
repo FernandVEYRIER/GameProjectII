@@ -1377,6 +1377,7 @@ MonoBehaviour:
   - {fileID: 1063699467467950, guid: 7f048d5743e6e514a95d8a79d2619bd4, type: 2}
   - {fileID: 1186538657121464, guid: b7fc4731e5f51214f96039b218f85227, type: 2}
   - {fileID: 1813883541508032, guid: 53901cfde5db3314c81feff2a964a14f, type: 2}
+  - {fileID: 1607343369867290, guid: c1ca9f67655a5f340b4b95bdc27fbda4, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -3266,8 +3267,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
-  m_SizeDelta: {x: 75, y: 75}
+  m_AnchoredPosition: {x: 30, y: -30}
+  m_SizeDelta: {x: 45, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224059837125578444
 RectTransform:

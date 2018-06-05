@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Networking;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.IFixIt
 {
@@ -9,6 +10,8 @@ namespace Assets.Scripts.IFixIt
 
         [SerializeField] private GameManager _manager;
         [SerializeField] private GameObject panelGameOver;
+        [SerializeField] private GameObject panelWaiting;
+        [SerializeField] private Text panelWaitingText;
         [SerializeField] private GameObject panelGame;
         [SerializeField] private GameObject[] panelsMiniGames;
 
@@ -31,12 +34,16 @@ namespace Assets.Scripts.IFixIt
             panelsMiniGames[idx].SetActive(true);
         }
 
-        public void DisplayWaitingRoom()
+        public void DisplayWaitingRoom(float totalTime)
         {
             for (int i = 0; i < panelsMiniGames.Length; ++i)
             {
                 panelsMiniGames[i].SetActive(false);
             }
+            panelGame.SetActive(false);
+            panelWaiting.SetActive(true);
+            var t = System.TimeSpan.FromSeconds(totalTime);
+            panelWaitingText.text = "Your total time is " + string.Format("{0:D1}.{1:D3} s", t.Seconds, t.Milliseconds);
         }
 
         private void Start()
@@ -66,6 +73,7 @@ namespace Assets.Scripts.IFixIt
                     break;
 
                 case Game.GAME_STATE.GameOver:
+                    panelWaiting.SetActive(false);
                     panelGame.SetActive(false);
                     panelGameOver.SetActive(true);
                     buttonDrink.SetActive(Game.AGameManager.Instance.isServer);

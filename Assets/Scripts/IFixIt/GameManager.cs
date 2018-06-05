@@ -23,6 +23,7 @@ namespace Assets.Scripts.IFixIt
         private Queue<string> _gameQueue;
 
         private float _totalTime = 0;
+        private int _playerFinishCount = 0;
 
         private string[] _games = new string[] { "PlayNail", "PlayScrew", "PlaySwipe" };
 
@@ -129,12 +130,23 @@ namespace Assets.Scripts.IFixIt
             if (_gameQueue.Count <= 0)
             {
                 Debug.Log("All games ended !!");
-                CanvasManager.Instance.DisplayWaitingRoom();
+                CanvasManager.Instance.DisplayWaitingRoom(_totalTime);
+                CmdNotifyPlayerFinish();
                 return;
             }
             // moves to the next game in the list
             // if no more, sends the time to the server
             Invoke(_gameQueue.Dequeue(), 0);
+        }
+
+        [Command]
+        private void CmdNotifyPlayerFinish()
+        {
+            _playerFinishCount++;
+            if (_playerFinishCount >= NetworkServer.connections.Count)
+            {
+                SetGameState(GAME_STATE.GameOver);
+            }
         }
     }
 }

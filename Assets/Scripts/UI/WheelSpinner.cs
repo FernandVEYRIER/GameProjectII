@@ -46,7 +46,8 @@ namespace Assets.Scripts.UI
                 //LobbyManager.Instance.ChangeScene("Go Soju Go Fast");
                 //Networking.LobbyManager.Instance.ChangeScene("Cant Roach This");
                 //Networking.LobbyManager.Instance.ChangeScene("Darts");
-                Networking.LobbyManager.Instance.ChangeScene("I Fix It");
+                //Networking.LobbyManager.Instance.ChangeScene("I Fix It");
+                Networking.LobbyManager.Instance.ChangeScene("A Bartender Story");
 #endif
 
                 if (_rb.angularVelocity < 0)

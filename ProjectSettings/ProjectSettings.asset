@@ -636,9 +636,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 3
-  cloudProjectId: cfbd6861-6543-459a-a23b-2d07d072faf3
-  projectName: Soju Time
-  organizationId: sabalt
+  cloudProjectId: 8290f32c-51dd-438b-b555-dc413916fd38
+  projectName: SojuTime
+  organizationId: meniole
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

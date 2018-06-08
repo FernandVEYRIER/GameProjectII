@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -73,7 +74,7 @@ namespace Assets.Scripts.IFixIt
             if (_totalRotation >= TargetRotation)
             {
                 Debug.Log("Rotation over !!");
-                _gm.SetChronoForPlayer(_time);
+                _gm.CmdSetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
                 _gm.GoToNextGame();
             }
         }

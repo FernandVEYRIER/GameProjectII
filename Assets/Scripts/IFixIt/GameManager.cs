@@ -3,6 +3,7 @@ using Assets.Scripts.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,9 +14,27 @@ namespace Assets.Scripts.IFixIt
     /// </summary>
     public class GameManager : AGameManager
     {
+        public struct PlayerStats
+        {
+            public string Name;
+            public float Time;
+            public int CurrentGameIdx;
+
+            public bool IsEmpty()
+            {
+                return string.IsNullOrEmpty(Name);
+            }
+        }
+
+        public class PlayerStatsSync : SyncListStruct<PlayerStats>
+        {
+        }
+
         public bool AllPlayersFinished { get; private set; }
 
         public int GamesCount = 15;
+
+        private PlayerStatsSync _playerStatsSync = new PlayerStatsSync();
 
         private List<Action> _gameActions = new List<Action>();
 
@@ -119,10 +138,20 @@ namespace Assets.Scripts.IFixIt
             CanvasManager.Instance.ChangeMiniGame(2);
         }
 
-        public void SetChronoForPlayer(float time)
+        [Command]
+        public void CmdSetChronoForPlayer(string playerName, float time)
         {
+            var item = _playerStatsSync.FirstOrDefault(x => x.Name == playerName);
+            if (item.IsEmpty())
+            {
+                item.Name = playerName;
+                item.Time = 0;
+                item.CurrentGameIdx = 1;
+                _playerStatsSync.Add(item);
+            }
             _totalTime += time;
-            Debug.Log("Registered total time => " + _totalTime);
+            item.Time += time;
+            Debug.Log("Registered total time for player " + playerName + " => " + _totalTime);
         }
 
         public void GoToNextGame()

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 using UnityEngine;
 
 namespace Assets.Scripts.IFixIt
@@ -56,7 +57,7 @@ namespace Assets.Scripts.IFixIt
         private void StainGameOver()
         {
             Debug.Log("Stain game over");
-            _gm.SetChronoForPlayer(_time);
+            _gm.CmdSetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
             _gm.GoToNextGame();
         }
     }

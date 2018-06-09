@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.PostProcessing;
 
 namespace Assets.Scripts.IFixIt
 {
-    // Todo : this is called when anim is played in reverse, triggering the game again. Need fix !
     public class CameraController : MonoBehaviour
     {
+        public float FocusDistance;
+        [SerializeField] private PostProcessingProfile Profile;
         private GameManager _manager;
 
         private void Start()
         {
             _manager = GameManager.Instance as GameManager;
+        }
+
+        private void Update()
+        {
+            var settings = Profile.depthOfField.settings;
+            settings.focusDistance = FocusDistance;
+            Profile.depthOfField.settings = settings;
         }
 
         public void ChangeGameNail()

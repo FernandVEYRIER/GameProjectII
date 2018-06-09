@@ -15,7 +15,6 @@ namespace Assets.Scripts.IFixIt
         private void Awake()
         {
             _gm = AGameManager.Instance as GameManager;
-            Debug.Log(_gm);
         }
 
         private void OnEnable()
@@ -58,6 +57,7 @@ namespace Assets.Scripts.IFixIt
         {
             Debug.Log("Stain game over");
             _gm.CmdSetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
+            gameObject.SetActive(false);
             _gm.GoToNextGame();
         }
     }

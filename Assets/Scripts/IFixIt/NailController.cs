@@ -48,6 +48,7 @@ namespace Assets.Scripts.IFixIt
             {
                 Debug.Log("Nail game ended");
                 _gm.CmdSetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
+                gameObject.transform.parent.gameObject.SetActive(false);
                 _gm.GoToNextGame();
             }
         }

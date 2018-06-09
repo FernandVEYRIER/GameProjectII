@@ -46,8 +46,13 @@ namespace Assets.Scripts.IFixIt
 
         private string[] _games = new string[] { "PlayNail", "PlayScrew", "PlaySwipe" };
 
+        private Animator _animator;
+        private bool _move = true;
+
         private void Start()
         {
+            _animator = Camera.main.GetComponent<Animator>();
+
             _gameActions.Add(PlayScrew);
             _gameActions.Add(PlaySwipe);
             _gameActions.Add(PlayNail);
@@ -70,8 +75,10 @@ namespace Assets.Scripts.IFixIt
             while (!LobbyManager.Instance.AreAllClientsReady)
                 yield return null;
 
-            SetGameState(GAME_STATE.Play);
+            SetGameState(GAME_STATE.WarmUp);
             GenerateGameList();
+            yield return new WaitForSeconds(3);
+            SetGameState(GAME_STATE.Play);
             RpcGameList();
             //StartCoroutine(ChoseGame());
         }
@@ -114,29 +121,40 @@ namespace Assets.Scripts.IFixIt
 
         private void PlayScrew()
         {
+            _move = true;
             Debug.Log("Playing screw game");
-            AllPlayersFinished = false;
-            RpcPlayScrew();
+            //AllPlayersFinished = false;
+            //CanvasManager.Instance.ChangeMiniGame(2);
+            _animator.SetFloat("Blend", 2);
+            _animator.SetBool("Move", _move);
         }
 
         private void PlayNail()
         {
+            _move = true;
             Debug.Log("Client playing nail");
-            CanvasManager.Instance.ChangeMiniGame(0);
+            //CanvasManager.Instance.ChangeMiniGame(0);
+            _animator.SetFloat("Blend", 0);
+            _animator.SetBool("Move", _move);
         }
 
         private void PlaySwipe()
         {
+            _move = true;
             Debug.Log("Client playing swipe");
-            CanvasManager.Instance.ChangeMiniGame(1);
+            //CanvasManager.Instance.ChangeMiniGame(1);
+            _animator.SetFloat("Blend", 1);
+            _animator.SetBool("Move", _move);
         }
 
-        [ClientRpc]
-        private void RpcPlayScrew()
-        {
-            Debug.Log("Client playing screw");
-            CanvasManager.Instance.ChangeMiniGame(2);
-        }
+        //[ClientRpc]
+        //private void RpcPlayScrew()
+        //{
+        //    Debug.Log("Client playing screw");
+        //    CanvasManager.Instance.ChangeMiniGame(2);
+        //    _animator.SetFloat("Blend", 2);
+        //    _animator.SetBool("Move", true);
+        //}
 
         [Command]
         public void CmdSetChronoForPlayer(string playerName, float time)
@@ -156,6 +174,8 @@ namespace Assets.Scripts.IFixIt
 
         public void GoToNextGame()
         {
+            _move = false;
+            _animator.SetBool("Move", _move);
             if (_gameQueue.Count <= 0)
             {
                 Debug.Log("All games ended !!");
@@ -163,8 +183,16 @@ namespace Assets.Scripts.IFixIt
                 CmdNotifyPlayerFinish();
                 return;
             }
+
+            StartCoroutine(GoToNextGameCoroutine());
+        }
+
+        private IEnumerator GoToNextGameCoroutine()
+        {
+            yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).IsTag("Start"));
             // moves to the next game in the list
             // if no more, sends the time to the server
+            Debug.Log("Animator info => " + _animator.GetCurrentAnimatorStateInfo(0).IsTag("Start"));
             Invoke(_gameQueue.Dequeue(), 0);
         }
 
@@ -176,6 +204,12 @@ namespace Assets.Scripts.IFixIt
             {
                 SetGameState(GAME_STATE.GameOver);
             }
+        }
+
+        public void ChangeMiniGame(uint i)
+        {
+            if (_move)
+                CanvasManager.Instance.ChangeMiniGame(i);
         }
     }
 }

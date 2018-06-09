@@ -14,6 +14,7 @@ namespace Assets.Scripts.IFixIt
         [SerializeField] private Text panelWaitingText;
         [SerializeField] private GameObject panelGame;
         [SerializeField] private GameObject[] panelsMiniGames;
+        [SerializeField] private Text _textStart;
 
         [SerializeField] private GameObject buttonDrink;
 
@@ -61,6 +62,7 @@ namespace Assets.Scripts.IFixIt
             switch (e.CurrentState)
             {
                 case Game.GAME_STATE.Play:
+                    _textStart.gameObject.SetActive(false);
                     panelLoadingScreen.gameObject.SetActive(false);
                     panelGameOver.SetActive(false);
                     panelGame.SetActive(true);
@@ -77,6 +79,13 @@ namespace Assets.Scripts.IFixIt
                     panelGame.SetActive(false);
                     panelGameOver.SetActive(true);
                     buttonDrink.SetActive(Game.AGameManager.Instance.isServer);
+                    break;
+
+                case Game.GAME_STATE.Loading:
+                    break;
+
+                case Game.GAME_STATE.WarmUp:
+                    panelLoadingScreen.gameObject.SetActive(false);
                     break;
             }
         }

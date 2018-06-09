@@ -455,6 +455,8 @@ GameObject:
   - component: {fileID: 702615707}
   - component: {fileID: 702615706}
   - component: {fileID: 702615705}
+  - component: {fileID: 702615709}
+  - component: {fileID: 702615710}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -525,6 +527,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &702615709
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 702615704}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2146cafe91c48b946b658d1efa7546b9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &702615710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 702615704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b65f947e754e245a822fedfe9a0920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &714415769
 GameObject:
   m_ObjectHideFlags: 0
@@ -1589,6 +1619,7 @@ MonoBehaviour:
   - {fileID: 1938733798}
   - {fileID: 808525666}
   - {fileID: 1122738716}
+  _textStart: {fileID: 488659163}
   buttonDrink: {fileID: 916840152}
 --- !u!1 &1708233817
 GameObject:

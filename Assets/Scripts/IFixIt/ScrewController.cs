@@ -69,12 +69,13 @@ namespace Assets.Scripts.IFixIt
             _startDragPos = data.position;
 
             _totalRotation += angle;
-            Debug.Log("angle ====================== > " + angle + " total => " + _totalRotation);
+            //Debug.Log("angle ====================== > " + angle + " total => " + _totalRotation);
 
             if (_totalRotation >= TargetRotation)
             {
                 Debug.Log("Rotation over !!");
                 _gm.CmdSetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
+                gameObject.transform.parent.gameObject.SetActive(false);
                 _gm.GoToNextGame();
             }
         }

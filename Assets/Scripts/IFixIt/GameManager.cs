@@ -32,6 +32,8 @@ namespace Assets.Scripts.IFixIt
 
         public bool AllPlayersFinished { get; private set; }
 
+        public PlayerStatsSync PlayerStatsList {  get { return _playerStatsSync; } }
+
         public int GamesCount = 15;
 
         private PlayerStatsSync _playerStatsSync = new PlayerStatsSync();
@@ -159,7 +161,16 @@ namespace Assets.Scripts.IFixIt
         [Command]
         public void CmdSetChronoForPlayer(string playerName, float time)
         {
-            var item = _playerStatsSync.FirstOrDefault(x => x.Name == playerName);
+            PlayerStats item = new PlayerStats();
+            var idx = 0;
+            for (int i = 0; i < _playerStatsSync.Count; ++i)
+            {
+                if (_playerStatsSync[i].Name == playerName)
+                {
+                    item = _playerStatsSync[i];
+                    idx = i;
+                }
+            }
             if (item.IsEmpty())
             {
                 item.Name = playerName;
@@ -169,6 +180,8 @@ namespace Assets.Scripts.IFixIt
             }
             _totalTime += time;
             item.Time += time;
+            Debug.Log("idx of => " + idx);
+            _playerStatsSync[idx] = item;
             Debug.Log("Registered total time for player " + playerName + " => " + _totalTime);
         }
 

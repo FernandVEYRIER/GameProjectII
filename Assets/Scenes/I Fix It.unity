@@ -889,7 +889,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1483598812}
         m_MethodName: ChangeScene
         m_Mode: 5
         m_Arguments:
@@ -1189,7 +1189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809f3c1637a76b94f9577666088cf52e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GamesCount: 15
+  GamesCount: 10
 --- !u!114 &1483598813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1635,6 +1635,7 @@ MonoBehaviour:
   - {fileID: 808525666}
   - {fileID: 1122738716}
   _textStart: {fileID: 488659163}
+  _textGameOver: {fileID: 298935473}
   buttonDrink: {fileID: 916840152}
 --- !u!1 &1708233817
 GameObject:

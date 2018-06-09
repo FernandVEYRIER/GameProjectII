@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Networking;
+﻿using System;
+using System.Linq;
+using Assets.Scripts.Networking;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +17,7 @@ namespace Assets.Scripts.IFixIt
         [SerializeField] private GameObject panelGame;
         [SerializeField] private GameObject[] panelsMiniGames;
         [SerializeField] private Text _textStart;
+        [SerializeField] private Text _textGameOver;
 
         [SerializeField] private GameObject buttonDrink;
 
@@ -79,6 +82,7 @@ namespace Assets.Scripts.IFixIt
                     panelGame.SetActive(false);
                     panelGameOver.SetActive(true);
                     buttonDrink.SetActive(Game.AGameManager.Instance.isServer);
+                    DisplayPlayerScores();
                     break;
 
                 case Game.GAME_STATE.Loading:
@@ -88,6 +92,21 @@ namespace Assets.Scripts.IFixIt
                     panelLoadingScreen.gameObject.SetActive(false);
                     break;
             }
+        }
+
+        private void DisplayPlayerScores()
+        {
+            var list = _manager.PlayerStatsList.OrderBy(x => x.Time).ToList();
+            _textGameOver.text = "";
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                GameManager.PlayerStats item = list[i];
+                var t = TimeSpan.FromSeconds(item.Time);
+                _textGameOver.text += $"{i + 1}. {item.Name}: {string.Format("{0:D1}.{1:D3} s", t.Seconds, t.Milliseconds)}\n";
+            }
+
+            _textGameOver.text += $"\n{list[list.Count - 1].Name}, you drink !";
         }
     }
 }

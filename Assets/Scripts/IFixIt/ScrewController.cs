@@ -68,7 +68,7 @@ namespace Assets.Scripts.IFixIt
             _screwImage.Rotate(Vector3.forward, angle);
             _startDragPos = data.position;
 
-            _totalRotation += angle;
+            _totalRotation += -angle;
             //Debug.Log("angle ====================== > " + angle + " total => " + _totalRotation);
 
             if (_totalRotation >= TargetRotation)

@@ -30,6 +30,7 @@ namespace Assets.Scripts.IFixIt
         {
             _manager.ChangeMiniGame(1);
         }
+
         public void ChangeGameScrew()
         {
             _manager.ChangeMiniGame(2);

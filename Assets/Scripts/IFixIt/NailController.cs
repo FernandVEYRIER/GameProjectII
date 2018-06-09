@@ -41,7 +41,7 @@ namespace Assets.Scripts.IFixIt
         {
             _hitRemaining--;
             var y = _target.position.y + _step * (_hitRemaining / (float)HitsNeeded);
-            Debug.Log(y);
+            //Debug.Log(y);
             _nailRect.position = new Vector3(_nailRect.position.x, y, 1);
 
             if (_hitRemaining == 0)

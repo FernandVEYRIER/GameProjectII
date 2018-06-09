@@ -173,17 +173,18 @@ namespace Assets.Scripts.IFixIt
             //CmdSetChronoForPlayer(playerName, time);
         }
 
-        [Command]
+        //[Command]
         public void CmdSetChronoForPlayer(string playerName, float time)
         {
             PlayerStats item = new PlayerStats();
             var idx = 0;
-            for (int i = 0; i < _playerStatsSync.Count; ++i)
+            for (idx = 0; idx < _playerStatsSync.Count; ++idx)
             {
-                if (_playerStatsSync[i].Name == playerName)
+                Debug.Log("<<<<<<<<<<<<<<<<< Chrono for player " + _playerStatsSync[idx].Name + " " + _playerStatsSync[idx].Time);
+                if (_playerStatsSync[idx].Name == playerName)
                 {
-                    item = _playerStatsSync[i];
-                    idx = i;
+                    item = _playerStatsSync[idx];
+                    break;
                 }
             }
             if (item.IsEmpty())
@@ -207,8 +208,9 @@ namespace Assets.Scripts.IFixIt
             if (_gameQueue.Count <= 0)
             {
                 Debug.Log("All games ended !!");
-                CanvasManager.Instance.DisplayWaitingRoom(_totalTime);
-                CmdNotifyPlayerFinish();
+                CanvasManager.Instance.DisplayWaitingRoom(_playerStatsSync.First(x => x.Name == _localPlayer._playerName).Time);
+                //CmdNotifyPlayerFinish();
+                _localPlayer.NotifyPlayerFinish();
                 return;
             }
 
@@ -224,8 +226,8 @@ namespace Assets.Scripts.IFixIt
             Invoke(_gameQueue.Dequeue(), 0);
         }
 
-        [Command]
-        private void CmdNotifyPlayerFinish()
+        //[Command]
+        public void CmdNotifyPlayerFinish()
         {
             _playerFinishCount++;
             if (_playerFinishCount >= NetworkServer.connections.Count)

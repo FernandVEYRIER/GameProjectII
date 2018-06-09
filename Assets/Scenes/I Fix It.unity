@@ -1315,9 +1315,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809f3c1637a76b94f9577666088cf52e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GamesCount: 10
+  GamesCount: 2
   _playerPrefab: {fileID: 1959995886935520, guid: 461a3ac5e2492c141a93725e7f451445,
     type: 2}
+  _localPlayer: {fileID: 0}
 --- !u!114 &1483598813
 MonoBehaviour:
   m_ObjectHideFlags: 0

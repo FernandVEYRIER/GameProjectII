@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts.Game;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Assets.Scripts.IFixIt
 {
@@ -15,9 +16,28 @@ namespace Assets.Scripts.IFixIt
             _manager.RegisterLocalClient(this);
         }
 
-        internal void SetChronoForPlayer(float time)
+        public void SetChronoForPlayer(float time)
         {
+            CmdSetChronoForPlayer(time);
+        }
+
+        [Command]
+        private void CmdSetChronoForPlayer(float time)
+        {
+            if (_manager == null)
+                _manager = AGameManager.Instance as GameManager;
             _manager.CmdSetChronoForPlayer(_playerName, time);
+        }
+
+        public void NotifyPlayerFinish()
+        {
+            CmdNotifyPlayerFinish();
+        }
+
+        [Command]
+        private void CmdNotifyPlayerFinish()
+        {
+            _manager.CmdNotifyPlayerFinish();
         }
     }
 }

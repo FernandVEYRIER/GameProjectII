@@ -9,11 +9,6 @@ namespace Assets.Scripts.IFixIt
         [SerializeField] private PostProcessingProfile Profile;
         private GameManager _manager;
 
-        private void Start()
-        {
-            _manager = GameManager.Instance as GameManager;
-        }
-
         private void Update()
         {
             var settings = Profile.depthOfField.settings;
@@ -23,16 +18,22 @@ namespace Assets.Scripts.IFixIt
 
         public void ChangeGameNail()
         {
+            if (_manager == null)
+                _manager = Game.AGameManager.Instance as GameManager;
             _manager.ChangeMiniGame(0);
         }
 
         public void ChangeGameSwipe()
         {
+            if (_manager == null)
+                _manager = Game.AGameManager.Instance as GameManager;
             _manager.ChangeMiniGame(1);
         }
 
         public void ChangeGameScrew()
         {
+            if (_manager == null)
+                _manager = Game.AGameManager.Instance as GameManager;
             _manager.ChangeMiniGame(2);
         }
     }

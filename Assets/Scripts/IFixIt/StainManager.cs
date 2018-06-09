@@ -56,7 +56,7 @@ namespace Assets.Scripts.IFixIt
         private void StainGameOver()
         {
             Debug.Log("Stain game over");
-            _gm.CmdSetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
+            _gm.SetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
             gameObject.SetActive(false);
             _gm.GoToNextGame();
         }

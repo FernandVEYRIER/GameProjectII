@@ -74,7 +74,7 @@ namespace Assets.Scripts.IFixIt
             if (_totalRotation >= TargetRotation)
             {
                 Debug.Log("Rotation over !!");
-                _gm.CmdSetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
+                _gm.SetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
                 gameObject.transform.parent.gameObject.SetActive(false);
                 _gm.GoToNextGame();
             }

@@ -51,6 +51,8 @@ namespace Assets.Scripts.IFixIt
         private Animator _animator;
         private bool _move = true;
 
+        [SerializeField] private GameObject _playerPrefab;
+
         private void Start()
         {
             _animator = Camera.main.GetComponent<Animator>();
@@ -76,6 +78,12 @@ namespace Assets.Scripts.IFixIt
 
             while (!LobbyManager.Instance.AreAllClientsReady)
                 yield return null;
+
+            for (int i = 0; i < NetworkServer.connections.Count; ++i)
+            {
+                var p = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
+                NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], p, (short)i);
+            }
 
             SetGameState(GAME_STATE.WarmUp);
             GenerateGameList();
@@ -158,6 +166,13 @@ namespace Assets.Scripts.IFixIt
         //    _animator.SetBool("Move", true);
         //}
 
+        public void SetChronoForPlayer(string playerName, float time)
+        {
+            Debug.Log("Set chrono for player. Authority => " + localPlayerAuthority);
+            _localPlayer.SetChronoForPlayer(time);
+            //CmdSetChronoForPlayer(playerName, time);
+        }
+
         [Command]
         public void CmdSetChronoForPlayer(string playerName, float time)
         {
@@ -223,6 +238,12 @@ namespace Assets.Scripts.IFixIt
         {
             if (_move)
                 CanvasManager.Instance.ChangeMiniGame(i);
+        }
+
+        public PlayerController _localPlayer;
+        public void RegisterLocalClient(PlayerController playerController)
+        {
+            _localPlayer = playerController;
         }
     }
 }

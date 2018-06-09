@@ -47,7 +47,7 @@ namespace Assets.Scripts.IFixIt
             if (_hitRemaining == 0)
             {
                 Debug.Log("Nail game ended");
-                _gm.CmdSetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
+                _gm.SetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
                 gameObject.transform.parent.gameObject.SetActive(false);
                 _gm.GoToNextGame();
             }

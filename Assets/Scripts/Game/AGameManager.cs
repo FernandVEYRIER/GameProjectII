@@ -16,7 +16,7 @@ namespace Assets.Scripts.Game
     /// <summary>
     /// Represents a game state.
     /// </summary>
-    public enum GAME_STATE { Loading, Play, Pause, Menu, GameOver }
+    public enum GAME_STATE { Loading, Play, Pause, Menu, GameOver, WarmUp }
 
     /// <summary>
     /// Abstract class for the game manager.

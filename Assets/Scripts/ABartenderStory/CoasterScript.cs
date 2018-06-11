@@ -29,7 +29,7 @@ public class CoasterScript : NetworkBehaviour {
     void Update () {
         if (localPlayerAuthority) {
             if (striked == true) {
-                if (transform.position.x < 200) {
+                if (transform.position.x < 40) {
                     position.x += speed * Time.deltaTime;
                     transform.position = position;
                 } else {
@@ -59,5 +59,10 @@ public class CoasterScript : NetworkBehaviour {
         if (localPlayerAuthority) {
             this.striked = isStriked;
         }
+    }
+
+    [ClientRpc]
+    public void RpcName(string name) {
+        this.name = name;
     }
 }

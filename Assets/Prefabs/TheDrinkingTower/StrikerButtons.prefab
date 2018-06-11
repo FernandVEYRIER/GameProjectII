@@ -491,6 +491,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStriker: 0
+  isAlive: 1
+  asWon: 0
+  rotationSpeed: 70
+  bottle: {fileID: 0}
+  bottleScript: {fileID: 0}
   action1_text: {fileID: 114023133498411672}
   action2_text: {fileID: 114853485474955976}
   timers:
@@ -498,6 +503,7 @@ MonoBehaviour:
   - {fileID: 114468023680084298}
   strikeDelay: 1
   fakeDelay: 0.5
+  isDeleting: 0
   mainCoaster: {fileID: 0}
 --- !u!114 &114818148980993830
 MonoBehaviour:

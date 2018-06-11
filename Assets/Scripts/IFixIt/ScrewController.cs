@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,6 +18,24 @@ namespace Assets.Scripts.IFixIt
         private Vector2 _center = new Vector2(Screen.width / 2, Screen.height / 2);
         private float _totalRotation;
         public float TargetRotation;
+        private float _time;
+        private GameManager _gm;
+
+        private void Awake()
+        {
+            _gm = AGameManager.Instance as GameManager;
+        }
+
+        private void OnEnable()
+        {
+            _time = 0;
+            _totalRotation = 0;
+        }
+
+        private void Update()
+        {
+            _time += Time.deltaTime;
+        }
 
         public void OnPointerEnter(BaseEventData data)
         {
@@ -49,12 +68,15 @@ namespace Assets.Scripts.IFixIt
             _screwImage.Rotate(Vector3.forward, angle);
             _startDragPos = data.position;
 
-            _totalRotation += angle;
-            Debug.Log("angle ====================== > " + angle + " total => " + _totalRotation);
+            _totalRotation += -angle;
+            //Debug.Log("angle ====================== > " + angle + " total => " + _totalRotation);
 
             if (_totalRotation >= TargetRotation)
             {
                 Debug.Log("Rotation over !!");
+                _gm.SetChronoForPlayer(LobbyManager.Instance.GetLocalPlayerInfo().Name, _time);
+                gameObject.transform.parent.gameObject.SetActive(false);
+                _gm.GoToNextGame();
             }
         }
     }

@@ -630,6 +630,7 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   cloudServicesEnabled:
     Build: 0
     Collab: 0
@@ -642,12 +643,17 @@ PlayerSettings:
   projectName: SojuTime
   organizationId: gandoulf
 =======
+=======
+>>>>>>> Stashed changes
   cloudServicesEnabled: {}
   facebookSdkVersion: 
   apiCompatibilityLevel: 2
   cloudProjectId: 
   projectName: 
   organizationId: 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

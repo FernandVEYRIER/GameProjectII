@@ -20,16 +20,19 @@ namespace Assets.Scripts.IFixIt
         public float TargetRotation;
         private float _time;
         private GameManager _gm;
+        private Vector3 _screwInitialScale;
 
         private void Awake()
         {
             _gm = AGameManager.Instance as GameManager;
+            _screwInitialScale = _screwImage.localScale;
         }
 
         private void OnEnable()
         {
             _time = 0;
             _totalRotation = 0;
+            _screwImage.localScale = _screwInitialScale;
         }
 
         private void Update()
@@ -39,13 +42,13 @@ namespace Assets.Scripts.IFixIt
 
         public void OnPointerEnter(BaseEventData data)
         {
-            Debug.Log("pointer enter");
+            //Debug.Log("pointer enter");
             _isInside = true;
         }
 
         public void OnPointerExit(BaseEventData data)
         {
-            Debug.Log("pointer exit");
+            //Debug.Log("pointer exit");
             _isInside = false;
         }
 
@@ -53,12 +56,12 @@ namespace Assets.Scripts.IFixIt
         {
             var data = d as PointerEventData;
             _startDragPos = data.position;
-            Debug.Log("Start drag pos => " + _startDragPos);
+            //Debug.Log("Start drag pos => " + _startDragPos);
         }
 
         public void OnPointerDrag(BaseEventData d)
         {
-            Debug.Log("pointer drag");
+            //Debug.Log("pointer drag");
             if (!_isInside)
                 return;
             var data = d as PointerEventData;
@@ -70,6 +73,8 @@ namespace Assets.Scripts.IFixIt
 
             _totalRotation += -angle;
             //Debug.Log("angle ====================== > " + angle + " total => " + _totalRotation);
+
+            _screwImage.localScale += Vector3.one * angle * 0.0001f;
 
             if (_totalRotation >= TargetRotation)
             {

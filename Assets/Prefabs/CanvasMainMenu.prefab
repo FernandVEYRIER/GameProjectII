@@ -488,7 +488,7 @@ GameObject:
   - component: {fileID: 222245587437021376}
   - component: {fileID: 114624386350325618}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TextInstructions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1571,6 +1571,7 @@ MonoBehaviour:
   lobbyPanel: {fileID: 224939630952781604}
   lobbyPlayerContainer: {fileID: 224409627499154396}
   panelLoading: {fileID: 224779904890303638}
+  loadingText: {fileID: 114624386350325618}
   backButton: {fileID: 114152711734203630}
   _isMatchmaking: 0
   _lobbyMenu: {fileID: 114571912350121352}
@@ -3955,7 +3956,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -73.85504, y: 25.6}
+  m_AnchoredPosition: {x: -73.85504, y: 25.599976}
   m_SizeDelta: {x: 37.71, y: 40.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224395393386398912

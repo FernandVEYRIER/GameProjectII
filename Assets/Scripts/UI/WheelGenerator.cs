@@ -14,6 +14,8 @@ namespace Assets.Scripts.UI
     /// </summary>
     public class WheelGenerator : NetworkBehaviour
     {
+        public GameObject TextTitle;
+
         [SerializeField] private GameObject _wheelContainerPrefab;
         [SerializeField] private RectTransform _wheelContainer;
         [SerializeField] private RectTransform _wheelShotContainer;

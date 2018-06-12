@@ -11360,7 +11360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &582565105
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31881,7 +31881,7 @@ MonoBehaviour:
   dropChance: 0.2
   dropChanceIncrease: 0.005
   waterDropChance: 0.2
-  waterDropChanceIncrease: 0.008
+  waterDropChanceIncrease: 0.004
 --- !u!114 &1958186946
 MonoBehaviour:
   m_ObjectHideFlags: 0

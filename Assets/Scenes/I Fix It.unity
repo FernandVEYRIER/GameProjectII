@@ -2204,6 +2204,18 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: ee1dc6634f492c14e92b7c401b77a7dc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e2a5658c6dd6a9d408a457abbb0d5af0, type: 2}
+    - target: {fileID: 2300004, guid: ee1dc6634f492c14e92b7c401b77a7dc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e2a5658c6dd6a9d408a457abbb0d5af0, type: 2}
+    - target: {fileID: 2300002, guid: ee1dc6634f492c14e92b7c401b77a7dc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e2a5658c6dd6a9d408a457abbb0d5af0, type: 2}
     m_RemovedComponents:
     - {fileID: 9500000, guid: ee1dc6634f492c14e92b7c401b77a7dc, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: ee1dc6634f492c14e92b7c401b77a7dc, type: 3}

@@ -182,14 +182,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-<<<<<<< Updated upstream
-=======
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.size
-      value: 7
-      objectReference: {fileID: 0}
->>>>>>> Stashed changes
     - target: {fileID: 224895626552399608, guid: 7d53cb7d357ce574ba48815a414a7a56,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -280,61 +272,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-<<<<<<< Updated upstream
-=======
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[6].color.r
-      value: 0.11764707
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[6].color.g
-      value: 0.11764707
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[6].color.b
-      value: 0.11764707
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[6].color.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[6].gameScene.m_SceneAsset
-      value: 
-      objectReference: {fileID: 102900000, guid: e7dfc1d971069994a84c6703cf9169f1,
-        type: 3}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[6].gameScene.m_SceneName
-      value: The Drinking Tower
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[5].color.r
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[5].color.g
-      value: 0.29411766
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[5].color.b
-      value: 0.34509805
-      objectReference: {fileID: 0}
-    - target: {fileID: 114926902976427514, guid: 7d53cb7d357ce574ba48815a414a7a56,
-        type: 2}
-      propertyPath: _gameEntries.Array.data[5].gameScene.m_SceneAsset
-      value: 
-      objectReference: {fileID: 102900000, guid: 25b54dddd2bb0dd418253d360bd7fcb9,
-        type: 3}
->>>>>>> Stashed changes
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7d53cb7d357ce574ba48815a414a7a56, type: 2}
   m_IsPrefabParent: 0

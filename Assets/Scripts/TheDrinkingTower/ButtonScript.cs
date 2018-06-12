@@ -35,23 +35,10 @@ namespace Assets.Scripts.Test {
 
         public GameObject mainCoaster = null;
 
-        //Thanks Enzo
-
-        protected bool looserDrunk = false;
-        public bool LooserDrunk { get { return looserDrunk; } }
-
-        [Command]
-        public void CmdLooserDrunk() {
-            looserDrunk = true;
-        }
-
-        //Thanks Enzo End
-
         // Use this for initialization
         void Start() {
             if (isLocalPlayer) {
                 _canvas = GameObject.Find("Canvas");
-                _canvas.GetComponent<CanvasScript>().player = this;
                 RectTransform tmpRT = this.GetComponent<RectTransform>();
                 tmpRT.anchoredPosition = Vector3.zero;
                 tmpRT.anchorMin = new Vector2(0, 0);
@@ -68,18 +55,6 @@ namespace Assets.Scripts.Test {
         void Update() {
             if (!isLocalPlayer) {
                this.gameObject.SetActive(false);
-            } else if (_canvas == null) {
-                _canvas = GameObject.Find("Canvas");
-                _canvas.GetComponent<CanvasScript>().player = this;
-                RectTransform tmpRT = this.GetComponent<RectTransform>();
-                tmpRT.anchoredPosition = Vector3.zero;
-                tmpRT.anchorMin = new Vector2(0, 0);
-                tmpRT.anchorMax = new Vector2(1, 1);
-                tmpRT.pivot = new Vector2(0.5f, 0.5f);
-                tmpRT.sizeDelta = _canvas.GetComponent<RectTransform>().rect.size;
-                tmpRT.transform.SetParent(_canvas.GetComponent<RectTransform>());
-                this.transform.SetParent(_canvas.transform);
-                this.transform.localPosition = Vector3.zero;
             }
 
             if (!isAlive && _canvas && this.bottleScript.coaster == null) {

@@ -21,7 +21,7 @@ namespace Assets.Scripts.Test
         [SerializeField] private Transform _leftLimit;
         [SerializeField] private Transform _rightLimit;
 
-        [SerializeField] GameUI ui;
+        [SerializeField] GoSoju.GameUI ui;
 
         private readonly List<GameObject> _players = new List<GameObject>();
         private int _finishedPlayer = 0;

@@ -16,7 +16,7 @@ namespace Assets.Scripts.Test
 
         public bool stopMoving;
 
-        private GameUI ui;
+        private GoSoju.GameUI ui;
         private GameObject target = null;
         public Light _light = null;
 
@@ -47,7 +47,7 @@ namespace Assets.Scripts.Test
         {
             _networkIdentity = GetComponent<NetworkIdentity>().netId;
 
-            ui = GameObject.Find("PlayerUI").GetComponent<GameUI>();
+            ui = GameObject.Find("PlayerUI").GetComponent<GoSoju.GameUI>();
             target = GameObject.Find("Bar/Cible/Cylinder");
             name = _playerName;
             ui.SetPlayer(this);
@@ -118,9 +118,8 @@ namespace Assets.Scripts.Test
                         }
                     }
                 } else {
-                    ui = GameObject.Find("PlayerUI").GetComponent<GameUI>();
-                    if (ui != null)
-                        ui.SetPlayer(this);
+                    ui = GameObject.Find("PlayerUI").GetComponent<GoSoju.GameUI>();
+                    ui.SetPlayer(this);
                     target = GameObject.Find("Bar/Cible/Cylinder");
                     name = _playerName;
                 }

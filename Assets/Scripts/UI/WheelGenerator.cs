@@ -14,6 +14,11 @@ namespace Assets.Scripts.UI
     /// </summary>
     public class WheelGenerator : NetworkBehaviour
     {
+        public GameObject TextTitle;
+        public EndAnimHandler EndAnimHandler;
+        [SerializeField] private Text _textGameChosen;
+        [SerializeField] private Text _textShotCount;
+
         [SerializeField] private GameObject _wheelContainerPrefab;
         [SerializeField] private RectTransform _wheelContainer;
         [SerializeField] private RectTransform _wheelShotContainer;
@@ -76,6 +81,22 @@ namespace Assets.Scripts.UI
                 item = (int)Mathf.Repeat(item - 1, gameEntriesFiltered.Count);
             }
             return gameEntriesFiltered[item].gameScene.SceneName; //should be item don't fuck
+        }
+
+        public string GetCorrespondingShots(Quaternion angle)
+        {
+            // This allows any angle higher than 360 degrees to be computed.
+            // The 90 offset is because the arrow is not on top of the wheel.
+            var clampedAngle = ((angle.eulerAngles.z + 90f) % 360f);
+
+            var idx = 0;
+            var item = 0;
+            while (clampedAngle > (idx * (360f / 4f)) + (360f / 4f))
+            {
+                ++idx;
+                item = (int)Mathf.Repeat(item - 1, 4);
+            }
+            return (item + 1).ToString(); //should be item don't fuck        
         }
 
         /// <summary>
@@ -154,6 +175,13 @@ namespace Assets.Scripts.UI
                 child.GetComponent<Text>().text = gameEntriesFiltered[i].gameScene;
                 child.GetComponent<RectTransform>().localRotation = Quaternion.Euler(new Vector3(0, 0, 90f - (360f * sliceSize / 2f)));
             }
+        }
+
+        public void DisplayChosenGame(string gameName, string shotCount)
+        {
+            _textGameChosen.transform.parent.gameObject.SetActive(true);
+            _textGameChosen.text = gameName;
+            _textShotCount.text = shotCount;
         }
     }
 }

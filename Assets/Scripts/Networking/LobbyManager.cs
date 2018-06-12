@@ -38,6 +38,7 @@ namespace Assets.Scripts.Networking
         public RectTransform lobbyPanel;
         public RectTransform lobbyPlayerContainer;
         public RectTransform panelLoading;
+        public Text loadingText;
         public Button backButton;
 
         public delegate void BackButtonDelegate();
@@ -146,9 +147,11 @@ namespace Assets.Scripts.Networking
         /// Displays the loading screen above every other menu.
         /// </summary>
         /// <param name="active"></param>
-        public void ShowLoadingScreen(bool active)
+        public void ShowLoadingScreen(bool active, string loadingText = "Good luck", float minimalDuration = 0)
         {
             panelLoading.gameObject.SetActive(active);
+            this.loadingText.text = loadingText;
+            
         }
 
         /// <summary>

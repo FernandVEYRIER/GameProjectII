@@ -35,3 +35,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FillItUp2.unity
     guid: 9028a1e1f65712c4680b679208d67c94
+  - enabled: 1
+    path: Assets/Scenes/A Bartender Story.unity
+    guid: 25b54dddd2bb0dd418253d360bd7fcb9

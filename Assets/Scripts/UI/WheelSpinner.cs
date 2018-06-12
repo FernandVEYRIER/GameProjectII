@@ -83,7 +83,7 @@ namespace Assets.Scripts.UI
                     _isSpinning = false;
                     Debug.Log("Stopped spinning ! Chosing game");
                     Debug.Log("Wheel generator => " + WheelGenerator + " is client ? " + isClient);
-                    RpcDisplayChosenGame(WheelGenerator.GetCorrespondingScene(_angle), "One shot");
+                    RpcDisplayChosenGame(WheelGenerator.GetCorrespondingScene(_angle), WheelGenerator.GetCorrespondingShots(SubWheel.localRotation) + " shot(s)");
                     //WheelGenerator.DisplayChosenGame(WheelGenerator.GetCorrespondingScene(_angle), "One shot");
                     //_animHandler.OnAnimEnd += (obj, e) =>
                     //{

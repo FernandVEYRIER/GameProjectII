@@ -83,6 +83,22 @@ namespace Assets.Scripts.UI
             return gameEntriesFiltered[item].gameScene.SceneName; //should be item don't fuck
         }
 
+        public string GetCorrespondingShots(Quaternion angle)
+        {
+            // This allows any angle higher than 360 degrees to be computed.
+            // The 90 offset is because the arrow is not on top of the wheel.
+            var clampedAngle = ((angle.eulerAngles.z + 90f) % 360f);
+
+            var idx = 0;
+            var item = 0;
+            while (clampedAngle > (idx * (360f / 4f)) + (360f / 4f))
+            {
+                ++idx;
+                item = (int)Mathf.Repeat(item - 1, 4);
+            }
+            return (item + 1).ToString(); //should be item don't fuck        
+        }
+
         /// <summary>
         /// Makes the client spawn the wheel by replication.
         /// </summary>

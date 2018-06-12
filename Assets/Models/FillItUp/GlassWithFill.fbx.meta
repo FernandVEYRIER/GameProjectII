@@ -20,7 +20,17 @@ ModelImporter:
     4300000: Glass 3
     4300002: Liquid
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cup
+    second: {fileID: 2100000, guid: 44ce998ef3f034a4c885ee7d1568e843, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: e767069d2586723478d90ae056291e66, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -26,6 +26,7 @@ namespace Assets.Scripts.FillItUp
         [SerializeField] Assets.Scripts.GoSoju.GameUI ui;
 
         private readonly List<GameObject> _players = new List<GameObject>();
+        [SerializeField] private EmiterManager emiterManager;
 
         private string[] position =
         {
@@ -68,7 +69,6 @@ namespace Assets.Scripts.FillItUp
 
             while (!LobbyManager.Instance.AreAllClientsReady)
                 yield return null;
-
             Debug.Log("Is server ? " + NetworkServer.active);
             var step = NetworkServer.connections.Count > 1 ? (_rightSpawn.position.x - _leftSpawn.position.x) / (NetworkServer.connections.Count - 1) : 0;
             var startSpawn = _leftSpawn.position;
@@ -79,6 +79,8 @@ namespace Assets.Scripts.FillItUp
                 startSpawn.x += step;
             }
             SetGameState(GAME_STATE.Play);
+            emiterManager.RpcSeed(Random.Range(0, 1000000000));
+            emiterManager.RpcStartEmision();
         }
 
         [Server]
@@ -91,8 +93,21 @@ namespace Assets.Scripts.FillItUp
                     GameDuration -= Time.deltaTime;
                     if (GameDuration < 0)
                     {
-                        ui.RpcSetWinner("Unknow" + " won this game");
-                        ui.RpcSetLooser("Unknow" + " lost this game, drink !!");
+                        GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
+                        for (int i = 0; i < player.Length -1; i++)
+                        {
+                            if (player[i].GetComponent<PlayerController>().height <
+                                player[i + 1].GetComponent<PlayerController>().height)
+                            {
+                                GameObject tmp = player[i];
+                                player[i] = player[i + 1];
+                                player[i + 1] = tmp;
+                                i = 0;
+                            }
+                        }
+                        ui.RpcSetWinner(player[0].GetComponent<PlayerController>()._playerName + " won this game");
+                        ui.RpcSetLooser(player[player.Length - 1].GetComponent<PlayerController>()._playerName + " lost this game, drink !!");
+                        emiterManager.RpcStopEmission();
                         GameOver();
                     }
                 }
@@ -101,15 +116,17 @@ namespace Assets.Scripts.FillItUp
             }
         }
 
+        private bool sceneLoaded = false;
         [Server]
         private void LooserDrunks()
         {
             GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
             for (int i = 0; i < player.Length && player[i].GetComponent<PlayerController>().LooserDrunk; i++)
             {
-                if (i == (player.Length - 1))
+                if (i == (player.Length - 1) && !sceneLoaded)
                 {
                     ChangeScene("GameSelectionScene");
+                    sceneLoaded = true;
                 }
             }
         }

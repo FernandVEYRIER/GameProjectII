@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Scenes/I Fix It.unity
     guid: 407e28be52df2754791452e77b26162b
   - enabled: 1
-    path: Assets/Scenes/A Bartender Story.unity
+    path: Assets/Scenes/The Drinking Tower.unity
     guid: e7dfc1d971069994a84c6703cf9169f1
   - enabled: 1
     path: Assets/Scenes/Darts.unity

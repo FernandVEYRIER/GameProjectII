@@ -122,15 +122,18 @@ namespace Assets.Scripts.GoSoju
             }
         }
 
+
+        private bool sceneLoaded = false;
         [Server]
         private void LooserDrunks()
         {
             GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
             for (int i = 0; i < player.Length && player[i].GetComponent<PlayerController>().LooserDrunk; i++)
             {
-                if (i == (player.Length - 1))
+                if (i == (player.Length - 1) && !sceneLoaded)
                 {
                     ChangeScene("GameSelectionScene");
+                    sceneLoaded = true;
                 }
             }
         }

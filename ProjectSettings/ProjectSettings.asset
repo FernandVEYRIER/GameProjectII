@@ -647,9 +647,15 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 3
+<<<<<<< Updated upstream
   cloudProjectId: 166fe2f7-414c-429a-afbd-18d1268ff585
   projectName: SojuTime
   organizationId: gandoulf
+=======
+  cloudProjectId: afde8aab-d4d1-46ef-ae06-24f170fa991e
+  projectName: SojuTime
+  organizationId: colin_h
+>>>>>>> Stashed changes
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

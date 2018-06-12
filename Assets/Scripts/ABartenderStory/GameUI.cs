@@ -35,6 +35,7 @@ namespace Assets.Scripts.Test
 
         private IEnumerator Counter()
         {
+            LobbyManager.Instance.panelLoading.gameObject.SetActive(false);
             while (!LobbyManager.Instance.AreAllClientsReady)
                 yield return null;
 

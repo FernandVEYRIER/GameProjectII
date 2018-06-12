@@ -136,19 +136,22 @@ namespace Assets.Scripts.Test {
                 }
 
                 if (gameIsFinished) {
+                    for (int i = 0; i < _players.Length && _players[i].GetComponent<ButtonScript>().LooserDrunk; i++) {
+                        if (i == (_players.Length) - 1) {
+                            ChangeScene("GameSelectionScene");
+                        }
+                    }
                     if (tmpCheck == true)
                         return;
                     tmpCheck = true;
                     if (_losers.Count >= NetworkServer.connections.Count - 1) {
                         _players[0].GetComponent<ButtonScript>().RpcWin();
-                        Debug.Log("Jumpers loose");
                     } else {
                         _players[0].GetComponent<ButtonScript>().RpcDelete();
                         foreach (GameObject player in _players) {
                             if (player.GetComponent<ButtonScript>().isAlive && !player.GetComponent<ButtonScript>().isStriker)
                                 player.GetComponent<ButtonScript>().RpcWin();
                         }
-                        Debug.Log("Striker loose");
                     }
                 }
                 if (possibleColors.Count > 0 && coasters.Count > 0) {

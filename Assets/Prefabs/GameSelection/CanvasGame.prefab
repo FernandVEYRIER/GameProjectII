@@ -1090,9 +1090,9 @@ MonoBehaviour:
     gameScene:
       m_SceneAsset: {fileID: 102900000, guid: 407e28be52df2754791452e77b26162b, type: 3}
       m_SceneName: I Fix It
-  - color: {r: 0.79215693, g: 0.8588236, b: 0.9450981, a: 1}
+  - color: {r: 0.6, g: 0.29411766, b: 0.34509805, a: 1}
     gameScene:
-      m_SceneAsset: {fileID: 102900000, guid: e7dfc1d971069994a84c6703cf9169f1, type: 3}
+      m_SceneAsset: {fileID: 102900000, guid: 25b54dddd2bb0dd418253d360bd7fcb9, type: 3}
       m_SceneName: A Bartender Story
   _shotEntries: 01000000020000000300000004000000
 --- !u!114 &114946356961327524

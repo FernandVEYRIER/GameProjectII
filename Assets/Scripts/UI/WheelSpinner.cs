@@ -25,6 +25,8 @@ namespace Assets.Scripts.UI
         private float _currVel;
         private RectTransform _rectT;
 
+        private EndAnimHandler _animHandler;
+
         private void Start()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -38,13 +40,27 @@ namespace Assets.Scripts.UI
             UpdateAngularVelocity();
         }
 
+        [ClientRpc]
+        private void RpcDisplayChosenGame(string game, string shots)
+        {
+            _animHandler = WheelGenerator.EndAnimHandler;
+            WheelGenerator.DisplayChosenGame(game, shots);
+            if (isServer)
+            {
+                _animHandler.OnAnimEnd += (obj, e) =>
+                {
+                    ChangeScene(game);
+                };
+            }
+        }
+
         private void UpdateAngularVelocity()
         {
             if (isServer)
             {
 #if !RELEASE
                 //LobbyManager.Instance.ChangeScene("Go Soju Go Fast");
-                Networking.LobbyManager.Instance.ChangeScene("Cant Roach This");
+                //Networking.LobbyManager.Instance.ChangeScene("Cant Roach This");
                 //Networking.LobbyManager.Instance.ChangeScene("Darts");
                 //Networking.LobbyManager.Instance.ChangeScene("I Fix It");
                 //Networking.LobbyManager.Instance.ChangeScene("The Drinking Tower");
@@ -66,7 +82,13 @@ namespace Assets.Scripts.UI
                 {
                     _isSpinning = false;
                     Debug.Log("Stopped spinning ! Chosing game");
-                    ChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
+                    Debug.Log("Wheel generator => " + WheelGenerator + " is client ? " + isClient);
+                    RpcDisplayChosenGame(WheelGenerator.GetCorrespondingScene(_angle), "One shot");
+                    //WheelGenerator.DisplayChosenGame(WheelGenerator.GetCorrespondingScene(_angle), "One shot");
+                    //_animHandler.OnAnimEnd += (obj, e) =>
+                    //{
+                    //    ChangeScene(WheelGenerator.GetCorrespondingScene(_angle));
+                    //};
                 }
                 //Debug.Log(_rb.angularVelocity);
                 //Debug.Log(WheelGenerator.GetCorrespondingScene(_angle));

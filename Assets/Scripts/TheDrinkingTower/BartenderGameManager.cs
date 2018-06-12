@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-namespace Assets.Scripts.ABartenderStory {
+namespace Assets.Scripts.Test {
 
     public class BartenderGameManager : AGameManager {
 

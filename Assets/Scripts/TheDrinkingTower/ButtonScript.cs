@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.ABartenderStory {
+namespace Assets.Scripts.Test {
 
     public class ButtonScript : NetworkBehaviour {
         [SyncVar] public bool isStriker = false;

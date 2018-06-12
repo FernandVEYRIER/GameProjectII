@@ -38,6 +38,8 @@ namespace Assets.Scripts.UI
         private void Update()
         {
             UpdateAngularVelocity();
+            if (!isServer && WheelGenerator != null)
+                WheelGenerator.TextTitle.SetActive(false);
         }
 
         [ClientRpc]

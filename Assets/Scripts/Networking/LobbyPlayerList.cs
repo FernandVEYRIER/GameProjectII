@@ -28,7 +28,7 @@ namespace Assets.Scripts.Networking
         private void OnEnable()
         {
             Debug.Log("On enable called on LobbyyPlayerList! " + LobbyManager.Instance.IsHost);
-            startButton.gameObject.SetActive(LobbyManager.Instance.IsHost);
+            startButton.transform.parent.gameObject.SetActive(LobbyManager.Instance.IsHost);
         }
 
         public void AddPlayer(LobbyPlayer player)

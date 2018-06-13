@@ -66,7 +66,7 @@ namespace Assets.Scripts.UI
                 //Networking.LobbyManager.Instance.ChangeScene("Darts");
                 //Networking.LobbyManager.Instance.ChangeScene("I Fix It");
                 //Networking.LobbyManager.Instance.ChangeScene("The Drinking Tower");
-                Networking.LobbyManager.Instance.ChangeScene("FillItUp");
+                //Networking.LobbyManager.Instance.ChangeScene("FillItUp");
 
 #endif
 

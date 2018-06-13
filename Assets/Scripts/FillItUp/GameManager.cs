@@ -102,7 +102,7 @@ namespace Assets.Scripts.FillItUp
                                 GameObject tmp = player[i];
                                 player[i] = player[i + 1];
                                 player[i + 1] = tmp;
-                                i = 0;
+                                i = -1;
                             }
                         }
                         ui.RpcSetWinner(player[0].GetComponent<PlayerController>()._playerName + " won this game");

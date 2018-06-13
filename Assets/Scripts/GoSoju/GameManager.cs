@@ -168,7 +168,7 @@ namespace Assets.Scripts.GoSoju
                     tmp = player[i + 1];
                     player[i + 1] = player[i];
                     player[i] = tmp;
-                    i = 0;
+                    i = -1;
                 }
             }
             for (int i = 0; i < player.Length; i++)

@@ -75,7 +75,7 @@ namespace Assets.Scripts.CantRoachThis
                 if (_players.Count <= 1)
                 {
                     foreach (var player in _players)
-                        _playersDead.Add(player.GetComponent<APlayerController>()._playerName);
+                        _playersDead.Insert(0, player.GetComponent<APlayerController>()._playerName);
                     GameOver();
                 }
             }

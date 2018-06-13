@@ -22,16 +22,21 @@ namespace Assets.Scripts.Networking
             {
                 Destroy(server.gameObject);
             }
+
             RefreshList();
         }
 
-        private void RefreshList()
+        public void RefreshList()
         {
             _manager.matchMaker.ListMatches(0, 100, "", false, 0, 0, OnGUIMatchList);
         }
 
         private void OnGUIMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> responseData)
         {
+            foreach (Transform server in _serverList)
+            {
+                Destroy(server.gameObject);
+            }
             foreach (var info in responseData)
             {
                 var go = Instantiate(_serverInfoPrefab);

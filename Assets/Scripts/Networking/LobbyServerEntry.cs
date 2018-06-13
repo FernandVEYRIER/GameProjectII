@@ -39,6 +39,7 @@ namespace Assets.Scripts.Networking
         /// <param name="lobbyManager"></param>
         private void JoinMatch(NetworkID networkID, LobbyManager lobbyManager)
         {
+            lobbyManager.ShowLoadingScreen(true, "Trying to join match " + _serverName.text + " !");
             lobbyManager.matchMaker.JoinMatch(networkID, "", "", "", 0, 0, lobbyManager.OnMatchJoined);
             lobbyManager.backDelegate = lobbyManager.StopClientClbk;
             lobbyManager._isMatchmaking = true;

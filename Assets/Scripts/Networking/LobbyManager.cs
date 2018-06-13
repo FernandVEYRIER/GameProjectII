@@ -129,6 +129,8 @@ namespace Assets.Scripts.Networking
                 Debug.Log("Fail " + extendedInfo);
             base.OnMatchCreate(success, extendedInfo, matchInfo);
             _currentMatchID = (System.UInt64)matchInfo.networkId;
+            if (!success)
+                ShowLoadingScreen(false);
         }
 
         /// <summary>
@@ -140,7 +142,9 @@ namespace Assets.Scripts.Networking
         public override void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
         {
             base.OnMatchJoined(success, extendedInfo, matchInfo);
-            Debug.Log("On match joined !");
+            Debug.Log("On match joined ! success ? " + success);
+            if (!success)
+                ShowLoadingScreen(false);
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace Assets.Scripts.FillItUp
         [SyncVar(hook = "OnLiquideChange")] public float height;
 
         [SerializeField] private float speed = 1;
-        [SerializeField] private MeshRenderer renderer;
+        [SerializeField] private MeshRenderer _renderer;
         [SerializeField] Text playerText;
         [SerializeField] FillGlass fillGlass;
 
@@ -63,12 +63,12 @@ namespace Assets.Scripts.FillItUp
         {
             base.CmdSetPlayerInfo(info);
             print("color of player " + _playerColor);
-            renderer.material.SetColor("_Color", new Color(_playerColor.r, _playerColor.g, _playerColor.b, 0.2f));
+            _renderer.material.SetColor("_Color", new Color(_playerColor.r, _playerColor.g, _playerColor.b, 0.2f));
         }
 
         private void Update()
         {
-            renderer.material.SetColor("_Color", new Color(_playerColor.r, _playerColor.g, _playerColor.b, 0.2f));
+            _renderer.material.SetColor("_Color", new Color(_playerColor.r, _playerColor.g, _playerColor.b, 0.2f));
             if (isLocalPlayer)
             {
                 if (ui.GameStart)

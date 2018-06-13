@@ -251,6 +251,7 @@ namespace Assets.Scripts.Networking
         public override void OnClientDisconnect(NetworkConnection conn)
         {
             base.OnClientDisconnect(conn);
+            ShowLoadingScreen(false);
             ChangeTo(mainMenuPanel);
         }
 

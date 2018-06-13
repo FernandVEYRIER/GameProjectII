@@ -60,8 +60,10 @@ namespace Assets.Scripts.CantRoachThis
             textWinner.text = "";
             for (int i = 0; i < winnerList.Count; ++i)
             {
-                textWinner.text += $"{i + 1}. {winnerList[i]}{(i < winnerList.Count ? "\n" : "")}";
+                //textWinner.text += $"{i + 1}. {winnerList[i]}{(i < winnerList.Count ? "\n" : "")}";
+                textWinner.text += (i + 1) + ". " + (winnerList[i]) + (i < winnerList.Count ? "\n" : "");
             }
+            textWinner.text += "\n" + winnerList[winnerList.Count - 1] + " lost this game, drink !";
         }
 
         private void OnDestroy()

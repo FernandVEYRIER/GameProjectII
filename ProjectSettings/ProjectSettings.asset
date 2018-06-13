@@ -4,14 +4,14 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 14
-  productGUID: 5d4c7922cc22db9439cbfdb2ab4894f4
+  productGUID: c8ded891c756d5d439b1fe53c385b38a
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   defaultScreenOrientation: 4
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Meniole
+  companyName: Meniole Studios
   productName: Soju Time
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -158,11 +158,10 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.Meniole.SojuTime
-    Standalone: com.Meniole.SojuTime
+    Android: com.Maniole.SojuTime
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 21
+  AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -177,9 +176,9 @@ PlayerSettings:
   StripUnusedMeshComponents: 0
   VertexChannelCompressionMask:
     serializedVersion: 2
-    m_Bits: 4294901998
+    m_Bits: 238
   iPhoneSdkVersion: 988
-  iOSTargetOSVersionString: 8.0
+  iOSTargetOSVersionString: 7.0
   tvOSSdkVersion: 0
   tvOSRequireExtendedGameController: 0
   tvOSTargetOSVersionString: 9.0
@@ -562,19 +561,18 @@ PlayerSettings:
   scriptingBackend: {}
   incrementalIl2cppBuild: {}
   additionalIl2CppArgs: 
-  scriptingRuntimeVersion: 1
-  apiCompatibilityLevelPerPlatform:
-    Standalone: 3
+  scriptingRuntimeVersion: 0
+  apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: SojuTime
+  metroPackageName: GameProjectII
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: SojuTime
+  metroApplicationDescription: GameProjectII
   wsaImages: {}
   metroTileShortName: 
   metroCommandLineArgsFile: 
@@ -634,22 +632,19 @@ PlayerSettings:
   XboxOneSplashScreen: {fileID: 0}
   XboxOneAllowedProductIds: []
   XboxOnePersistentLocalStorageSize: 0
+  XboxOneXTitleMemory: 8
   xboxOneScriptCompiler: 0
   vrEditorSettings:
     daydream:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
-    Build: 0
-    Collab: 0
-    ErrorHub: 0
-    Hub: 0
     UNet: 1
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 3
-  cloudProjectId: 166fe2f7-414c-429a-afbd-18d1268ff585
+  apiCompatibilityLevel: 2
+  cloudProjectId: 8290f32c-51dd-438b-b555-dc413916fd38
   projectName: SojuTime
-  organizationId: gandoulf
+  organizationId: meniole
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

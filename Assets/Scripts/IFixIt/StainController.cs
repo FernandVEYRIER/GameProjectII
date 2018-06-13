@@ -25,7 +25,8 @@ namespace Assets.Scripts.IFixIt
             color.a = SwipesRemaining / (float)SwipesUntilErased;
             _image.color = color;
             Debug.Log("image color = " + _image.color);
-            OnPointerExit?.Invoke(this, EventArgs.Empty);
+            if (OnPointerExit != null)
+                OnPointerExit.Invoke(this, EventArgs.Empty);
         }
     }
 }

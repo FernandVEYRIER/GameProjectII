@@ -103,10 +103,12 @@ namespace Assets.Scripts.IFixIt
             {
                 GameManager.PlayerStats item = list[i];
                 var t = TimeSpan.FromSeconds(item.Time);
-                _textGameOver.text += $"{i + 1}. {item.Name}: {string.Format("{0:D1}:{1:D2}.{2:D3} s", t.Minutes, t.Seconds, t.Milliseconds)}\n";
+                //_textGameOver.text += $"{i + 1}. {item.Name}: {string.Format("{0:D1}:{1:D2}.{2:D3} s", t.Minutes, t.Seconds, t.Milliseconds)}\n";
+                _textGameOver.text += (i + 1) + ". " + item.Name + ": " + string.Format("{0:D1}:{1:D2}.{2:D3} s", t.Minutes, t.Seconds, t.Milliseconds) + "\n";
             }
 
-            _textGameOver.text += $"\n{list[list.Count - 1].Name}, you drink !";
+            //_textGameOver.text += $"\n{list[list.Count - 1].Name}, you drink !";
+            _textGameOver.text += "\n" + list[list.Count - 1].Name + ", you drink !";
         }
     }
 }

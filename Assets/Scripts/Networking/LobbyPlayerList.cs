@@ -25,9 +25,10 @@ namespace Assets.Scripts.Networking
             _layout = playerListContentTransform.GetComponentInChildren<VerticalLayoutGroup>();
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            startButton.gameObject.SetActive(LobbyManager.Instance.IsHost);
+            Debug.Log("On enable called on LobbyyPlayerList! " + LobbyManager.Instance.IsHost);
+            startButton.transform.parent.gameObject.SetActive(LobbyManager.Instance.IsHost);
         }
 
         public void AddPlayer(LobbyPlayer player)

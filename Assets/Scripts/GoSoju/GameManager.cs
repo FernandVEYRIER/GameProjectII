@@ -43,7 +43,7 @@ namespace Assets.Scripts.GoSoju
         public override void OnStartClient()
         {
             base.OnStartClient();
-            LobbyManager.Instance.panelLoading.gameObject.SetActive(false);
+            LobbyManager.Instance.ShowLoadingScreen(false);
         }
 
         [Server]
@@ -107,30 +107,33 @@ namespace Assets.Scripts.GoSoju
                 GameOver();*/
         }
 
-        [Server]
+        //[Server]
         private void FixedUpdate()
         {
-            if (GameState == GAME_STATE.Play)
+            if (isServer)
             {
-                SortPlayer();
-                GameFinished();
+                if (GameState == GAME_STATE.Play)
+                {
+                    SortPlayer();
+                    GameFinished();
+                }
+                if (GameState == GAME_STATE.GameOver)
+                    LooserDrunks();
             }
-            if (GameState == GAME_STATE.GameOver)
-                LooserDrunks();
         }
 
-        // TODO : fix this omg
-        private bool loading;
+
+        private bool sceneLoaded = false;
         [Server]
         private void LooserDrunks()
         {
             GameObject[] player = GameObject.FindGameObjectsWithTag("Player");
             for (int i = 0; i < player.Length && player[i].GetComponent<PlayerController>().LooserDrunk; i++)
             {
-                if (i == (player.Length - 1) && !loading)
+                if (i == (player.Length - 1) && !sceneLoaded)
                 {
                     ChangeScene("GameSelectionScene");
-                    loading = true;
+                    sceneLoaded = true;
                 }
             }
         }
@@ -165,7 +168,7 @@ namespace Assets.Scripts.GoSoju
                     tmp = player[i + 1];
                     player[i + 1] = player[i];
                     player[i] = tmp;
-                    i = 0;
+                    i = -1;
                 }
             }
             for (int i = 0; i < player.Length; i++)

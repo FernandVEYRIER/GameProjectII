@@ -38,6 +38,7 @@ namespace Assets.Scripts.Networking
         public RectTransform lobbyPanel;
         public RectTransform lobbyPlayerContainer;
         public RectTransform panelLoading;
+        public Text loadingText;
         public Button backButton;
 
         public delegate void BackButtonDelegate();
@@ -95,10 +96,10 @@ namespace Assets.Scripts.Networking
         public override void OnStartHost()
         {
             base.OnStartHost();
+            IsHost = true;
             Debug.Log("Starting host !");
             ChangeTo(lobbyPanel);
             backDelegate = StopHostClbk;
-            IsHost = true;
         }
 
         /// <summary>
@@ -128,6 +129,8 @@ namespace Assets.Scripts.Networking
                 Debug.Log("Fail " + extendedInfo);
             base.OnMatchCreate(success, extendedInfo, matchInfo);
             _currentMatchID = (System.UInt64)matchInfo.networkId;
+            if (!success)
+                ShowLoadingScreen(false);
         }
 
         /// <summary>
@@ -139,7 +142,20 @@ namespace Assets.Scripts.Networking
         public override void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
         {
             base.OnMatchJoined(success, extendedInfo, matchInfo);
-            Debug.Log("On match joined !");
+            Debug.Log("On match joined ! success ? " + success);
+            if (!success)
+                ShowLoadingScreen(false);
+        }
+
+        /// <summary>
+        /// Displays the loading screen above every other menu.
+        /// </summary>
+        /// <param name="active"></param>
+        public void ShowLoadingScreen(bool active, string loadingText = "Good luck", float minimalDuration = 0)
+        {
+            panelLoading.gameObject.SetActive(active);
+            this.loadingText.text = loadingText;
+            
         }
 
         /// <summary>
@@ -147,6 +163,8 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public void GoBack()
         {
+            Debug.Log("HERE => " + backDelegate.Method);
+            ShowLoadingScreen(true);
             backDelegate();
         }
 
@@ -155,6 +173,16 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public void SimpleBackClbk()
         {
+            ShowLoadingScreen(true);
+            ChangeTo(mainMenuPanel);
+        }
+
+        /// <summary>
+        /// Callback action to go back to the menu without loading screen.
+        /// </summary>
+        public void SimpleBackNoLoadingClbk()
+        {
+            ShowLoadingScreen(false);
             ChangeTo(mainMenuPanel);
         }
 
@@ -205,7 +233,7 @@ namespace Assets.Scripts.Networking
         {
             base.OnClientConnect(conn);
 
-            panelLoading.gameObject.SetActive(false);
+            ShowLoadingScreen(false);
 
             conn.RegisterHandler(MsgKicked, KickedMessageHandler);
 
@@ -223,6 +251,7 @@ namespace Assets.Scripts.Networking
         public override void OnClientDisconnect(NetworkConnection conn)
         {
             base.OnClientDisconnect(conn);
+            ShowLoadingScreen(false);
             ChangeTo(mainMenuPanel);
         }
 
@@ -233,6 +262,7 @@ namespace Assets.Scripts.Networking
         /// <param name="errorCode"></param>
         public override void OnClientError(NetworkConnection conn, int errorCode)
         {
+            Debug.LogWarning("On client error called ! " + errorCode);
             ChangeTo(mainMenuPanel);
         }
 
@@ -248,6 +278,7 @@ namespace Assets.Scripts.Networking
             {
                 StopMatchMaker();
                 StopHost();
+                ShowLoadingScreen(false);
             }
         }
 
@@ -256,6 +287,8 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public void StopHostClbk()
         {
+            LastGamePlayed = "";
+            CurrentGamePlayed = "";
             if (_isMatchmaking)
             {
                 matchMaker.DestroyMatch((NetworkID)_currentMatchID, 0, OnDestroyMatch);
@@ -282,6 +315,7 @@ namespace Assets.Scripts.Networking
                 StopMatchMaker();
             }
 
+            ShowLoadingScreen(false);
             ChangeTo(mainMenuPanel);
         }
 
@@ -314,6 +348,7 @@ namespace Assets.Scripts.Networking
         public override void OnClientSceneChanged(NetworkConnection conn)
         {
             base.OnClientSceneChanged(conn);
+            Debug.Log("Client scene changed on conn " + conn);
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex != 0)
                 ChangeTo(null);
         }
@@ -358,6 +393,7 @@ namespace Assets.Scripts.Networking
         public override void OnLobbyServerSceneChanged(string sceneName)
         {
             //_clientReadyCount = 0;
+            Debug.Log("on lobby server scene changed " + sceneName);
             base.OnLobbyServerSceneChanged(sceneName);
         }
 

@@ -15,10 +15,14 @@ public class Line : MonoBehaviour {
     private void Start () {
         if (isVertical)
         {
+            mini = GameObject.Find("left");
+            maxi = GameObject.Find("right");
             gameObject.transform.position = new Vector3(Random.Range(mini.transform.position.x, maxi.transform.position.x), transform.position.y, transform.position.z);
         }
         else
         {
+            mini = GameObject.Find("bot");
+            maxi = GameObject.Find("top");
             gameObject.transform.position = new Vector3(transform.position.x, Random.Range(mini.transform.position.y, maxi.transform.position.y), transform.position.z);
         }
 	}

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Networking;
 using System;
 using UnityEngine.Networking;
+using UnityEngine;
 
 namespace Assets.Scripts.Game
 {
@@ -16,7 +17,7 @@ namespace Assets.Scripts.Game
     /// <summary>
     /// Represents a game state.
     /// </summary>
-    public enum GAME_STATE { Loading, Play, Pause, Menu, GameOver }
+    public enum GAME_STATE { Loading, Play, Pause, Menu, GameOver, WarmUp }
 
     /// <summary>
     /// Abstract class for the game manager.
@@ -102,7 +103,7 @@ namespace Assets.Scripts.Game
         [ClientRpc]
         protected virtual void RpcChangeScene()
         {
-            LobbyManager.Instance.panelLoading.gameObject.SetActive(true);
+            LobbyManager.Instance.ShowLoadingScreen(true);
         }
     }
 }

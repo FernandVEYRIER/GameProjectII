@@ -1,38 +1,65 @@
-﻿using Assets.Scripts.Networking;
+﻿using Assets.Scripts.Game;
+using Assets.Scripts.Networking;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.Darts
 {
-    public class GameManager : NetworkBehaviour
+    public class GameManager : AGameManager
     {
-        public GameObject VerticalLine;
-        public GameObject HorizontalLine;
-        public float speed;
-        private int round = 0;
+        public class ResultSync : SyncListStruct<Result>
+        { }
+
+        [SerializeField] private GameObject _playerPrefab;
+
+        private readonly List<GameObject> _players = new List<GameObject>();
+        public readonly ResultSync Results = new ResultSync(); 
 
         private void Start()
         {
-            VerticalLine.gameObject.transform.position = new Vector3(Random.Range(-4.5f, 4.5f), 0f, 0f);
-            HorizontalLine.gameObject.transform.position = new Vector3(0f, Random.Range(-6.5f, 6.5f), 0f);
-            HorizontalLine.gameObject.SetActive(false);
+            if (isServer)
+                StartCoroutine(SpawnObjects());
         }
 
-        private void Update()
+        public void SetScore(string playerName, float score)
         {
-            if (round >= 3)
+            Results.Add(new Result { PlayerName = playerName, Score = score });
+            Debug.Log(playerName + " " + score);
+            if (Results.Count >= LobbyManager.Instance.ConnectionCount)
             {
-
-            }
-            else if (!HorizontalLine.gameObject.activeSelf)
-            {
-
-            }
-            else
-            {
-
+                SetGameState(GAME_STATE.GameOver);
             }
         }
+
+        [Server]
+        private IEnumerator SpawnObjects()
+        {
+            if (!isServer)
+                yield break;
+
+            Debug.Log("Server ready, waiting for players... " + NetworkServer.connections.Count);
+
+            while (!LobbyManager.Instance.AreAllClientsReady)
+                yield return null;
+
+            for (int i = 0; i < NetworkServer.connections.Count; ++i)
+            {
+                _players.Add(Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity));
+                NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], _players[i], (short)i);
+            }
+
+            Debug.Log("Is server ? " + NetworkServer.active);
+            SetGameState(GAME_STATE.Play);
+        }
+    }
+
+    [Serializable]
+    public struct Result
+    {
+        public string PlayerName;
+        public float Score;
     }
 }

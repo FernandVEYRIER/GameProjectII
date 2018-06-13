@@ -22,6 +22,7 @@ namespace Assets.Scripts.CantRoachThis
 
         private float _currentDelay;
         private bool _isAttacking;
+        private bool _isPlayingAnim;
 
         private GameManager _manager;
 
@@ -62,7 +63,7 @@ namespace Assets.Scripts.CantRoachThis
         {
             _currentDelay -= Time.deltaTime;
 
-            if (_currentDelay <= 0 && !_isAttacking)
+            if (_currentDelay <= 0 && !_isAttacking && !_isPlayingAnim)
             {
                 _currentDelay = _maxDelay;
                 if (_maxDelay > _minDelay)
@@ -81,11 +82,17 @@ namespace Assets.Scripts.CantRoachThis
         private void UpdateSwatterState()
         {
             _swatterParent.transform.position = Vector3.MoveTowards(_swatterParent.transform.position, _endPoint.position, 0.9f);
-            if (Vector3.Distance(_swatterParent.transform.position, _endPoint.position) == 0)
+            if (Vector3.Distance(_swatterParent.transform.position, _endPoint.position) == 0 && !_isPlayingAnim)
             {
+                _isPlayingAnim = true;
                 _animator.SetTrigger("Hit");
                 _isAttacking = false;
             }
+        }
+
+        public void OnEndAnim()
+        {
+            _isPlayingAnim = false;
         }
 
         [Server]

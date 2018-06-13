@@ -64,6 +64,7 @@ namespace Assets.Scripts.Game
         /// <param name="color"></param>
         protected virtual void OnPlayerColorChange(Color color)
         {
+            Debug.Log("Color virtual " + color);
             _playerColor = color;
         }
     }

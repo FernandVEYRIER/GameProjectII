@@ -8,7 +8,7 @@ using Assets.Scripts.Networking;
 
 namespace Assets.Scripts.GoSoju
 {
-    public class PlayerController : APlayerController
+    public class PlayerController : APlayerControllerEnzo
     {
         [SyncVar(hook = "OnPositionChange")] public string position;
         [SyncVar(hook = "OnNbrPositionChange")] public string nbrPosition;
@@ -24,9 +24,6 @@ namespace Assets.Scripts.GoSoju
         private Text myPosition;
         [SerializeField] private Text myPlayer;
         private GameUI ui;
-
-        private bool looserDrunk;
-        public bool LooserDrunk { get { return looserDrunk; } }
 
         public override void OnStartLocalPlayer() {
             Debug.Log("Starting local player");
@@ -57,12 +54,6 @@ namespace Assets.Scripts.GoSoju
             base.CmdSetPlayerInfo(info);
             print("color of player " + _playerColor);
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", _playerColor);
-        }
-
-        [Command]
-        public void CmdLooserDrunk()
-        {
-            looserDrunk = true;
         }
 
         private void OnPositionChange(string newpos) {

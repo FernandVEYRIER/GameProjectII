@@ -122,13 +122,15 @@ namespace Assets.Scripts.Test
             }
         }
 
+        private bool _isChangingScene;
         [Server]
         private void LooserDrunks()
         {
             for (int i = 0; i < _players.Count && _players[i].GetComponent<PlayerController>().LooserDrunk; i++)
             {
-                if (i == (_players.Count) - 1)
+                if (i == (_players.Count) - 1 && !_isChangingScene)
                 {
+                    _isChangingScene = true;
                     ChangeScene("GameSelectionScene");
                 }
             }

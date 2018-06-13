@@ -11,6 +11,7 @@ namespace Assets.Scripts.Darts
         [SerializeField] private GameManager _manager;
         [SerializeField] private GameObject panelGameOver;
         [SerializeField] private Text _textWinner;
+        [SerializeField] private Button _buttonDrink;
 
         private void Awake()
         {
@@ -33,6 +34,7 @@ namespace Assets.Scripts.Darts
 
                 case Game.GAME_STATE.GameOver:
                     panelGameOver.SetActive(true);
+                    _buttonDrink.gameObject.SetActive(AGameManager.Instance.isServer);
                     _textWinner.text = "";
                     Result[] result = new Result[(AGameManager.Instance as GameManager).Results.Count];
                     (AGameManager.Instance as GameManager).Results.CopyTo(result, 0);

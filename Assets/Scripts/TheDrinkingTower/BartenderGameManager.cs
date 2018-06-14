@@ -59,7 +59,7 @@ namespace Assets.Scripts.Test {
             _players = new GameObject[LobbyManager.Instance.numPlayers];
             _bottles = new GameObject[LobbyManager.Instance.numPlayers];
 
-            for (int i = 0; i < NetworkServer.connections.Count; i++) {
+            for (int i = 0; i < LobbyManager.Instance.ConnectionCount; i++) {
 
                 _players[i] = Instantiate(_strikerPrefab, Vector3.zero, Quaternion.identity);
                 if (i == 0) {
@@ -132,7 +132,7 @@ namespace Assets.Scripts.Test {
         void Update() {
             if (gameStarted) {
 //                Debug.Log(_losers.Count + " " + NetworkServer.connections.Count);
-                if (coasters.Count == 0 || _losers.Count == NetworkServer.connections.Count - 1) {
+                if (coasters.Count == 0 || _losers.Count == LobbyManager.Instance.ConnectionCount - 1) {
                     gameIsFinished = true;
                 }
 
@@ -146,7 +146,7 @@ namespace Assets.Scripts.Test {
                     if (tmpCheck == true)
                         return;
                     tmpCheck = true;
-                    if (_losers.Count >= NetworkServer.connections.Count - 1) {
+                    if (_losers.Count >= LobbyManager.Instance.ConnectionCount - 1) {
                         _players[0].GetComponent<ButtonScript>().RpcWin();
                     } else {
                         _players[0].GetComponent<ButtonScript>().RpcDelete();

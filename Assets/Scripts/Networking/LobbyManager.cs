@@ -20,7 +20,7 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public bool IsHost { get; private set; }
 
-        public int ConnectionCount { get { return NetworkServer.connections.Count(x => x!= null); } }
+        public int ConnectionCount { get { return NetworkServer.connections.Count(x => x != null); } }
 
         public bool AreAllClientsReady { get { return NetworkServer.connections.Count(x => x != null) == _clientReadyCount; } }
 

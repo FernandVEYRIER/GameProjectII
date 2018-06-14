@@ -107,7 +107,7 @@ namespace Assets.Scripts.GoSoju
                 GameOver();*/
         }
 
-        [Server]
+        //[Server]
         private void FixedUpdate()
         {
             if (isServer)

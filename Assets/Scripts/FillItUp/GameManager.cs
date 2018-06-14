@@ -83,7 +83,7 @@ namespace Assets.Scripts.FillItUp
             emiterManager.RpcStartEmision();
         }
 
-        [Server]
+        //[Server]
         private void FixedUpdate()
         {
             if (isServer)

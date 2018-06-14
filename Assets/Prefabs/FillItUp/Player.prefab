@@ -267,7 +267,7 @@ MonoBehaviour:
   _playerColor: {r: 0, g: 0, b: 0, a: 0}
   height: 0
   speed: 15
-  renderer: {fileID: 23513339549169340}
+  _renderer: {fileID: 23513339549169340}
   playerText: {fileID: 114262967149363930}
   fillGlass: {fileID: 114823274197231904}
   stopMoving: 0

@@ -21,11 +21,11 @@ public class BeerEmiter : MonoBehaviour {
 
     private type liquidType;
     private ParticleHandler _particleHandler;
-    private ParticleSystem particleSystem;
+    private ParticleSystem _particleSystem;
 
     private void Start()
     {
-        particleSystem = gameObject.GetComponent<ParticleSystem>();
+        _particleSystem = gameObject.GetComponent<ParticleSystem>();
         _particleHandler = GetComponent<ParticleHandler>();
         _particleHandler.OnParticleCollided += ParticleHandler_OnParticleCollided;
 
@@ -40,7 +40,7 @@ public class BeerEmiter : MonoBehaviour {
         text.enabled = true;
         image.enabled = true;
         liquidType = liquid;
-        var main = particleSystem.main;
+        var main = _particleSystem.main;
         switch (liquidType)
         {
             case type.BEER:
@@ -62,14 +62,14 @@ public class BeerEmiter : MonoBehaviour {
 
     private void StartDropping()
     {
-        particleSystem.Play();
+        _particleSystem.Play();
     }
 
     private void StopDropping()
     {
         text.enabled = false;
         image.enabled = false;
-        particleSystem.Stop();
+        _particleSystem.Stop();
     }
 
     private void ParticleHandler_OnParticleCollided(object sender, GameObject obj)

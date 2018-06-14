@@ -695,7 +695,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1030433585731304}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -885,7 +885,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 4c7bcddc7e010864098e24365a0da854, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1074,26 +1074,92 @@ MonoBehaviour:
     gameScene:
       m_SceneAsset: {fileID: 102900000, guid: b5b68b02ac29e13478bf364e2715b4a1, type: 3}
       m_SceneName: Cant Roach This
+    Description: 'Rules:
+
+      Be the last one to die, avoid the swatters !
+
+
+      Controls:
+
+      Press the left side of the screen to go left
+
+      Press the right side of the screen to go right'
   - color: {r: 0.16787414, g: 0.256678, b: 0.8455882, a: 1}
     gameScene:
       m_SceneAsset: {fileID: 102900000, guid: 96d84e604a09bb242b2a94756041c2fa, type: 3}
       m_SceneName: Go Soju Go Fast
+    Description: 'Rules:
+
+      Be the first one to reach the end of the race
+
+
+      Controls:
+
+      Press alterning left and right to move'
   - color: {r: 0.08627451, g: 0.627451, b: 0.3647059, a: 1}
     gameScene:
       m_SceneAsset: {fileID: 102900000, guid: 7de1ebbc937da8f4c872a3aa4d180bb1, type: 3}
       m_SceneName: Darts
+    Description: 'Rules:
+
+      Score by throwing the darts as close to the center as you can
+
+
+      Controls:
+
+      Press the screen to stop the line'
   - color: {r: 1, g: 0.8482759, b: 0, a: 1}
     gameScene:
       m_SceneAsset: {fileID: 102900000, guid: 4ced6cfcba3a0c946af70dc4a544e367, type: 3}
       m_SceneName: FillItUp
+    Description: 'Rules:
+
+      Fill your glass with mighty beer
+
+
+      Controls:
+
+      Tilt your phone left and right to move'
   - color: {r: 1, g: 0.51724136, b: 0, a: 1}
     gameScene:
       m_SceneAsset: {fileID: 102900000, guid: 407e28be52df2754791452e77b26162b, type: 3}
       m_SceneName: I Fix It
+    Description: 'Rules:
+
+      Fix the beer pong table falling into pieces
+
+
+      Controls:
+
+      Click on the screen to hit the nail
+
+      Press and drag in a circle shape to screw
+
+      Swipe the screen to remove the stains'
   - color: {r: 0.6, g: 0.29411766, b: 0.34509805, a: 1}
     gameScene:
       m_SceneAsset: {fileID: 102900000, guid: 25b54dddd2bb0dd418253d360bd7fcb9, type: 3}
       m_SceneName: A Bartender Story
+    Description: 'Rules:
+
+      Play curling with glasses on the bar
+
+
+      Controls:
+
+      Press then swipe the glass to throw it'
+  - color: {r: 0.2352941, g: 0.233564, b: 0.233564, a: 1}
+    gameScene:
+      m_SceneAsset: {fileID: 102900000, guid: e7dfc1d971069994a84c6703cf9169f1, type: 3}
+      m_SceneName: The Drinking Tower
+    Description: 'Rules:
+
+      Avoid the striker by jumping, or strike your enemies to eject them
+
+
+      Controls:
+
+      Press the left buttons to perform actions'
   _shotEntries: 01000000020000000300000004000000
 --- !u!114 &114946356961327524
 MonoBehaviour:
@@ -1414,8 +1480,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 285, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 285, y: -15}
+  m_SizeDelta: {x: 70, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224546227501526006
 RectTransform:

@@ -19,5 +19,11 @@ namespace Assets.Scripts.UI
         /// Scene to load for this item.
         /// </summary>
         public SceneField gameScene;
+
+        /// <summary>
+        /// The description of the game.
+        /// </summary>
+        [TextArea]
+        public string Description;
     }
 }

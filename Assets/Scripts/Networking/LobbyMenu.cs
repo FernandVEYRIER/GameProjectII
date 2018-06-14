@@ -19,6 +19,12 @@ namespace Assets.Scripts.Networking
         [SerializeField] private GameObject _panelLobbyFind;
         [SerializeField] private Button[] _buttons;
 
+        private void Start()
+        {
+            // prevent screen dimming
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        }
+
         private void MatchJoined(object sender, System.EventArgs e)
         {
             _panelLobbyPlayers.SetActive(true);

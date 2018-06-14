@@ -2,6 +2,7 @@
 using System;
 using UnityEngine.Networking;
 using UnityEngine;
+using System.Collections;
 
 namespace Assets.Scripts.Game
 {
@@ -91,9 +92,22 @@ namespace Assets.Scripts.Game
         /// Changes the scene, server side.
         /// </summary>
         /// <param name="name"></param>
+        public virtual void ChangeScene(string name, string description, float minLoadTime)
+        {
+            RpcChangeScene(description, minLoadTime);
+            //LobbyManager.Instance.ChangeScene(name);
+            StartCoroutine(ChangeSceneInternal(name, minLoadTime));
+        }
+
         public virtual void ChangeScene(string name)
         {
-            RpcChangeScene();
+            RpcChangeScene("Good luck", 0);
+            LobbyManager.Instance.ChangeScene(name);
+        }
+
+        private IEnumerator ChangeSceneInternal(string name, float time)
+        {
+            yield return new WaitForSeconds(time);
             LobbyManager.Instance.ChangeScene(name);
         }
 
@@ -101,9 +115,9 @@ namespace Assets.Scripts.Game
         /// Scene changing replication on client.
         /// </summary>
         [ClientRpc]
-        protected virtual void RpcChangeScene()
+        protected virtual void RpcChangeScene(string description, float minLoadtime)
         {
-            LobbyManager.Instance.ShowLoadingScreen(true);
+            LobbyManager.Instance.ShowLoadingScreen(true, description, minLoadtime);
         }
     }
 }

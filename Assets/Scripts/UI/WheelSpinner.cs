@@ -43,7 +43,7 @@ namespace Assets.Scripts.UI
         }
 
         [ClientRpc]
-        private void RpcDisplayChosenGame(string game, string shots)
+        private void RpcDisplayChosenGame(string game, string shots, string description)
         {
             _animHandler = WheelGenerator.EndAnimHandler;
             WheelGenerator.DisplayChosenGame(game, shots);
@@ -51,7 +51,7 @@ namespace Assets.Scripts.UI
             {
                 _animHandler.OnAnimEnd += (obj, e) =>
                 {
-                    ChangeScene(game);
+                    ChangeScene(game, description, 3f);
                 };
             }
         }
@@ -87,7 +87,8 @@ namespace Assets.Scripts.UI
                     _isSpinning = false;
                     Debug.Log("Stopped spinning ! Chosing game");
                     Debug.Log("Wheel generator => " + WheelGenerator + " is client ? " + isClient);
-                    RpcDisplayChosenGame(WheelGenerator.GetCorrespondingScene(_angle), WheelGenerator.GetCorrespondingShots(SubWheel.localRotation) + " shot(s)");
+                    var game = WheelGenerator.GetCorrespondingSceneEntry(_angle);
+                    RpcDisplayChosenGame(game.gameScene.SceneName, WheelGenerator.GetCorrespondingShots(SubWheel.localRotation) + " shot(s)", game.Description);
                     //WheelGenerator.DisplayChosenGame(WheelGenerator.GetCorrespondingScene(_angle), "One shot");
                     //_animHandler.OnAnimEnd += (obj, e) =>
                     //{

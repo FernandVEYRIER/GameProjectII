@@ -156,7 +156,6 @@ namespace Assets.Scripts.Networking
         {
             panelLoading.gameObject.SetActive(active);
             this.loadingText.text = loadingText;
-            
         }
 
         /// <summary>

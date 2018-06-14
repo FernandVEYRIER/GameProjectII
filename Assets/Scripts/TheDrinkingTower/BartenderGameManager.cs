@@ -126,6 +126,7 @@ namespace Assets.Scripts.Test {
 
         bool tmpCheck = false;
 
+        bool SceneLoaded = false;
         // Update is called once per frame
         [Server]
         void Update() {
@@ -137,8 +138,9 @@ namespace Assets.Scripts.Test {
 
                 if (gameIsFinished) {
                     for (int i = 0; i < _players.Length && _players[i].GetComponent<ButtonScript>().LooserDrunk; i++) {
-                        if (i == (_players.Length) - 1) {
+                        if (i == (_players.Length) - 1 && !SceneLoaded) {
                             ChangeScene("GameSelectionScene");
+                            SceneLoaded = true;
                         }
                     }
                     if (tmpCheck == true)

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.UI;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
@@ -19,9 +20,9 @@ namespace Assets.Scripts.Networking
         /// </summary>
         public bool IsHost { get; private set; }
 
-        public int ConnectionCount { get { return NetworkServer.connections.Count; } }
+        public int ConnectionCount { get { return NetworkServer.connections.Count(x => x!= null); } }
 
-        public bool AreAllClientsReady { get { return NetworkServer.connections.Count == _clientReadyCount; } }
+        public bool AreAllClientsReady { get { return NetworkServer.connections.Count(x => x != null) == _clientReadyCount; } }
 
         /// <summary>
         /// Keeps track of the last game that has been played.

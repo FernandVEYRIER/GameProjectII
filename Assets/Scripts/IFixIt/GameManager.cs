@@ -74,12 +74,12 @@ namespace Assets.Scripts.IFixIt
             if (!isServer)
                 yield break;
 
-            Debug.Log("Server ready, waiting for players... " + NetworkServer.connections.Count);
+            Debug.Log("Server ready, waiting for players... " + NetworkServer.connections.Count(x => x != null));
 
             while (!LobbyManager.Instance.AreAllClientsReady)
                 yield return null;
 
-            for (int i = 0; i < NetworkServer.connections.Count; ++i)
+            for (int i = 0; i < LobbyManager.Instance.ConnectionCount; ++i)
             {
                 var p = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
                 NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], p, (short)i);
@@ -230,7 +230,7 @@ namespace Assets.Scripts.IFixIt
         public void CmdNotifyPlayerFinish()
         {
             _playerFinishCount++;
-            if (_playerFinishCount >= NetworkServer.connections.Count)
+            if (_playerFinishCount >= LobbyManager.Instance.ConnectionCount)
             {
                 SetGameState(GAME_STATE.GameOver);
             }

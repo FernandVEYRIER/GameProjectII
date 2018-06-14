@@ -45,7 +45,7 @@ namespace Assets.Scripts.Darts
             while (!LobbyManager.Instance.AreAllClientsReady)
                 yield return null;
 
-            for (int i = 0; i < NetworkServer.connections.Count; ++i)
+            for (int i = 0; i < LobbyManager.Instance.ConnectionCount; ++i)
             {
                 _players.Add(Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity));
                 NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], _players[i], (short)i);

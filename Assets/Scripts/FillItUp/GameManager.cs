@@ -70,9 +70,9 @@ namespace Assets.Scripts.FillItUp
             while (!LobbyManager.Instance.AreAllClientsReady)
                 yield return null;
             Debug.Log("Is server ? " + NetworkServer.active);
-            var step = NetworkServer.connections.Count > 1 ? (_rightSpawn.position.x - _leftSpawn.position.x) / (NetworkServer.connections.Count - 1) : 0;
+            var step = LobbyManager.Instance.ConnectionCount > 1 ? (_rightSpawn.position.x - _leftSpawn.position.x) / (LobbyManager.Instance.ConnectionCount - 1) : 0;
             var startSpawn = _leftSpawn.position;
-            for (int i = 0; i < NetworkServer.connections.Count; ++i)
+            for (int i = 0; i < LobbyManager.Instance.ConnectionCount; ++i)
             {
                 _players.Add(Instantiate(_playerPrefab, startSpawn, Quaternion.identity));
                 NetworkServer.AddPlayerForConnection(NetworkServer.connections[i], _players[i], (short)i);

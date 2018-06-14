@@ -68,10 +68,10 @@ namespace Assets.Scripts.GoSoju
             _players = new GameObject[LobbyManager.Instance.numPlayers];
             _glass = new GameObject[LobbyManager.Instance.numPlayers];
             winnerOrder = new string[LobbyManager.Instance.numPlayers];
-            var step = NetworkServer.connections.Count > 1 ? (_rightSpawn.position.z - _leftSpawn.position.z) / (NetworkServer.connections.Count - 1) : 0;
+            var step = LobbyManager.Instance.ConnectionCount > 1 ? (_rightSpawn.position.z - _leftSpawn.position.z) / (LobbyManager.Instance.ConnectionCount - 1) : 0;
             var startSpawn = _leftSpawn.position;
             print("step = " + step);
-            for (int i = 0; i < NetworkServer.connections.Count; ++i)
+            for (int i = 0; i < LobbyManager.Instance.ConnectionCount; ++i)
             {
                 startSpawn.x = _bottleSpawn.position.x;
                 startSpawn.y = _bottleSpawn.position.y;

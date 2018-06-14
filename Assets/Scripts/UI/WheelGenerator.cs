@@ -48,6 +48,7 @@ namespace Assets.Scripts.UI
         {
             while (!LobbyManager.Instance.AreAllClientsReady)
                 yield return null;
+
             var go = Instantiate(_wheelContainerPrefab);
             //go.transform.SetParent(transform);
             //go.transform.localScale = Vector3.one;

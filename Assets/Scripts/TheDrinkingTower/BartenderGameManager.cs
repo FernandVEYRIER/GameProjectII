@@ -138,7 +138,7 @@ namespace Assets.Scripts.Test {
 
                 if (gameIsFinished) {
                     for (int i = 0; i < _players.Length && _players[i].GetComponent<ButtonScript>().LooserDrunk; i++) {
-                        if (i == (_players.Length) - 1 && !SceneLoaded) {
+                        if (i == (_players.Length) - 1) {
                             ChangeScene("GameSelectionScene");
                             SceneLoaded = true;
                         }

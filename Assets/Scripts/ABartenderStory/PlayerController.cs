@@ -23,6 +23,7 @@ namespace Assets.Scripts.Test
         private Vector3 originalPosition = Vector3.zero;
         private Vector3 oldMousePosition = Vector3.zero;
         private float pushForce = 0;
+        private float mainForce = 0;
         private bool canMove = true;
         public float _score = 0;
         private int round = 0;
@@ -87,6 +88,7 @@ namespace Assets.Scripts.Test
                             oldMousePosition = Input.mousePosition;
                         } else if (Input.GetMouseButtonUp(0) && Input.mousePosition.x - oldMousePosition.x > 0 && oldMousePosition != Vector3.zero) {
                             pushForce = (Input.mousePosition.x - oldMousePosition.x) / 10;
+                            mainForce = pushForce;
                             oldMousePosition = Vector3.zero;
                             canMove = false;
                         } else if (Input.GetMouseButtonUp(0) && Input.mousePosition.x - oldMousePosition.x < 0) {
@@ -94,14 +96,16 @@ namespace Assets.Scripts.Test
                         }
                         transform.Translate(transform.right * speed * pushForce * Time.deltaTime);
                         if (pushForce > 0 && transform.position.x <= 38) {
-                            pushForce -= Time.deltaTime;
+                            pushForce -= ((mainForce - pushForce / 1.5f ) / 2.0f) * Time.deltaTime;
                             scoreDisplayed = false;
                         } else if (pushForce > 0 && transform.position.x > 38) {
                             pushForce = 0;
+                            mainForce = 0;
                             scoreDisplayed = false;
                         } else if (pushForce <= 0 && canMove == false && scoreDisplayed == false) {
                             scoreDisplayed = true;
                             pushForce = 0;
+                            mainForce = 0;
                             _score += 1;
                             if (transform.position.x <= 38) {
                                 _score += (100 - (Mathf.Abs(this.transform.position.x - target.transform.position.x) * 100 / Mathf.Abs(originalPosition.x - target.transform.position.x)));
